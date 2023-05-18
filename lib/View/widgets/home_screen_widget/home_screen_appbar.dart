@@ -35,11 +35,11 @@ class HomeAppBar extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 36),
+          const SizedBox(height: 36.0),
 
           //Search Box
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 64.0),
+            padding: const EdgeInsets.symmetric(horizontal: 48.0),
             child: SizedBox(
               height: 36.0,
               child: TextField(
