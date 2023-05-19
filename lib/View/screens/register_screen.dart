@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lms_apps/View/screens/home_screen.dart';
+import 'package:lms_apps/View/screens/login_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
+import 'package:lms_apps/View/screens/widget/buttonWidget.dart';
+import 'package:lms_apps/View/screens/widget/textFieldWidget.dart';
 
 // ignore: camel_case_types
 class registration_screen extends StatefulWidget {
@@ -14,14 +17,13 @@ class registration_screen extends StatefulWidget {
 
 // ignore: camel_case_types
 class _registration_screenState extends State<registration_screen> {
-  final TextEditingController _nameController = TextEditingController();
+  bool _isChecked = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          margin: const EdgeInsets.only(
-              top: 121, bottom: 39.5, left: 30, right: 30),
+          margin: const EdgeInsets.only(top: 121, left: 30, right: 30),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -30,8 +32,8 @@ class _registration_screenState extends State<registration_screen> {
                   Text(
                     'Sign up',
                     style: GoogleFonts.poppins(
-                      fontSize: 24.88,
-                      fontWeight: FontWeight.w700,
+                      fontSize: 24,
+                      fontWeight: bold,
                     ),
                   ),
                   const SizedBox(
@@ -51,145 +53,148 @@ class _registration_screenState extends State<registration_screen> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Fullname',
-                            style: GoogleFonts.poppins(
-                                fontSize: 17.28, fontWeight: FontWeight.w400),
-                          ),
-                          TextField(
-                            decoration: InputDecoration(
-                              labelText: 'Input Fullname',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8.0),
+                    Column(
+                      children: [
+                        SizedBox(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Fullname',
+                                style: GoogleFonts.poppins(
+                                    fontSize: 14, fontWeight: small),
                               ),
-                            ),
+                              textFieldWidget(
+                                  hintText: 'Enter your fullname',
+                                  textColor:
+                                      whiteTextStyle.copyWith(fontSize: 14.4)),
+                            ],
                           ),
-                          const SizedBox(
-                            height: 15,
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Fullname',
-                            style: GoogleFonts.poppins(
-                                fontSize: 17.28, fontWeight: FontWeight.w400),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.grey,
-                                width: 1.0,
+                        ),
+                        SizedBox(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Email',
+                                style: GoogleFonts.poppins(
+                                    fontSize: 16, fontWeight: small),
                               ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: TextField(
-                              controller: _nameController,
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Enter your name',
+                              textFieldWidget(
+                                  hintText: 'Enter your email',
+                                  textColor:
+                                      whiteTextStyle.copyWith(fontSize: 14)),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Password',
+                                style: GoogleFonts.poppins(
+                                    fontSize: 16, fontWeight: small),
                               ),
-                            ),
+                              textFieldWidget(
+                                  hintText: 'Enter your password',
+                                  textColor:
+                                      whiteTextStyle.copyWith(fontSize: 14)),
+                            ],
                           ),
-                          const SizedBox(
-                            height: 15,
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Fullname',
-                            style: GoogleFonts.poppins(
-                                fontSize: 17.28, fontWeight: FontWeight.w400),
-                          ),
-                          TextField(
-                            decoration: InputDecoration(
-                              labelText: 'Input Fullname',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        SizedBox(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Confirm Password',
+                                style: GoogleFonts.poppins(
+                                    fontSize: 16, fontWeight: small),
                               ),
+                              textFieldWidget(
+                                  hintText: 'Enter your password',
+                                  textColor:
+                                      whiteTextStyle.copyWith(fontSize: 14)),
+                            ],
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Checkbox(
+                                  value: _isChecked,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      _isChecked = value!;
+                                    });
+                                  },
+                                ),
+                                TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _isChecked = !_isChecked;
+                                      });
+                                    },
+                                    child: Text(
+                                      'Remember me',
+                                      style: blackTextStyle.copyWith(
+                                          fontSize: 12, fontWeight: small),
+                                    )),
+                              ],
                             ),
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          )
-                        ],
-                      ),
+                            Text(
+                              'Terms and Service',
+                              style: blackTextStyle.copyWith(
+                                  fontSize: 12, fontWeight: small),
+                            )
+                          ],
+                        ),
+                      ],
                     ),
-                    buttonWidget(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const HomeScreen(),
-                          ),
-                        );
-                      },
-                      title: 'Register',
-                      textColor: whiteTextStyle.copyWith(fontSize: 14.4),
-                    ),
-                    buttonWidget(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const HomeScreen(),
-                          ),
-                        );
-                      },
-                      title: 'Sign In',
-                      textColor: whiteTextStyle.copyWith(fontSize: 14.4),
+                    const SizedBox(height: 100),
+                    Column(
+                      children: [
+                        buttonWidget(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const HomeScreen(),
+                                ),
+                              );
+                            },
+                            title: 'Sign Up',
+                            textColor: whiteTextStyle.copyWith(
+                                fontSize: 14, fontWeight: regular),
+                            color: blueColor),
+                        buttonWidget(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const login_screen(),
+                                ),
+                              );
+                            },
+                            title: 'Already have an account, Sign In',
+                            textColor: blueTextStyle.copyWith(
+                                fontSize: 14, fontWeight: regular),
+                            color: whiteColor),
+                      ],
                     ),
                   ],
                 ),
               )
             ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget buttonWidget({
-    required Function()? onTap,
-    required String title,
-    Color color = Colors.blue,
-    required TextStyle textColor,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
-      child: InkWell(
-        onTap: onTap,
-        child: Container(
-          width: double.infinity,
-          height: 34,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Colors.blue),
-            color: color,
-          ),
-          child: Center(
-            child: Text(
-              title,
-              style: textColor,
-            ),
           ),
         ),
       ),
