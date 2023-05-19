@@ -49,7 +49,7 @@ class _forgotPasswordState extends State<forgotPassword> {
                     style: GoogleFonts.poppins(fontSize: 16, fontWeight: small),
                   ),
                   textFieldWidget(
-                      hintText: 'Enter your password',
+                      hintText: 'Enter your email',
                       keyboardType: TextInputType.emailAddress,
                       isObsucreText: false,
                       textColor: whiteTextStyle.copyWith(
@@ -61,14 +61,14 @@ class _forgotPasswordState extends State<forgotPassword> {
               height: 251,
             ),
             buttonWidget(
-                                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const OTPscreen(),
-                        ),
-                      );
-                    },
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const OTPscreen(),
+                    ),
+                  );
+                },
                 title: 'Continue',
                 color: blueColor,
                 textColor:

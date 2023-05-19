@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lms_apps/View/screens/otp_screen.dart';
+import 'package:lms_apps/View/screens/login_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:lms_apps/View/screens/widget/textFieldWidget.dart';
 import 'widget/buttonWidget.dart';
@@ -48,7 +48,7 @@ class _newPasswordState extends State<newPassword> {
                     style: GoogleFonts.poppins(fontSize: 16, fontWeight: small),
                   ),
                   textFieldWidget(
-                    hintText: 'Enter your password',
+                    hintText: 'Enter your new password',
                     keyboardType: TextInputType.emailAddress,
                     isObsucreText: false,
                     textColor: whiteTextStyle.copyWith(
@@ -59,7 +59,7 @@ class _newPasswordState extends State<newPassword> {
                     style: GoogleFonts.poppins(fontSize: 16, fontWeight: small),
                   ),
                   textFieldWidget(
-                      hintText: 'Enter your password',
+                      hintText: 'Confirm new password',
                       keyboardType: TextInputType.emailAddress,
                       isObsucreText: false,
                       textColor: whiteTextStyle.copyWith(
@@ -71,18 +71,57 @@ class _newPasswordState extends State<newPassword> {
               height: 167,
             ),
             buttonWidget(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const OTPscreen(),
-                    ),
-                  );
-                },
-                title: 'Continue',
-                color: blueColor,
-                textColor:
-                    whiteTextStyle.copyWith(fontSize: 14, fontWeight: regular))
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 9),
+                      child: AlertDialog(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        backgroundColor: Colors.white,
+                        icon: const Icon(
+                          Icons.check_circle_rounded,
+                          size: 92.44,
+                        ),
+                        title: Text(
+                          'Welcome Back!',
+                          textAlign: TextAlign.center,
+                          style: blackTextStyle.copyWith(
+                              fontSize: 18, fontWeight: bold),
+                        ),
+                        content: Text(
+                          'You have succesfully reset and created a new password',
+                          style: blackTextStyle.copyWith(
+                              fontSize: 12, fontWeight: small),
+                          textAlign: TextAlign.center,
+                        ),
+                        actions: <Widget>[
+                          buttonWidget(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const login_screen(),
+                                  ),
+                                );
+                              },
+                              title: 'Go To Home',
+                              color: blueColor,
+                              textColor: whiteTextStyle)
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+              title: 'Continue',
+              color: blueColor,
+              textColor:
+                  whiteTextStyle.copyWith(fontSize: 14, fontWeight: regular),
+            )
           ]),
         ),
       ),

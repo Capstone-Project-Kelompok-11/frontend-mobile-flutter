@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lms_apps/View/screens/home_screen.dart';
 import 'package:lms_apps/View/screens/login_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:lms_apps/View/screens/widget/buttonWidget.dart';
@@ -169,11 +168,30 @@ class _registration_screenState extends State<registration_screen> {
                       children: [
                         buttonWidget(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const HomeScreen(),
-                                ),
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 9),
+                                    child: AlertDialog(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      backgroundColor: Colors.white,
+                                      icon: const Icon(
+                                        Icons.check_circle_rounded,
+                                        size: 92.44,
+                                      ),
+                                      title: Text(
+                                        'Succesful!',
+                                        textAlign: TextAlign.center,
+                                        style: blackTextStyle.copyWith(
+                                            fontSize: 18, fontWeight: bold),
+                                      ),
+                                    ),
+                                  );
+                                },
                               );
                             },
                             title: 'Sign Up',
