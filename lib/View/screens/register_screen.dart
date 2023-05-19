@@ -68,6 +68,7 @@ class _registration_screenState extends State<registration_screen> {
                                     fontSize: 14, fontWeight: small),
                               ),
                               textFieldWidget(
+                                  keyboardType: TextInputType.name,
                                   hintText: 'Enter your fullname',
                                   textColor:
                                       whiteTextStyle.copyWith(fontSize: 14.4)),
@@ -85,6 +86,7 @@ class _registration_screenState extends State<registration_screen> {
                                     fontSize: 16, fontWeight: small),
                               ),
                               textFieldWidget(
+                                  keyboardType: TextInputType.emailAddress,
                                   hintText: 'Enter your email',
                                   textColor:
                                       whiteTextStyle.copyWith(fontSize: 14)),
@@ -102,6 +104,7 @@ class _registration_screenState extends State<registration_screen> {
                                     fontSize: 16, fontWeight: small),
                               ),
                               textFieldWidget(
+                                  keyboardType: TextInputType.text,
                                   hintText: 'Enter your password',
                                   textColor:
                                       whiteTextStyle.copyWith(fontSize: 14)),
@@ -119,6 +122,7 @@ class _registration_screenState extends State<registration_screen> {
                                     fontSize: 16, fontWeight: small),
                               ),
                               textFieldWidget(
+                                  keyboardType: TextInputType.text,
                                   hintText: 'Enter your password',
                                   textColor:
                                       whiteTextStyle.copyWith(fontSize: 14)),

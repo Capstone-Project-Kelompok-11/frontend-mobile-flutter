@@ -6,11 +6,17 @@ class textFieldWidget extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
   final TextStyle textColor;
   final String hintText;
+  final bool isObsucreText;
+  final Widget? suffixIconWidget;
+  final TextInputType keyboardType;
 
   textFieldWidget({
     super.key,
     required this.textColor,
     required this.hintText,
+    this.isObsucreText = false,
+    required this.keyboardType,
+    this.suffixIconWidget,
   });
 
   @override
@@ -28,6 +34,7 @@ class textFieldWidget extends StatelessWidget {
             children: [
               TextField(
                 controller: _nameController,
+                keyboardType: keyboardType,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: hintText,

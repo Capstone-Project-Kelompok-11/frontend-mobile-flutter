@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lms_apps/View/screens/forgotPassword_screen.dart';
 import 'package:lms_apps/View/screens/home_screen.dart';
 import 'package:lms_apps/View/screens/register_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
@@ -67,6 +68,7 @@ class _login_screenState extends State<login_screen> {
                                 fontSize: 16, fontWeight: small),
                           ),
                           textFieldWidget(
+                              keyboardType: TextInputType.emailAddress,
                               hintText: 'Enter your email',
                               textColor: whiteTextStyle.copyWith(
                                   fontSize: 14, fontWeight: small)),
@@ -84,6 +86,7 @@ class _login_screenState extends State<login_screen> {
                                 fontSize: 16, fontWeight: small),
                           ),
                           textFieldWidget(
+                              keyboardType: TextInputType.text,
                               hintText: 'Enter your password',
                               textColor: whiteTextStyle.copyWith(
                                   fontSize: 14, fontWeight: small)),
@@ -125,7 +128,7 @@ class _login_screenState extends State<login_screen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const registration_screen(),
+                        builder: (context) => const forgotPassword(),
                       ),
                     );
                   },
