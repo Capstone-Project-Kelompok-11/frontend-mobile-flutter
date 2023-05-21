@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lms_apps/View/screens/my_course_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (index == 0) {
       return const Center(child: Text('Home'));
     } else if (index == 1) {
-      return const Center(child: Text('My Course'));
+      return const MyCourseScreen();
     } else if (index == 2) {
       return const Center(child: Text('History'));
     } else if (index == 3) {
