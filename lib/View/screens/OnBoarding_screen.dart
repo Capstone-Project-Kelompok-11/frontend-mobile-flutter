@@ -1,122 +1,146 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lms_apps/View/screens/home_screen.dart';
-import 'package:lms_apps/View/screens/slider_screen.dart';
+import 'package:lms_apps/View/screens/splash_screen.dart';
+import 'Onboarding_content.dart';
 
-class OnBoarding extends StatelessWidget {
-  const OnBoarding({super.key});
+class Onbording extends StatefulWidget {
+  @override
+  _OnbordingState createState() => _OnbordingState();
+}
+
+class _OnbordingState extends State<Onbording> {
+  int currentIndex = 0;
+  late PageController _controller;
 
   @override
-  Widget build(BuildContext context) {
-    return const Scaffold();
+  void initState() {
+    _controller = PageController(initialPage: 0);
+    super.initState();
   }
-}
-
-class Landing extends StatefulWidget {
-  const Landing({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _LandingState createState() => _LandingState();
-}
-
-class _LandingState extends State<Landing> {
-  int _currentPage = 0;
-  PageController _controller = PageController();
-
-  List<Widget> _pages = [
-    const SliderScreen(
-        title: "Grow Your Skill And Push Your Limit",
-        image: "assets/images/1.svg"),
-    const SliderScreen(
-        title: "Study From anywhere with expert", image: "assets/images/2.svg"),
-    const SliderScreen(
-        title: "Get access to unlimited educational resources ",
-        image: "assets/images/3.svg"),
-    const SliderScreen(
-        title:
-            "Find the best courses & upgrade your skills, start learn now with",
-        image: "assets/images/3.svg"),
-  ];
-
-  _onchanged(int index) {
-    setState(() {
-      _currentPage = index;
-    });
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          PageView.builder(
-            scrollDirection: Axis.horizontal,
-            onPageChanged: _onchanged,
-            controller: _controller,
-            itemCount: _pages.length,
-            itemBuilder: (context, int index) {
-              return _pages[index];
-            },
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List<Widget>.generate(
-                  _pages.length,
-                  (int index) {
-                    return AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      height: 10,
-                      width: (index == _currentPage) ? 30 : 10,
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 5, vertical: 30),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: (index == _currentPage)
-                            ? Colors.blue
-                            : Colors.blue.withOpacity(0.5),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  _controller.nextPage(
-                      duration: const Duration(milliseconds: 800),
-                      curve: Curves.easeInOutQuint);
+    return Center(
+      child: Scaffold(
+        body: Column(
+          children: [
+            Expanded(
+              child: PageView.builder(
+                controller: _controller,
+                itemCount: contents.length,
+                onPageChanged: (int index) {
+                  setState(() {
+                    currentIndex = index;
+                  });
                 },
-                child: AnimatedContainer(
-                  alignment: Alignment.center,
-                  duration: const Duration(milliseconds: 300),
-                  height: 70,
-                  width: (_currentPage == (_pages.length - 1)) ? 200 : 75,
-                  decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(35)),
-                  child: (_currentPage == (_pages.length - 1))
-                      ? const Text(
-                          "Get Started",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
+                itemBuilder: (_, i) {
+                  return Padding(
+                    padding: const EdgeInsets.all(40),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          contents[i].image,
+                          height: 300,
+                        ),
+                        SizedBox(
+                          height: 83,
+                        ),
+                        Text(
+                          contents[i].discription,
+                          style: const TextStyle(
+                            fontSize: 17.28,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          contents[i].title,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 25,
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
                           ),
                         )
-                      : const Icon(
-                          Icons.navigate_next,
-                          size: 50,
-                          color: Colors.white,
-                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  contents.length,
+                  (index) => buildDot(index, context),
                 ),
               ),
-              const SizedBox(
-                height: 50,
-              )
-            ],
-          ),
-        ],
+            ),
+            Column(
+              children: [
+                Container(
+                  height: 60,
+                  margin: const EdgeInsets.all(40),
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    child: Text(
+                        currentIndex == contents.length - 1 ? "Login" : "Next"),
+                    onPressed: () {
+                      if (currentIndex == contents.length - 1) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const HomeScreen(),
+                          ),
+                        );
+                      }
+                      _controller.nextPage(
+                        duration: const Duration(milliseconds: 400),
+                        curve: Curves.bounceIn,
+                      );
+                    },
+                  ),
+                ),
+                // Container(
+                //   height: 60,
+                //   margin: const EdgeInsets.all(40),
+                //   width: double.infinity,
+                ElevatedButton(
+                    child: const Text('Sign up'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const HomeScreen(),
+                        ),
+                      );
+                    }),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container buildDot(int index, BuildContext context) {
+    return Container(
+      height: 10,
+      width: currentIndex == index ? 25 : 10,
+      margin: const EdgeInsets.only(right: 5),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Theme.of(context).primaryColor,
       ),
     );
   }
