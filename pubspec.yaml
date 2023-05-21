@@ -38,6 +38,8 @@ dependencies:
   loading_animation_widget:
   flutter_spinkit: ^5.2.0
   flutter_svg: ^2.0.5
+  google_fonts: ^4.0.4
+  simple_animation_progress_bar: ^1.6.0
 
 dev_dependencies:
   flutter_test:
