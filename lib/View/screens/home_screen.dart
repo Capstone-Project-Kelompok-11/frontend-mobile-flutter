@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lms_apps/View/screens/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
     } else if (index == 2) {
       return const Center(child: Text('History'));
     } else if (index == 3) {
-      return const Center(child: Text('Profile'));
+      return const ProfileScreen();
     } else {
       return const Center(child: Text('Index belum terpasang'));
     }
