@@ -47,11 +47,8 @@ class _OnbordingState extends State<Onbording> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SvgPicture.asset(
-                          contents[i].image,
-                          height: 300,
-                        ),
-                        SizedBox(
+                        contents[i].image,
+                        const SizedBox(
                           height: 83,
                         ),
                         Text(
@@ -77,26 +74,27 @@ class _OnbordingState extends State<Onbording> {
                 },
               ),
             ),
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(
-                  contents.length,
-                  (index) => buildDot(index, context),
+            if (currentIndex != 3) ...[
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(
+                    3,
+                    (index) => buildDot(index, context),
+                  ),
                 ),
               ),
-            ),
+            ],
             Column(
               children: [
                 Container(
                   height: 60,
-                  margin: const EdgeInsets.all(40),
+                  margin: const EdgeInsets.symmetric(horizontal: 30),
                   width: double.infinity,
                   child: ElevatedButton(
-                    child: Text(
-                        currentIndex == contents.length - 1 ? "Login" : "Next"),
+                    child: Text(currentIndex == 3 ? "Login" : "Next"),
                     onPressed: () {
-                      if (currentIndex == contents.length - 1) {
+                      if (currentIndex == 3) {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -111,20 +109,52 @@ class _OnbordingState extends State<Onbording> {
                     },
                   ),
                 ),
-                // Container(
-                //   height: 60,
-                //   margin: const EdgeInsets.all(40),
-                //   width: double.infinity,
-                ElevatedButton(
-                    child: const Text('Sign up'),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const HomeScreen(),
+                const SizedBox(
+                  height: 16,
+                ),
+                if (currentIndex == 3) ...[
+                  Container(
+                    height: 60,
+                    margin: const EdgeInsets.symmetric(horizontal: 30),
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      child: Text(
+                        "Sign Up",
+                        style:
+                            const TextStyle(fontSize: 14, color: Colors.blue),
+                      ),
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.white),
+                        padding: MaterialStateProperty.all<EdgeInsets>(
+                            const EdgeInsets.all(15)),
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                          Colors.blue,
                         ),
-                      );
-                    }),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                            side: const BorderSide(
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const HomeScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                ],
               ],
             ),
           ],
@@ -135,12 +165,14 @@ class _OnbordingState extends State<Onbording> {
 
   Container buildDot(int index, BuildContext context) {
     return Container(
-      height: 10,
-      width: currentIndex == index ? 25 : 10,
-      margin: const EdgeInsets.only(right: 5),
+      height: 20,
+      width: currentIndex == index ? 40 : 20,
+      margin: const EdgeInsets.only(right: 15),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Theme.of(context).primaryColor,
+        color: currentIndex == index
+            ? Theme.of(context).primaryColor
+            : (Colors.grey),
       ),
     );
   }
