@@ -87,6 +87,9 @@ class _OnbordingState extends State<Onbording> {
             ],
             Column(
               children: [
+                const SizedBox(
+                  height: 42,
+                ),
                 Container(
                   height: 60,
                   margin: const EdgeInsets.symmetric(horizontal: 30),
