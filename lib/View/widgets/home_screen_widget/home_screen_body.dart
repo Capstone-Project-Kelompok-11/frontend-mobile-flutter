@@ -47,7 +47,6 @@ class _HomeBodyState extends State<HomeBody> {
       padding: const EdgeInsets.symmetric(horizontal: 30.0),
       child: Column(
         children: [
-
           //Carousel Slider
           CarouselSlider(
             items: carouselBoxes,
@@ -86,7 +85,7 @@ class _HomeBodyState extends State<HomeBody> {
               );
             }).toList(),
           ),
-          
+
           const SizedBox(height: 16.0),
 
           //Category Boxes
@@ -173,11 +172,13 @@ class _HomeBodyState extends State<HomeBody> {
                           ),
                           child: Column(
                             children: [
-                              Expanded(
+                              SizedBox(
+                                height: 110.0,
+                                width: double.infinity,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10.0),
                                   child: Image.network(
-                                    'https://ik.imagekit.io/mrggsfxta/Rectangle_20.png?updatedAt=1684340814285',
+                                    'https://ik.imagekit.io/mrggsfxta/Voyager_68_v2-keyboard.jpg?updatedAt=1682567212420',
                                     fit: BoxFit.fill,
                                   ),
                                 ),
