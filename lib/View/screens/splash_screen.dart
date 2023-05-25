@@ -22,7 +22,7 @@ class _SplashScreen extends State<SplashScreen> {
     return Timer(duration, () {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        MaterialPageRoute(builder: (context) => Onbording()),
       );
     });
   }
@@ -35,40 +35,22 @@ class _SplashScreen extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            const Icon(
-              Icons.book,
-              size: 100.0,
-              color: Colors.blue,
-            ),
-            const SizedBox(
-              height: 24.0,
-            ),
-            const Text(
-              'AcadeMade',
-              style: TextStyle(
-                color: Colors.blue,
-                fontWeight: FontWeight.bold,
-                fontSize: 30,
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.8,
+              child: Image.asset(
+                'assets/images/image1.png',
+                width: 360,
+                height: 156.17,
               ),
             ),
-            const Text(
-              'Learning Made Easy With AcadeMade',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w400,
-                fontSize: 20,
-              ),
-            ),
-            const SizedBox(
-              height: 500,
-            ),
+
             // const SpinKitWave(
             //   color: Colors.blue,
             //   size: 50,
             // ),
             LoadingAnimationWidget.staggeredDotsWave(
               color: Colors.blue,
-              size: 50,
+              size: 110,
             ),
           ],
         ),
