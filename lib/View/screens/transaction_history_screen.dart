@@ -8,11 +8,13 @@ class TransactionHistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Column(
-        children: [
-          TransactionHistoryAppBar(),
-          TransactionHistoryBody(),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            TransactionHistoryAppBar(),
+            TransactionHistoryBody(),
+          ],
+        ),
       ),
     );
   }
