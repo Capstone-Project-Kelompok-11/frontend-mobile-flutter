@@ -12,7 +12,7 @@ class EditProfileAppBar extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () {
-                // Navigator.pop(context);
+                Navigator.pop(context);
               },
               icon: Image.asset(
                 'assets/icon/ic_arrow_left.png',
