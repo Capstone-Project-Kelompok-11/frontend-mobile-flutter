@@ -2,7 +2,7 @@
 
 // ignore: depend_on_referenced_packages
 import 'package:flutter/material.dart';
-import 'package:lms_apps/View/screens/login_screen.dart';
+// import 'package:lms_apps/View/screens/login_screen.dart';
 
 class newPasswordProvider with ChangeNotifier {
   // Password Property
