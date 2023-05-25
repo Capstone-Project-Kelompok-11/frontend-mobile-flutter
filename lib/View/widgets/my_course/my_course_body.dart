@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:lms_apps/View/screens/certificate_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 
@@ -259,7 +260,9 @@ class MyCourseBody extends StatelessWidget {
                                                       width: 130,
                                                       height: 34,
                                                       child: ElevatedButton(
-                                                        onPressed: () {},
+                                                        onPressed: () {
+                                                          Navigator.push(context, MaterialPageRoute(builder: (context) => const CertificateScreen(),));
+                                                        },
                                                         style: ElevatedButton
                                                             .styleFrom(
                                                           shape:
