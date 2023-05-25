@@ -134,8 +134,8 @@ class MyCourseBody extends StatelessWidget {
                           InkWell(
                             onTap: () {
                               showModalBottomSheet(
-                                isDismissible: false,
                                 isScrollControlled: true,
+                                isDismissible: false,
                                 useSafeArea: true,
                                 shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.vertical(
@@ -231,7 +231,8 @@ class MyCourseBody extends StatelessWidget {
                                                       height: 34,
                                                       child: OutlinedButton(
                                                         onPressed: () {
-                                                          Navigator.pop(context);
+                                                          Navigator.pop(
+                                                              context);
                                                         },
                                                         style: OutlinedButton
                                                             .styleFrom(
