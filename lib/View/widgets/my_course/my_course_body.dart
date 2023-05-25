@@ -134,133 +134,156 @@ class MyCourseBody extends StatelessWidget {
                           InkWell(
                             onTap: () {
                               showModalBottomSheet(
-                isScrollControlled: true,
-                useSafeArea: true,
-                shape: const RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(30))),
-                context: context,
-                builder: (BuildContext context) {
-                  return SingleChildScrollView(
-                    child: SizedBox(
-                      height: 460,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const SizedBox(
-                            height: 22,
-                          ),
-                          Text(
-                            'Review Course',
-                            style: blackTextStyle.copyWith(
-                                fontWeight: semiBold,
-                                fontSize: 24.88,
-                                color: Colors.black),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            'Rating for Course,',
-                            style: blackTextStyle.copyWith(
-                                fontWeight: semiBold,
-                                fontSize: 17.28,
-                                color: Colors.black),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          RatingBar.builder(
-                            initialRating: 0,
-                            minRating: 1,
-                            direction: Axis.horizontal,
-                            itemCount: 5,
-                            itemPadding:
-                                const EdgeInsets.symmetric(horizontal: 4.0),
-                            itemBuilder: (context, _) => const Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                            ),
-                            onRatingUpdate: (rating) {
-                              print(rating);
-                            },
-                          ),
-                          const SizedBox(
-                            height: 22,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 30),
-                            child: Column(
-                              children: [
-                                const Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text('Write Your Review'),
-                                    Text(
-                                      ' *',
-                                      style: TextStyle(color: Colors.red),
-                                    ),
-                                  ],
-                                ),
-                                TextField(
-                                  maxLength: 100,
-                                  maxLines: 4,
-                                  decoration: InputDecoration(
-                                    hintMaxLines: 100,
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 40,
-                                ),
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 142.5,
-                                      height: 34,
-                                      child: OutlinedButton(
-                                        onPressed: () {},
-                                        style: OutlinedButton.styleFrom(
-                                          side: const BorderSide(
-                                              color: Colors.blue),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
+                                isDismissible: false,
+                                isScrollControlled: true,
+                                useSafeArea: true,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(30))),
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return SingleChildScrollView(
+                                    child: SizedBox(
+                                      height: 460,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          const SizedBox(
+                                            height: 22,
                                           ),
-                                        ),
-                                        child: const Text('Maybe Later'),
+                                          Text(
+                                            'Review Course',
+                                            style: blackTextStyle.copyWith(
+                                                fontWeight: semiBold,
+                                                fontSize: 24.88,
+                                                color: Colors.black),
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          Text(
+                                            'Rating for Course,',
+                                            style: blackTextStyle.copyWith(
+                                                fontWeight: semiBold,
+                                                fontSize: 17.28,
+                                                color: Colors.black),
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          RatingBar.builder(
+                                            initialRating: 0,
+                                            minRating: 1,
+                                            direction: Axis.horizontal,
+                                            itemCount: 5,
+                                            itemPadding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 4.0),
+                                            itemBuilder: (context, _) =>
+                                                const Icon(
+                                              Icons.star,
+                                              color: Colors.amber,
+                                            ),
+                                            onRatingUpdate: (rating) {
+                                              print(rating);
+                                            },
+                                          ),
+                                          const SizedBox(
+                                            height: 22,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 30),
+                                            child: Column(
+                                              children: [
+                                                const Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Text('Write Your Review'),
+                                                    Text(
+                                                      ' *',
+                                                      style: TextStyle(
+                                                          color: Colors.red),
+                                                    ),
+                                                  ],
+                                                ),
+                                                TextField(
+                                                  maxLength: 100,
+                                                  maxLines: 4,
+                                                  decoration: InputDecoration(
+                                                    hintMaxLines: 100,
+                                                    border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8),
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 40,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 130,
+                                                      height: 34,
+                                                      child: OutlinedButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(context);
+                                                        },
+                                                        style: OutlinedButton
+                                                            .styleFrom(
+                                                          side:
+                                                              const BorderSide(
+                                                                  color: Colors
+                                                                      .blue),
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8),
+                                                          ),
+                                                        ),
+                                                        child: const Text(
+                                                            'Maybe Later'),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 60,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 130,
+                                                      height: 34,
+                                                      child: ElevatedButton(
+                                                        onPressed: () {},
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8),
+                                                          ),
+                                                        ),
+                                                        child: const Text(
+                                                            'Submit'),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          )
+                                        ],
                                       ),
                                     ),
-                                    const SizedBox(
-                                      width: 60,
-                                    ),
-                                    SizedBox(
-                                      width: 142.5,
-                                      height: 34,
-                                      child: ElevatedButton(
-                                        onPressed: () {},
-                                        style: ElevatedButton.styleFrom(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
-                                        ),
-                                        child: const Text('Submit'),
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              );
+                                  );
+                                },
+                              );
                             },
                             child: Container(
                               width: double.infinity,
