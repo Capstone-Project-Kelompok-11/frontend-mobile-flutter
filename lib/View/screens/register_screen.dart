@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:google_fonts/google_fonts.dart';
+// import 'package:lms_apps/View/screens/home_screen.dart';
 import 'package:lms_apps/View/screens/login_screen.dart';
+import 'package:lms_apps/View/screens/provider/register_provider.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:lms_apps/View/screens/widget/buttonWidget.dart';
 import 'package:lms_apps/View/screens/widget/textFieldWidget.dart';
+import 'package:provider/provider.dart';
 
 // ignore: camel_case_types
 class registration_screen extends StatefulWidget {
@@ -19,6 +22,7 @@ class _registration_screenState extends State<registration_screen> {
   bool _isChecked = false;
   @override
   Widget build(BuildContext context) {
+    RegisterProvider registerProvider = Provider.of<RegisterProvider>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -67,10 +71,15 @@ class _registration_screenState extends State<registration_screen> {
                                     fontSize: 14, fontWeight: small),
                               ),
                               textFieldWidget(
-                                  keyboardType: TextInputType.name,
-                                  hintText: 'Enter your fullname',
-                                  textColor:
-                                      whiteTextStyle.copyWith(fontSize: 14.4)),
+                                hintText: 'Username',
+                                onChanged: (value) {
+                                  registerProvider.validateUsername(value);
+                                },
+                                isValidTextField:
+                                    registerProvider.isUsernameValid,
+                                errorMessage:
+                                    registerProvider.errorUsernameMessage,
+                              ),
                             ],
                           ),
                         ),
@@ -85,10 +94,14 @@ class _registration_screenState extends State<registration_screen> {
                                     fontSize: 16, fontWeight: small),
                               ),
                               textFieldWidget(
-                                  keyboardType: TextInputType.emailAddress,
-                                  hintText: 'Enter your email',
-                                  textColor:
-                                      whiteTextStyle.copyWith(fontSize: 14)),
+                                onChanged: (value) {
+                                  registerProvider.validateEmail(value);
+                                },
+                                isValidTextField: registerProvider.isEmailValid,
+                                errorMessage:
+                                    registerProvider.errorEmailMessage,
+                                hintText: 'Email',
+                              ),
                             ],
                           ),
                         ),
@@ -103,10 +116,26 @@ class _registration_screenState extends State<registration_screen> {
                                     fontSize: 16, fontWeight: small),
                               ),
                               textFieldWidget(
-                                  keyboardType: TextInputType.text,
-                                  hintText: 'Enter your password',
-                                  textColor:
-                                      whiteTextStyle.copyWith(fontSize: 14)),
+                                onChanged: (value) {
+                                  registerProvider.validatePassword(value);
+                                },
+                                isObsucreText: registerProvider.isHidePassword,
+                                isValidTextField:
+                                    registerProvider.isPasswordValid,
+                                errorMessage:
+                                    registerProvider.errorPasswordMessage,
+                                hintText: 'Password',
+                                suffixIconWidget: IconButton(
+                                  onPressed: () {
+                                    registerProvider.showHidePassword();
+                                  },
+                                  icon: registerProvider.isHidePassword
+                                      ? const Icon(Icons.lock)
+                                      : const Icon(
+                                          Icons.lock_open,
+                                        ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -121,10 +150,28 @@ class _registration_screenState extends State<registration_screen> {
                                     fontSize: 16, fontWeight: small),
                               ),
                               textFieldWidget(
-                                  keyboardType: TextInputType.text,
-                                  hintText: 'Enter your password',
-                                  textColor:
-                                      whiteTextStyle.copyWith(fontSize: 14)),
+                                onChanged: (value) {
+                                  registerProvider
+                                      .validateConfirmPassword(value);
+                                },
+                                isObsucreText:
+                                    registerProvider.isHideConfirmPassword,
+                                isValidTextField:
+                                    registerProvider.isConfirmPasswordValid,
+                                errorMessage: registerProvider
+                                    .errorConfirmPasswordMessage,
+                                hintText: 'Confirm Password',
+                                suffixIconWidget: IconButton(
+                                  onPressed: () {
+                                    registerProvider.showHideConfirmPassword();
+                                  },
+                                  icon: registerProvider.isHideConfirmPassword
+                                      ? const Icon(Icons.lock)
+                                      : const Icon(
+                                          Icons.lock_open,
+                                        ),
+                                ),
+                              ),
                             ],
                           ),
                         ),

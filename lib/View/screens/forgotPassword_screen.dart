@@ -1,12 +1,13 @@
-// ignore: file_names
-
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lms_apps/View/screens/otp_screen.dart';
+// import 'package:lms_apps/View/screens/otp_screen.dart';
+import 'package:lms_apps/View/screens/provider/forgotPassword_provider.dart';
+// import 'package:lms_apps/View/screens/provider/register_provider.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:lms_apps/View/screens/widget/textFieldWidget.dart';
 import 'widget/buttonWidget.dart';
+import 'package:provider/provider.dart';
 
 // ignore: camel_case_types
 class forgotPassword extends StatefulWidget {
@@ -20,6 +21,8 @@ class forgotPassword extends StatefulWidget {
 class _forgotPasswordState extends State<forgotPassword> {
   @override
   Widget build(BuildContext context) {
+    ForgotPasswordProvider forgotPasswordProvider =
+        Provider.of<ForgotPasswordProvider>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -49,11 +52,13 @@ class _forgotPasswordState extends State<forgotPassword> {
                     style: GoogleFonts.poppins(fontSize: 16, fontWeight: small),
                   ),
                   textFieldWidget(
-                      hintText: 'Enter your email',
-                      keyboardType: TextInputType.emailAddress,
-                      isObsucreText: false,
-                      textColor: whiteTextStyle.copyWith(
-                          fontSize: 14, fontWeight: small)),
+                    onChanged: (value) {
+                      forgotPasswordProvider.validateEmail(value);
+                    },
+                    isValidTextField: forgotPasswordProvider.isEmailValid,
+                    errorMessage: forgotPasswordProvider.errorEmailMessage,
+                    hintText: 'Email',
+                  ),
                 ],
               ),
             ),
@@ -61,14 +66,12 @@ class _forgotPasswordState extends State<forgotPassword> {
               height: 251,
             ),
             buttonWidget(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const OTPscreen(),
-                    ),
-                  );
-                },
+                onTap: forgotPasswordProvider.isButtonEmailValid
+                    ? () {
+                        forgotPasswordProvider.navigateToOTPPage(context);
+                      }
+                    : null,
+                isIcon: true,
                 title: 'Continue',
                 color: blueColor,
                 textColor:

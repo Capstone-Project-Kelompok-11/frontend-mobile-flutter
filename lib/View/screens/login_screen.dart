@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lms_apps/View/screens/forgotPassword_screen.dart';
-import 'package:lms_apps/View/screens/home_screen.dart';
-import 'package:lms_apps/View/screens/register_screen.dart';
+// import 'package:lms_apps/View/screens/home_screen.dart';
+import 'package:lms_apps/View/screens/provider/login_provider.dart';
+// import 'package:lms_apps/View/screens/register_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:lms_apps/View/screens/widget/textFieldWidget.dart';
-
+import 'package:provider/provider.dart';
 import 'widget/buttonWidget.dart';
 
 // ignore: camel_case_types
@@ -23,6 +24,7 @@ class _login_screenState extends State<login_screen> {
 
   @override
   Widget build(BuildContext context) {
+    final loginProvider = Provider.of<LoginProvider>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -68,10 +70,13 @@ class _login_screenState extends State<login_screen> {
                                 fontSize: 16, fontWeight: small),
                           ),
                           textFieldWidget(
-                              keyboardType: TextInputType.emailAddress,
-                              hintText: 'Enter your email',
-                              textColor: whiteTextStyle.copyWith(
-                                  fontSize: 14, fontWeight: small)),
+                            hintText: 'Enter your email',
+                            onChanged: (value) {
+                              loginProvider.validateUsername(value);
+                            },
+                            isValidTextField: loginProvider.isUsernameValid,
+                            errorMessage: loginProvider.errorUsernameMessage,
+                          )
                         ],
                       ),
                     ),
@@ -86,10 +91,24 @@ class _login_screenState extends State<login_screen> {
                                 fontSize: 16, fontWeight: small),
                           ),
                           textFieldWidget(
-                              keyboardType: TextInputType.text,
-                              hintText: 'Enter your password',
-                              textColor: whiteTextStyle.copyWith(
-                                  fontSize: 14, fontWeight: small)),
+                            onChanged: (value) {
+                              loginProvider.validatePassword(value);
+                            },
+                            isObsucreText: loginProvider.isHidePassword,
+                            isValidTextField: loginProvider.isPasswordValid,
+                            errorMessage: loginProvider.errorPasswordMessage,
+                            hintText: 'Password',
+                            suffixIconWidget: IconButton(
+                              onPressed: () {
+                                loginProvider.showHidePassword();
+                              },
+                              icon: loginProvider.isHidePassword
+                                  ? const Icon(Icons.lock)
+                                  : const Icon(
+                                      Icons.lock_open,
+                                    ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -142,14 +161,13 @@ class _login_screenState extends State<login_screen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   buttonWidget(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const HomeScreen(),
-                        ),
-                      );
-                    },
+                    onTap: loginProvider.isButtonUsernameDisable &&
+                            loginProvider.isButtonPasswordDisable
+                        ? () {
+                            loginProvider.navigateToDashboard(context);
+                          }
+                        : null,
+                    isIcon: true,
                     title: 'Sign In',
                     textColor: whiteTextStyle.copyWith(
                       fontSize: 14,
@@ -159,12 +177,7 @@ class _login_screenState extends State<login_screen> {
                   ),
                   buttonWidget(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const registration_screen(),
-                        ),
-                      );
+                      loginProvider.navigateToRegisterPage(context);
                     },
                     title: "Didn't have an account? Sign Up",
                     textColor: blueTextStyle.copyWith(

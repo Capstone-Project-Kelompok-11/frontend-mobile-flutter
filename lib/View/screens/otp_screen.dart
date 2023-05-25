@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lms_apps/View/screens/newPassword_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
-import 'package:lms_apps/View/screens/widget/textFieldWidget.dart';
+// import 'package:lms_apps/View/screens/widget/textFieldWidget.dart';
+// import 'package:lms_apps/View/screens/widget/textFieldWidget.dart';
 import 'widget/buttonWidget.dart';
 
 // ignore: camel_case_types
@@ -47,12 +48,25 @@ class _OTPscreenState extends State<OTPscreen> {
                     'Code OTP',
                     style: GoogleFonts.poppins(fontSize: 16, fontWeight: small),
                   ),
-                  textFieldWidget(
-                    hintText: '12345',
-                    keyboardType: TextInputType.number,
-                    textColor: whiteTextStyle.copyWith(
-                        fontSize: 14, fontWeight: small),
-                  ),
+                  // textFieldWidget(
+                  //           onChanged: (value) {
+                  //             loginProvider.validatePassword(value);
+                  //           },
+                  //           isObsucreText: loginProvider.isHidePassword,
+                  //           isValidTextField: loginProvider.isPasswordValid,
+                  //           errorMessage: loginProvider.errorPasswordMessage,
+                  //           hintText: 'Password',
+                  //           suffixIconWidget: IconButton(
+                  //             onPressed: () {
+                  //               loginProvider.showHidePassword();
+                  //             },
+                  //             icon: loginProvider.isHidePassword
+                  //                 ? const Icon(Icons.lock)
+                  //                 : const Icon(
+                  //                     Icons.lock_open,
+                  //                   ),
+                  //           ),
+                  //         ),
                 ],
               ),
             ),

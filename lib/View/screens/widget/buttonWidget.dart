@@ -6,12 +6,14 @@ class buttonWidget extends StatelessWidget {
   final String? title;
   final Color? color;
   final TextStyle? textColor;
+  final bool isIcon;
 
   const buttonWidget({
     super.key,
     required this.onTap,
     required this.title,
     required this.color,
+    this.isIcon = false,
     required this.textColor,
   });
 
@@ -31,7 +33,7 @@ class buttonWidget extends StatelessWidget {
           ),
           child: Center(
             child: Text(
-              title!,
+              title ?? "-",
               style: textColor,
             ),
           ),

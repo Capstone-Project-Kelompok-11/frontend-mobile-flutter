@@ -2,10 +2,15 @@
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:google_fonts/google_fonts.dart';
+// import 'package:lms_apps/View/screens/home_screen.dart';
 import 'package:lms_apps/View/screens/login_screen.dart';
+import 'package:lms_apps/View/screens/provider/newPassword_provider.dart';
+// import 'package:lms_apps/View/screens/otp_screen.dart';
+// import 'package:lms_apps/View/screens/provider/register_provider.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:lms_apps/View/screens/widget/textFieldWidget.dart';
 import 'widget/buttonWidget.dart';
+import 'package:provider/provider.dart';
 
 // ignore: camel_case_types
 class newPassword extends StatefulWidget {
@@ -19,6 +24,8 @@ class newPassword extends StatefulWidget {
 class _newPasswordState extends State<newPassword> {
   @override
   Widget build(BuildContext context) {
+    newPasswordProvider NewPasswordProvider =
+        Provider.of<newPasswordProvider>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -48,22 +55,49 @@ class _newPasswordState extends State<newPassword> {
                     style: GoogleFonts.poppins(fontSize: 16, fontWeight: small),
                   ),
                   textFieldWidget(
-                    hintText: 'Enter your new password',
-                    keyboardType: TextInputType.emailAddress,
-                    isObsucreText: false,
-                    textColor: whiteTextStyle.copyWith(
-                        fontSize: 14, fontWeight: small),
+                    onChanged: (value) {
+                      NewPasswordProvider.validatePassword(value);
+                    },
+                    isObsucreText: NewPasswordProvider.isHidePassword,
+                    isValidTextField: NewPasswordProvider.isPasswordValid,
+                    errorMessage: NewPasswordProvider.errorPasswordMessage,
+                    hintText: 'Password',
+                    suffixIconWidget: IconButton(
+                      onPressed: () {
+                        NewPasswordProvider.showHidePassword();
+                      },
+                      icon: NewPasswordProvider.isHidePassword
+                          ? const Icon(Icons.lock)
+                          : const Icon(
+                              Icons.lock_open,
+                            ),
+                    ),
                   ),
                   Text(
                     'Confirm a new password',
                     style: GoogleFonts.poppins(fontSize: 16, fontWeight: small),
                   ),
                   textFieldWidget(
-                      hintText: 'Confirm new password',
-                      keyboardType: TextInputType.emailAddress,
-                      isObsucreText: false,
-                      textColor: whiteTextStyle.copyWith(
-                          fontSize: 14, fontWeight: small)),
+                    onChanged: (value) {
+                      NewPasswordProvider.validateConfirmPassword(value);
+                    },
+                    isObsucreText: NewPasswordProvider.isHideConfirmPassword,
+                    isValidTextField:
+                        NewPasswordProvider.isConfirmPasswordValid,
+                    errorMessage:
+                        NewPasswordProvider.errorConfirmPasswordMessage,
+                    hintText: 'Confirm Password',
+                    suffixIconWidget: IconButton(
+                      onPressed: () {
+                        NewPasswordProvider.showHideConfirmPassword();
+                      },
+                      icon: NewPasswordProvider.isHideConfirmPassword
+                          ? const Icon(Icons.lock)
+                          : const Icon(
+                              Icons.lock_open,
+                            ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -71,52 +105,55 @@ class _newPasswordState extends State<newPassword> {
               height: 167,
             ),
             buttonWidget(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 9),
-                      child: AlertDialog(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        backgroundColor: Colors.white,
-                        icon: const Icon(
-                          Icons.check_circle_rounded,
-                          size: 92.44,
-                        ),
-                        title: Text(
-                          'Welcome Back!',
-                          textAlign: TextAlign.center,
-                          style: blackTextStyle.copyWith(
-                              fontSize: 18, fontWeight: bold),
-                        ),
-                        content: Text(
-                          'You have succesfully reset and created a new password',
-                          style: blackTextStyle.copyWith(
-                              fontSize: 12, fontWeight: small),
-                          textAlign: TextAlign.center,
-                        ),
-                        actions: <Widget>[
-                          buttonWidget(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const login_screen(),
-                                  ),
-                                );
-                              },
-                              title: 'Go To Home',
-                              color: blueColor,
-                              textColor: whiteTextStyle)
-                        ],
-                      ),
-                    );
-                  },
-                );
-              },
+              onTap: NewPasswordProvider.disableButtonNewPassowrd()
+                  ? () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 9),
+                            child: AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              backgroundColor: Colors.white,
+                              icon: const Icon(
+                                Icons.check_circle_rounded,
+                                size: 92.44,
+                              ),
+                              title: Text(
+                                'Welcome Back!',
+                                textAlign: TextAlign.center,
+                                style: blackTextStyle.copyWith(
+                                    fontSize: 18, fontWeight: bold),
+                              ),
+                              content: Text(
+                                'You have succesfully reset and created a new password',
+                                style: blackTextStyle.copyWith(
+                                    fontSize: 12, fontWeight: small),
+                                textAlign: TextAlign.center,
+                              ),
+                              actions: <Widget>[
+                                buttonWidget(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const login_screen(),
+                                        ),
+                                      );
+                                    },
+                                    title: 'Go To Home',
+                                    color: blueColor,
+                                    textColor: whiteTextStyle)
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    }
+                  : null,
               title: 'Continue',
               color: blueColor,
               textColor:
