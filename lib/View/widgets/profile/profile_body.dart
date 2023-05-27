@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lms_apps/View/screens/edit_profile_screen.dart';
+import 'package:lms_apps/View/screens/my_certificate_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
+import 'package:lms_apps/View/screens/transaction_history_screen.dart';
 
 class ProfileBody extends StatelessWidget {
   const ProfileBody({super.key});
@@ -11,17 +14,35 @@ class ProfileBody extends StatelessWidget {
       child: Column(
         children: [
           buttonWidget(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const EditProfileScreen(),
+                    ));
+              },
               image: 'assets/icon/ic_profile.png',
               title: 'Edit Profile',
               textColor: blueTextStyle.copyWith(fontSize: 14.4)),
           buttonWidget(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const MyCertificateScreen(),
+                    ));
+              },
               image: 'assets/icon/ic_certificate.png',
               title: 'Certificate',
               textColor: blueTextStyle.copyWith(fontSize: 14.4)),
           buttonWidget(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TransactionHistoryScreen(),
+                    ));
+              },
               image: 'assets/icon/ic_transaction_history.png',
               title: 'Transaction History',
               textColor: blueTextStyle.copyWith(fontSize: 14.4)),
