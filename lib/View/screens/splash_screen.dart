@@ -1,10 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lms_apps/View/screens/Onboarding_screen.dart';
-import 'package:lms_apps/View/screens/home_screen.dart';
-import 'package:lms_apps/View/screens/Onboarding_screen.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
