@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lms_apps/View/screens/profile_screen.dart';
 import 'package:lms_apps/View/screens/my_course_screen.dart';
+import 'package:lms_apps/View/widgets/home_screen/home_appbar.dart';
+import 'package:lms_apps/View/widgets/home_screen/home_body.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,7 +22,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget screenBottomNavigation(int index) {
     if (index == 0) {
-      return const Center(child: Text('Home'));
+      return const SingleChildScrollView(
+        child: Column(
+            children: [HomeAppBar(), SizedBox(height: 40.0), HomeBody()]),
+      );
     } else if (index == 1) {
       return const MyCourseScreen();
     } else if (index == 2) {
