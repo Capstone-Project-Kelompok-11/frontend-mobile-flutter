@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lms_apps/View/screens/home_screen.dart';
+import 'package:lms_apps/View/screens/register_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 
 class login_screen extends StatefulWidget {
@@ -119,7 +121,14 @@ class _login_screenState extends State<login_screen> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 16),
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HomeScreen(),
+                      ),
+                    );
+                  },
                   child: Container(
                     width: double.infinity,
                     height: 34,
@@ -135,7 +144,14 @@ class _login_screenState extends State<login_screen> {
                 ),
               ),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const RegistrationScreen(),
+                    ),
+                  );
+                },
                 child: Container(
                   width: double.infinity,
                   height: 34,
