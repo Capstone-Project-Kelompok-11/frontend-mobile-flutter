@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lms_apps/View/screens/login_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
+import 'package:lms_apps/View/widgets/login/login_body.dart';
 
 class registration_screen extends StatefulWidget {
   const registration_screen({super.key});
@@ -148,13 +150,13 @@ class _registration_screenState extends State<registration_screen> {
                                 Future.delayed(
                                   const Duration(seconds: 2),
                                   () {
-                                    // Navigator.of(context)
-                                    //     .pop(); // Tutup dialog setelah 2 detik
-                                    // Navigator.of(context).pushReplacement(
-                                    //   MaterialPageRoute(
-                                    //       builder: (context) =>
-                                    //           const login_screen()),
-                                    // );
+                                    Navigator.of(context)
+                                        .pop(); // Tutup dialog setelah 2 detik
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const LoginScreen()),
+                                    );
                                   },
                                 );
                                 return SizedBox(
@@ -197,7 +199,14 @@ class _registration_screenState extends State<registration_screen> {
                         ),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LoginScreen(),
+                            ),
+                          );
+                        },
                         child: Container(
                           width: double.infinity,
                           height: 34,
