@@ -40,7 +40,7 @@ class DownloadCertifBody extends StatelessWidget {
                   confirmBtnText: 'Go To HomePage',
                   onConfirmBtnTap: () {},
                   confirmBtnColor: Colors.white,
-                  backgroundColor: Colors.white
+                  backgroundColor: Colors.white,
                 );
               },
               style: TextButton.styleFrom(
