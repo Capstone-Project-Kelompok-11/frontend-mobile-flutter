@@ -17,7 +17,7 @@ class LessonsAppbar extends StatelessWidget {
               'Lessons',
               style: blackTextStyle.copyWith(
                   fontWeight: semiBold, 
-                  fontSize: 25, 
+                  fontSize: 25,
                   color: Colors.black),
             ),
           ),
