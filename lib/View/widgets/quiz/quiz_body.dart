@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lms_apps/View/screens/theme/theme.dart';
 
 class QuizBody extends StatelessWidget {
   const QuizBody({super.key});
