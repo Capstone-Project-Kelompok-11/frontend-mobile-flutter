@@ -16,7 +16,7 @@ class QuizAppbar extends StatelessWidget {
           ),
           Center(
             child: Text(
-              'Lessons',
+              'Quiz',
               style: blackTextStyle.copyWith(
                   fontWeight: semiBold, fontSize: 25, color: Colors.black),
             ),
