@@ -1,16 +1,17 @@
+
+
+// ignore_for_file: depend_on_referenced_packages, camel_case_types
+
 import 'package:flutter/material.dart';
-// ignore: depend_on_referenced_packages
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lms_apps/View/screens/forgotPassword_screen.dart';
-// import 'package:lms_apps/View/screens/home_screen.dart';
 import 'package:lms_apps/View/screens/provider/login_provider.dart';
-// import 'package:lms_apps/View/screens/register_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:lms_apps/View/screens/widget/textFieldWidget.dart';
 import 'package:provider/provider.dart';
 import 'widget/buttonWidget.dart';
 
-// ignore: camel_case_types
+
 class login_screen extends StatefulWidget {
   const login_screen({super.key});
 
@@ -18,7 +19,6 @@ class login_screen extends StatefulWidget {
   State<login_screen> createState() => _login_screenState();
 }
 
-// ignore: camel_case_types
 class _login_screenState extends State<login_screen> {
   bool _isChecked = false;
 
@@ -72,10 +72,10 @@ class _login_screenState extends State<login_screen> {
                           textFieldWidget(
                             hintText: 'Enter your email',
                             onChanged: (value) {
-                              loginProvider.validateUsername(value);
+                              loginProvider.validatefullname(value);
                             },
-                            isValidTextField: loginProvider.isUsernameValid,
-                            errorMessage: loginProvider.errorUsernameMessage,
+                            isValidTextField: loginProvider.isfullnameValid,
+                            errorMessage: loginProvider.errorfullnameMessage,
                           )
                         ],
                       ),
@@ -161,7 +161,7 @@ class _login_screenState extends State<login_screen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   buttonWidget(
-                    onTap: loginProvider.isButtonUsernameDisable &&
+                    onTap: loginProvider.isButtonfullnameDisable &&
                             loginProvider.isButtonPasswordDisable
                         ? () {
                             loginProvider.navigateToDashboard(context);

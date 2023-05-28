@@ -6,15 +6,15 @@ import 'package:lms_apps/View/screens/register_screen.dart';
 // import 'package:flutter_application_2/utils/shared_pref.dart';
 
 class LoginProvider with ChangeNotifier {
-  // Username Property
-  String _username = "";
-  String get username => _username;
+  // fullname Property
+  String _fullname = "";
+  String get fullname => _fullname;
 
-  bool _isUsernameValid = true;
-  bool get isUsernameValid => _isUsernameValid;
+  bool _isfullnameValid = true;
+  bool get isfullnameValid => _isfullnameValid;
 
-  String _errorUsernameMessage = "";
-  String get errorUsernameMessage => _errorUsernameMessage;
+  String _errorfullnameMessage = "";
+  String get errorfullnameMessage => _errorfullnameMessage;
 
   // Password Property
   String _password = "";
@@ -30,27 +30,27 @@ class LoginProvider with ChangeNotifier {
   bool get isHidePassword => _isHidePassword;
 
   // Button Prorerty
-  bool _isButtonUsernameDisable = false;
-  bool get isButtonUsernameDisable => _isButtonUsernameDisable;
+  bool _isButtonfullnameDisable = false;
+  bool get isButtonfullnameDisable => _isButtonfullnameDisable;
 
   bool _isButtonPasswordDisable = false;
   bool get isButtonPasswordDisable => _isButtonPasswordDisable;
 
-  void validateUsername(String value) {
-    _username = value;
-    if (_username.isEmpty) {
-      _isUsernameValid = false;
-      _isButtonUsernameDisable = false;
+  void validatefullname(String value) {
+    _fullname = value;
+    if (_fullname.isEmpty) {
+      _isfullnameValid = false;
+      _isButtonfullnameDisable = false;
 
-      _errorUsernameMessage = "Username Tidak Boleh Kosong!";
-    } else if (_username.length < 4) {
-      _isUsernameValid = false;
-      _isButtonUsernameDisable = false;
+      _errorfullnameMessage = "fullname Tidak Boleh Kosong!";
+    } else if (_fullname.length < 4) {
+      _isfullnameValid = false;
+      _isButtonfullnameDisable = false;
 
-      _errorUsernameMessage = "Username harus lebih dari 4 Huruf";
+      _errorfullnameMessage = "fullname harus lebih dari 4 Huruf";
     } else {
-      _isUsernameValid = true;
-      _isButtonUsernameDisable = true;
+      _isfullnameValid = true;
+      _isButtonfullnameDisable = true;
     }
     notifyListeners();
   }
@@ -83,7 +83,7 @@ class LoginProvider with ChangeNotifier {
       ),
     );
     // saveToken(
-    //   valueToken: _username,
+    //   valueToken: _fullname,
     // );
   }
 

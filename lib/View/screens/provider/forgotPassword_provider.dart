@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_final_fields
+// ignore_for_file: prefer_final_fields, avoid_print
 
 // ignore: depend_on_referenced_packages
 import 'package:email_validator/email_validator.dart';

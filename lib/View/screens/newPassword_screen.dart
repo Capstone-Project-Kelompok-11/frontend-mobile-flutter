@@ -1,18 +1,15 @@
 // ignore: file_names
+// ignore_for_file: camel_case_types, depend_on_referenced_packages
+
 import 'package:flutter/material.dart';
-// ignore: depend_on_referenced_packages
 import 'package:google_fonts/google_fonts.dart';
-// import 'package:lms_apps/View/screens/home_screen.dart';
 import 'package:lms_apps/View/screens/login_screen.dart';
 import 'package:lms_apps/View/screens/provider/newPassword_provider.dart';
-// import 'package:lms_apps/View/screens/otp_screen.dart';
-// import 'package:lms_apps/View/screens/provider/register_provider.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:lms_apps/View/screens/widget/textFieldWidget.dart';
 import 'widget/buttonWidget.dart';
 import 'package:provider/provider.dart';
 
-// ignore: camel_case_types
 class newPassword extends StatefulWidget {
   const newPassword({super.key});
 
@@ -20,7 +17,6 @@ class newPassword extends StatefulWidget {
   State<newPassword> createState() => _newPasswordState();
 }
 
-// ignore: camel_case_types
 class _newPasswordState extends State<newPassword> {
   @override
   Widget build(BuildContext context) {

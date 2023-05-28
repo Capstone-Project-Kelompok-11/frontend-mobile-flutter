@@ -5,6 +5,7 @@ import 'package:lms_apps/View/screens/provider/newPassword_provider.dart';
 import 'package:lms_apps/View/screens/provider/otp_provider.dart';
 import 'package:lms_apps/View/screens/provider/register_provider.dart';
 import 'package:lms_apps/View/screens/register_screen.dart';
+// ignore: depend_on_referenced_packages
 import 'package:provider/provider.dart';
 
 void main() {

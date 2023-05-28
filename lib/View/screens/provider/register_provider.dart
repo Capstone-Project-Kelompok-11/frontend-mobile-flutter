@@ -1,53 +1,54 @@
-// ignore_for_file: prefer_final_fields
+// ignore_for_file: prefer_final_fields, avoid_print
 
 // ignore: depend_on_referenced_packages
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:lms_apps/View/screens/home_screen.dart';
 
 class RegisterProvider with ChangeNotifier {
-  // Username Property
-  String _username = "";
-  String get username => _username;
+  // fullname Property
+  String _fullname = "";
+  String get fullname => _fullname;
 
-  bool _isUsernameValid = true;
-  bool get isUsernameValid => _isUsernameValid;
+  bool _isfullnameValid = true;
+  bool get isfullnameValid => _isfullnameValid;
 
-  String _errorUsernameMessage = "";
-  String get errorUsernameMessage => _errorUsernameMessage;
+  String _errorfullnameMessage = "";
+  String get errorfullnameMessage => _errorfullnameMessage;
 
   bool _isButtonNameValid = false;
   bool get isButtonNameValid => _isButtonNameValid;
 
-  void validateUsername(String value) {
-    _username = value;
-    if (_username.isEmpty) {
-      _isUsernameValid = false;
+  void validatefullname(String value) {
+    _fullname = value;
+    if (_fullname.isEmpty) {
+      _isfullnameValid = false;
       _isButtonNameValid = false;
-      _errorUsernameMessage = "Username Tidak Boleh Kosong!";
-    } else if (_username[0] != _username[0].toUpperCase()) {
-      _isUsernameValid = false;
-      _isButtonNameValid = false;
-
-      _errorUsernameMessage = "Huruf petama harus diawali dengan kapital";
-    } else if (_username.length < 4) {
-      _isUsernameValid = false;
+      _errorfullnameMessage = "Fullname Tidak Boleh Kosong!";
+    } else if (_fullname[0] != _fullname[0].toUpperCase()) {
+      _isfullnameValid = false;
       _isButtonNameValid = false;
 
-      _errorUsernameMessage = "Username harus lebih dari 4 Huruf";
-    } else if (RegExp(r'^[a-z A-Z]+$').hasMatch(_username)) {
-      _isUsernameValid = false;
+      _errorfullnameMessage = "Huruf petama harus diawali dengan kapital";
+    } else if (_fullname.length < 4) {
+      _isfullnameValid = false;
       _isButtonNameValid = false;
 
-      _errorUsernameMessage = "Username harus memiliki angka";
+      _errorfullnameMessage = "fullname harus lebih dari 4 Huruf";
+      // } else if (RegExp(r'^[a-z A-Z]+$').hasMatch(_fullname)) {
+      //   _isfullnameValid = false;
+      //   _isButtonNameValid = false;
+
+      //   _errorfullnameMessage = "fullname harus memiliki angka";
     } else {
       _isButtonNameValid = true;
-      _isUsernameValid = true;
+      _isfullnameValid = true;
     }
     print(_isButtonNameValid);
     notifyListeners();
   }
 
-  // End Username Property
+  // End fullname Property
 
   // Password Property
   String _password = "";
@@ -81,10 +82,6 @@ class RegisterProvider with ChangeNotifier {
       _isButtonPasswordValid = false;
     } else if (RegExp(r'^[a-z A-Z]+$').hasMatch(_password)) {
       _errorPasswordMessage = "Password minimal memiliki angka";
-      _isPasswordValid = false;
-      _isButtonPasswordValid = false;
-    } else if (_password != _confirmPassword) {
-      _errorPasswordMessage = "Password tidak cocok";
       _isPasswordValid = false;
       _isButtonPasswordValid = false;
     } else {
@@ -156,26 +153,6 @@ class RegisterProvider with ChangeNotifier {
   bool _isButtonPhoneNumberValid = false;
   bool get isButtonPhoneNumberValid => _isButtonPhoneNumberValid;
 
-  // void validatePhoneNumber(PhoneNumber phoneNumber) {
-  //   _phoneNumber = phoneNumber.number;
-  //   if (_phoneNumber.isEmpty) {
-  //     _errorPhoneNumberMessage = 'Phone Number Tidak Boleh Kosong';
-  //     _isPhoneNumberValid = false;
-  //     _isButtonPhoneNumberValid = false;
-  //   } else if (_phoneNumber.length < 4) {
-  //     _errorPhoneNumberMessage = 'Nomor Telepon harus lebih dari 4 angka';
-  //     _isPhoneNumberValid = false;
-  //     _isButtonPhoneNumberValid = false;
-  //   } else {
-  //     _isPhoneNumberValid = true;
-  //     _isButtonPhoneNumberValid = true;
-  //   }
-  //   print(_isButtonPhoneNumberValid);
-  //   notifyListeners();
-  // }
-
-  // End Telepon Property
-
   // Email Property
   String _email = "";
   String get email => _email;
@@ -212,11 +189,23 @@ class RegisterProvider with ChangeNotifier {
     bool isDisableButton = isButtonNameValid &&
         isButtonPasswordValid &&
         isButtonConfirmPasswordValid &&
-        isButtonPhoneNumberValid &&
         isButtonEmailValid;
 
     print("halo $isDisableButton");
-
     return isDisableButton;
+  }
+
+  void navigateToDashboard(
+    BuildContext context,
+  ) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const HomeScreen(),
+      ),
+    );
+    // saveToken(
+    //   valueToken: _fullname,
+    // );
   }
 }

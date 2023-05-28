@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_final_fields
+// ignore_for_file: prefer_final_fields, camel_case_types, avoid_print
 
 // ignore: depend_on_referenced_packages
 import 'package:flutter/material.dart';
@@ -37,10 +37,6 @@ class newPasswordProvider with ChangeNotifier {
       _isButtonPasswordValid = false;
     } else if (RegExp(r'^[a-z A-Z]+$').hasMatch(_password)) {
       _errorPasswordMessage = "Password minimal memiliki angka";
-      _isPasswordValid = false;
-      _isButtonPasswordValid = false;
-    } else if (_password != _confirmPassword) {
-      _errorPasswordMessage = "Password tidak cocok";
       _isPasswordValid = false;
       _isButtonPasswordValid = false;
     } else {

@@ -1,7 +1,7 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:flutter/material.dart';
-// ignore: depend_on_referenced_packages
 import 'package:google_fonts/google_fonts.dart';
-// import 'package:lms_apps/View/screens/home_screen.dart';
 import 'package:lms_apps/View/screens/login_screen.dart';
 import 'package:lms_apps/View/screens/provider/register_provider.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
@@ -71,14 +71,14 @@ class _registration_screenState extends State<registration_screen> {
                                     fontSize: 14, fontWeight: small),
                               ),
                               textFieldWidget(
-                                hintText: 'Username',
+                                hintText: 'Fullname',
                                 onChanged: (value) {
-                                  registerProvider.validateUsername(value);
+                                  registerProvider.validatefullname(value);
                                 },
                                 isValidTextField:
-                                    registerProvider.isUsernameValid,
+                                    registerProvider.isfullnameValid,
                                 errorMessage:
-                                    registerProvider.errorUsernameMessage,
+                                    registerProvider.errorfullnameMessage,
                               ),
                             ],
                           ),
@@ -189,16 +189,19 @@ class _registration_screenState extends State<registration_screen> {
                                   },
                                 ),
                                 TextButton(
-                                    onPressed: () {
-                                      setState(() {
+                                  onPressed: () {
+                                    setState(
+                                      () {
                                         _isChecked = !_isChecked;
-                                      });
-                                    },
-                                    child: Text(
-                                      'Remember me',
-                                      style: blackTextStyle.copyWith(
-                                          fontSize: 12, fontWeight: small),
-                                    )),
+                                      },
+                                    );
+                                  },
+                                  child: Text(
+                                    'Remember me',
+                                    style: blackTextStyle.copyWith(
+                                        fontSize: 12, fontWeight: small),
+                                  ),
+                                ),
                               ],
                             ),
                             Text(
@@ -214,33 +217,53 @@ class _registration_screenState extends State<registration_screen> {
                     Column(
                       children: [
                         buttonWidget(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 9),
-                                    child: AlertDialog(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      backgroundColor: Colors.white,
-                                      icon: const Icon(
-                                        Icons.check_circle_rounded,
-                                        size: 92.44,
-                                      ),
-                                      title: Text(
-                                        'Succesful!',
-                                        textAlign: TextAlign.center,
-                                        style: blackTextStyle.copyWith(
-                                            fontSize: 18, fontWeight: bold),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
-                            },
+                            onTap: registerProvider.isButtonNameValid
+                                ? () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        Future.delayed(
+                                          const Duration(seconds: 2),
+                                          () {
+                                            Navigator.of(context)
+                                                .pop(); // Tutup dialog setelah 2 detik
+                                            Navigator.of(context)
+                                                .pushReplacement(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const login_screen()),
+                                            );
+                                          },
+                                        );
+                                        return SizedBox(
+                                          height: double.infinity,
+                                          width: double.infinity,
+                                          child: AlertDialog(
+                                            contentPadding:
+                                                const EdgeInsets.only(
+                                                    right: 39),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            ),
+                                            backgroundColor: Colors.white,
+                                            icon: const Icon(
+                                              Icons.check_circle_rounded,
+                                              size: 92.44,
+                                            ),
+                                            title: Text(
+                                              'Successful!',
+                                              textAlign: TextAlign.center,
+                                              style: blackTextStyle.copyWith(
+                                                  fontSize: 18,
+                                                  fontWeight: bold),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  }
+                                : null,
                             title: 'Sign Up',
                             textColor: whiteTextStyle.copyWith(
                                 fontSize: 14, fontWeight: regular),
