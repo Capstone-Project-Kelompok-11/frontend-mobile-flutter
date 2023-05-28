@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lms_apps/View/screens/quiz_screen.dart';
 import '../../screens/theme/theme.dart';
 
 class LessonBottom extends StatelessWidget {
@@ -27,7 +28,9 @@ class LessonBottom extends StatelessWidget {
                       width: 170,
                       height: 40,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder:  (context) => const QuizScreen() ));
+                        },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
