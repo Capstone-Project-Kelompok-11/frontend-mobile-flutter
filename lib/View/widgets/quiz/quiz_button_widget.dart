@@ -22,7 +22,7 @@ class QuizButton extends StatelessWidget {
                 ),
               ),
               child: Text(
-                'Take Quiz',
+                'Submit Answer',
                 style: whiteTextStyle.copyWith(
                     fontWeight: regular, fontSize: 14.4),
               ),
