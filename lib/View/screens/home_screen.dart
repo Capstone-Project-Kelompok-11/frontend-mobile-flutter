@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lms_apps/View/screens/profile_screen.dart';
 import 'package:lms_apps/View/screens/my_course_screen.dart';
-import 'package:lms_apps/View/widgets/home_screen/home_appbar.dart';
-import 'package:lms_apps/View/widgets/home_screen/home_body.dart';
+
+import '../widgets/home/home_appbar.dart';
+import '../widgets/home/home_body.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
