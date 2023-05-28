@@ -184,20 +184,21 @@ class _HomeBodyState extends State<HomeBody> {
                                 ),
                               ),
                               const SizedBox(height: 8.0),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 4.0),
+                               Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 4.0),
                                 child: SizedBox(
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text('UI Design'),
-                                      SizedBox(height: 16.0),
+                                      const Text('UI Design'),
+                                      const SizedBox(height: 16.0),
                                       Row(children: [
-                                        Icon(Icons.star_rounded),
-                                        Text('4,5'),
-                                        Spacer(),
-                                        Text('Rp. 300.000')
+                                        Image.asset('assets/icon/ic_star.png'),
+                                        const SizedBox(width: 8.0),
+                                        const Text('4,5'),
+                                        const Spacer(),
+                                        const Text('Rp. 300.000')
                                       ])
                                     ],
                                   ),
@@ -239,6 +240,7 @@ class _HomeBodyState extends State<HomeBody> {
               ),
               const SizedBox(height: 10.0),
               ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: 5,
                 itemBuilder: (context, index) {

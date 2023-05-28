@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lms_apps/View/widgets/lesson/lesson_body.dart';
+import 'package:lms_apps/View/widgets/lesson/lesson_bottom.dart';
 import '../widgets/lesson/lesson_appbar.dart';
 
 class LessonsScreen extends StatelessWidget {
@@ -16,6 +17,7 @@ class LessonsScreen extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: LessonBottom(),
     );
   }
 }

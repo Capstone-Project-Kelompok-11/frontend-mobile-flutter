@@ -59,37 +59,6 @@ class LessonsBody extends StatelessWidget {
               ),
               const Text(
                   'Keterbacaan: Desain antarmuka pengguna harus mudah dibaca dan dipahami oleh pengguna. Ini meliputi penggunaan font yang jelas dan mudah dibaca, tata letak yang jelas dan terorganisir, serta warna yang mudah dibaca dan kontras'),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.only(left: 8,top: 2),
-                    decoration: const BoxDecoration(color: Colors.grey,borderRadius: BorderRadius.all(Radius.circular(10))),
-                    height: 34,
-                    width: 170,
-                    child: Text(
-                      'Score : 0',
-                      style: blackTextStyle.copyWith(
-                          fontWeight: semiBold,
-                          fontSize: 17.28,
-                          color: Colors.black),
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: Text(
-                      'Take Quiz',
-                      style: whiteTextStyle.copyWith(
-                          fontWeight: regular, fontSize: 14.4),
-                    ),
-                  )
-                ],
-              ),
             ],
           ),
         ],
