@@ -18,15 +18,20 @@ class LessonBottom extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text('Score : 0'),
+              padding: const EdgeInsets.only(left: 8),
+              child: Text('Score : 0',style: blackTextStyle.copyWith(fontWeight:bold,fontSize: 17 ),),
             ),
-            Container(
-              width: 200,
-              height: 50,
-              decoration: BoxDecoration(
-                  color: Colors.blue, borderRadius: BorderRadius.circular(10)),
-              child: Center(child: Text('Take Quiz')),
+            InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const QuizScreen()));
+              },
+              child: Container(
+                width: 200,
+                height: 50,
+                decoration: BoxDecoration(
+                    color: Colors.blue, borderRadius: BorderRadius.circular(10)),
+                child: Center(child: Text('Take Quiz',style: whiteTextStyle.copyWith(fontWeight: small,fontSize: 15),)),
+              ),
             ),
           ],
         ),
