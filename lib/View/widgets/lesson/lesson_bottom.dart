@@ -8,43 +8,34 @@ class LessonBottom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(left: 50),
+      padding: const EdgeInsets.only(left: 40),
+      child: Container(
+        width: double.infinity,
+        height: 30,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10), color: Colors.grey),
         child: Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(left: 8,top: 2),
-                      decoration: const BoxDecoration(color: Colors.grey,borderRadius: BorderRadius.all(Radius.circular(10))),
-                      height: 40,
-                      width: 170,
-                      child: Text(
-                        'Score : 0',
-                        style: blackTextStyle.copyWith(
-                            fontWeight: semiBold,
-                            fontSize: 17.28,
-                            color: Colors.black),
-                      ),
-                    ),
-                    Container(
-                      width: 170,
-                      height: 40,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder:  (context) => const QuizScreen() ));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        child: Text(
-                          'Take Quiz',
-                          style: whiteTextStyle.copyWith(
-                              fontWeight: regular, fontSize: 14.4),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-      );
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: Text('Score : 0',style: blackTextStyle.copyWith(fontWeight:bold,fontSize: 17 ),),
+            ),
+            InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const QuizScreen()));
+              },
+              child: Container(
+                width: 200,
+                height: 50,
+                decoration: BoxDecoration(
+                    color: Colors.blue, borderRadius: BorderRadius.circular(10)),
+                child: Center(child: Text('Take Quiz',style: whiteTextStyle.copyWith(fontWeight: small,fontSize: 15),)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
