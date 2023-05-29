@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lms_apps/View/screens/home_screen.dart';
 import 'package:lms_apps/View/screens/my_course_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 
@@ -16,7 +17,7 @@ class DownloadCertifAppbar extends StatelessWidget {
               children: [
                 IconButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const MyCourseScreen()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
                     }, 
                     icon: Image.asset('assets/icon/ic_arrow_left.png'),),
                 Center(
