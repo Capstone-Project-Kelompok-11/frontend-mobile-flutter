@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lms_apps/View/screens/home_screen.dart';
-import 'package:lms_apps/View/screens/splash_screen.dart';
+import 'package:lms_apps/View/screens/login_screen.dart';
+import 'package:lms_apps/View/screens/register_screen.dart';
 import 'Onboarding_content.dart';
 
 class Onbording extends StatefulWidget {
@@ -101,7 +101,7 @@ class _OnbordingState extends State<Onbording> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => const HomeScreen(),
+                            builder: (_) => const LoginScreen(),
                           ),
                         );
                       }
@@ -148,7 +148,7 @@ class _OnbordingState extends State<Onbording> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => const HomeScreen(),
+                            builder: (_) => const RegistrationScreen(),
                           ),
                         );
                       },

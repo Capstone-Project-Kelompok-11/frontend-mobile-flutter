@@ -10,7 +10,9 @@ class LessonsAppbar extends StatelessWidget {
       child: Stack(
         children: [
           IconButton(
-              onPressed: () {}, 
+              onPressed: () {
+                Navigator.pop(context);
+              }, 
               icon: Image.asset('assets/icon/ic_arrow_left.png')),
           Center(
             child: Text(
