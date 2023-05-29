@@ -19,7 +19,11 @@ class MyCourseBody extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 31, vertical: 15),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) =>const LessonsScreen(),));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LessonsScreen(),
+                      ));
                 },
                 child: Container(
                   height: 98,
@@ -149,7 +153,11 @@ class MyCourseBody extends StatelessWidget {
                                         top: Radius.circular(30))),
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return SingleChildScrollView(
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                        bottom: MediaQuery.of(context)
+                                            .viewInsets
+                                            .bottom),
                                     child: SizedBox(
                                       height: 460,
                                       child: Column(
@@ -267,7 +275,13 @@ class MyCourseBody extends StatelessWidget {
                                                       height: 34,
                                                       child: ElevatedButton(
                                                         onPressed: () {
-                                                          Navigator.push(context, MaterialPageRoute(builder: (context) => const CertificateScreen(),));
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        const CertificateScreen(),
+                                                              ));
                                                         },
                                                         style: ElevatedButton
                                                             .styleFrom(
