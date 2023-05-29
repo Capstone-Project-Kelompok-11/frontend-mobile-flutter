@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lms_apps/View/screens/forgot_password.dart';
 import 'package:lms_apps/View/screens/home_screen.dart';
 import 'package:lms_apps/View/screens/register_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
@@ -102,12 +103,12 @@ class _login_screenState extends State<login_screen> {
           Center(
             child: TextButton(
               onPressed: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => const forgotPassword(),
-                //   ),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ForgotPassword(),
+                  ),
+                );
               },
               child: Text('Forgot Password',
                   style: blackTextStyle.copyWith(
