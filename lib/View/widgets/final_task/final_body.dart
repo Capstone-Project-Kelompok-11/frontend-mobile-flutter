@@ -35,6 +35,22 @@ class FinalBody extends StatelessWidget {
               const SizedBox(
                 height: 8,
               ),
+              Text(
+                '1. Kumpulkan dalam format PDF',
+                style: blackTextStyle.copyWith(
+                  fontWeight: semiBold,
+                  fontSize: 12,
+                  color: Colors.black,
+                ),
+              ),
+              Text(
+                '2. Berikan link pengerjaan di dalam pdf tersebut',
+                style: blackTextStyle.copyWith(
+                  fontWeight: semiBold,
+                  fontSize: 12,
+                  color: Colors.black,
+                ),
+              ),
             ],
           )
         ],

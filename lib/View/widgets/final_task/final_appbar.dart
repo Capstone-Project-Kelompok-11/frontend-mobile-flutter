@@ -6,26 +6,28 @@ class FinalAppbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 30, left: 20),
-      child: Stack(
-        children: [
-          IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: Image.asset('assets/icon/ic_arrow_left.png')),
-          Center(
-            child: Text(
-              'Final Task',
-              style: blackTextStyle.copyWith(
-                fontWeight: semiBold,
-                fontSize: 25,
-                color: Colors.black,
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 30, left: 20),
+        child: Stack(
+          children: [
+            IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Image.asset('assets/icon/ic_arrow_left.png')),
+            Center(
+              child: Text(
+                'Final Task',
+                style: blackTextStyle.copyWith(
+                  fontWeight: semiBold,
+                  fontSize: 25,
+                  color: Colors.black,
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
