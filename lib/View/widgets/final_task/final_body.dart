@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-// import 'package:file_picker/file_picker.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:open_file/open_file.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 
 class FinalBody extends StatelessWidget {
@@ -57,12 +58,9 @@ class FinalBody extends StatelessWidget {
             height: 8,
           ),
           GestureDetector(
-            // onTap: () async {
-            //   final result = await FilePicker.platform.pickfiles();
-            //   if (result = null) return;
-            //   final file = result.files.first;
-            //   openFIle(file);
-            // },
+            onTap: () {
+              _pickFile();
+            },
             child: Container(
               color: const Color(0xFFEFEFEF),
               height: 159,
@@ -102,5 +100,18 @@ class FinalBody extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _pickFile() async {
+    final result = await FilePicker.platform.pickFiles();
+    if (result == null) return;
+
+    final file = result.files.first;
+    _openFile(file);
+  }
+
+  void _openFile(PlatformFile file) {
+    // OpenFile.open(file.path, file);
+    OpenFile.open(file.path!);
   }
 }
