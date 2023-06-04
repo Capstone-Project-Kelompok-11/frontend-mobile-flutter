@@ -46,7 +46,7 @@ class _DetailCourseBodyState extends State<DetailCourseBody> {
             SizedBox(width: 6.0),
             Text('4,5'),
             Spacer(),
-            Text('Rp.300.000')
+            Text('Rp. 300.000')
           ]),
           const SizedBox(height: 22.0),
 
