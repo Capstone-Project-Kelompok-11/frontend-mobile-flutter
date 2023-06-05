@@ -45,6 +45,10 @@ dependencies:
   carousel_slider: ^4.2.1
   dio: ^5.1.2
   shared_preferences: ^2.1.0
+  flutter_html: ^3.0.0-beta.2
+  file_picker: ^4.6.1
+  open_file: ^3.2.1
+  
 
 dev_dependencies:
   flutter_test:
