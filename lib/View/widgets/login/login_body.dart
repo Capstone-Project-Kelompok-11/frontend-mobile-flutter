@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lms_apps/Services/constant.dart';
 import 'package:lms_apps/View/screens/forgot_password.dart';
 import 'package:lms_apps/View/screens/home_screen.dart';
+// import 'package:lms_apps/View/screens/home_screen.dart';
 import 'package:lms_apps/View/screens/register_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
+import 'package:dio/dio.dart';
+import 'package:lms_apps/utils/shared_pref.dart';
 
 class login_screen extends StatefulWidget {
   const login_screen({super.key});
@@ -13,6 +17,49 @@ class login_screen extends StatefulWidget {
 }
 
 class _login_screenState extends State<login_screen> {
+  void saveToken(String token) {
+    // Simpan token ke shared preferences
+    SharedPref.saveToken(token);
+  }
+
+  void navigateToHomeScreen(BuildContext context) {
+    // Navigasi ke layar beranda (HomeScreen)
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const HomeScreen(),
+      ),
+    );
+  }
+
+  login() async {
+    print(emailController.text);
+    print(passwordController.text);
+
+    Dio dio = Dio();
+
+    try {
+      Response response = await dio.post('$url/users/login',
+          data: FormData.fromMap({
+            "username": "*",
+            "email": emailController.text,
+            "password": passwordController.text
+          }));
+      print(response);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print(response.data["data"]['token']);
+        saveToken(response.data['data']
+            ['token']); // Simpan token ke shared preferences
+        navigateToHomeScreen(context); // Navigasi ke layar beranda
+      }
+    } catch (e) {
+      print('Error from server : $e');
+    }
+  }
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   bool _isChecked = false;
   @override
   Widget build(BuildContext context) {
@@ -53,6 +100,7 @@ class _login_screenState extends State<login_screen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       textFormFieldWidget(
+                        controller: emailController,
                         title: 'Email',
                         hintText: 'Enter your email',
                       )
@@ -65,6 +113,7 @@ class _login_screenState extends State<login_screen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       textFormFieldWidget(
+                          controller: passwordController,
                           title: 'Password',
                           hintText: '*****',
                           suffixIcon: const Icon(Icons.lock)),
@@ -123,12 +172,7 @@ class _login_screenState extends State<login_screen> {
                 padding: const EdgeInsets.only(bottom: 16),
                 child: InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomeScreen(),
-                      ),
-                    );
+                    login();
                   },
                   child: Container(
                     width: double.infinity,
@@ -178,6 +222,7 @@ class _login_screenState extends State<login_screen> {
     required String hintText,
     Widget? prefixIcon,
     Widget? suffixIcon,
+    TextEditingController? controller,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -192,6 +237,7 @@ class _login_screenState extends State<login_screen> {
         ),
         const SizedBox(height: 5),
         TextFormField(
+          controller: controller,
           decoration: InputDecoration(
             prefixIcon: prefixIcon,
             suffixIcon: suffixIcon,
@@ -205,4 +251,44 @@ class _login_screenState extends State<login_screen> {
       ],
     );
   }
+
+  // void saveToken(String token) {
+  //   // Simpan token ke shared preferences
+  //   SharedPref.saveToken(token);
+  // }
+
+  // void navigateToDashboard(BuildContext context) {
+  //   // Navigasi ke layar beranda (HomeScreen)
+  //   Navigator.pushReplacement(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (_) => const HomeScreen(),
+  //     ),
+  //   );
+  // }
+
+  // login() async {
+  //   print(emailController.text);
+  //   print(passwordController.text);
+
+  //   Dio dio = Dio();
+
+  //   try {
+  //     Response response = await dio.post('$url/users/login',
+  //         data: FormData.fromMap({
+  //           "username": "*",
+  //           "email": emailController.text,
+  //           "password": passwordController.text
+  //         }));
+  //     print(response);
+
+  //     if (response.statusCode == 200) {
+  //       print(response.data['token']);
+  //       saveToken(response.data['token']); // Simpan token ke shared preferences
+  //       navigateToDashboard(context); // Navigasi ke layar beranda
+  //     }
+  //   } catch (e) {
+  //     print('Error from server : $e');
+  //   }
+  // }
 }
