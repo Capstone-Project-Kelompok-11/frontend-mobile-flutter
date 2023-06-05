@@ -8,6 +8,11 @@ class FinalBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> data = [
+      'Pilih Topik Aplikasi: Pilihlah topik aplikasi yang menarik dan relevan. Anda dapat memilih topik seperti aplikasi perjalanan, aplikasi kesehatan, aplikasi keuangan, atau topik lain sesuai minat Anda.',
+      'Rancang Wireframe: Buat wireframe untuk antarmuka aplikasi Anda. Tentukan tata letak halaman, penempatan elemen-elemen penting, dan alur navigasi yang intuitif.',
+      'Desain Visual: Berdasarkan wireframe, buat desain visual yang menarik dan sesuai dengan tema aplikasi Anda. Pertimbangkan pemilihan warna, tipografi, ikon, dan elemen grafis lainnya untuk menciptakan tampilan yang konsisten dan menarik.'
+    ];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Column(
@@ -31,6 +36,41 @@ class FinalBody extends StatelessWidget {
               fontSize: 14.4,
               color: Colors.black,
             ),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          ListView.builder(
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              // return ListTile(
+              //   dense: true,
+              //   leading: Text('${index + 1}. '),
+              //   minLeadingWidth: 0,
+              //   minVerticalPadding: 0,
+              //   // horizontalTitleGap: 5.0,
+              //   contentPadding: EdgeInsets.zero,
+              //   title: Text('${data[index]} '),
+              // );
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${index + 1}. ',
+                    style: const TextStyle(height: 1.65),
+                  ),
+                  Expanded(
+                    child: Text(
+                      '${data[index]}',
+                      textAlign: TextAlign.justify,
+                      style: const TextStyle(height: 1.65),
+                    ),
+                    // flex: 6,
+                  ),
+                ],
+              );
+            },
+            itemCount: data.length,
           ),
           const SizedBox(
             height: 8,
