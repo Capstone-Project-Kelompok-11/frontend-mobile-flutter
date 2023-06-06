@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lms_apps/View/screens/login_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
-import 'package:lms_apps/View/widgets/login/login_body.dart';
 
 class registration_screen extends StatefulWidget {
   const registration_screen({super.key});

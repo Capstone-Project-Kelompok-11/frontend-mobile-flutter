@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lms_apps/View/screens/home_screen.dart';
 import 'package:lms_apps/View/screens/login_screen.dart';
 import 'package:lms_apps/View/screens/register_screen.dart';
 import 'Onboarding_content.dart';

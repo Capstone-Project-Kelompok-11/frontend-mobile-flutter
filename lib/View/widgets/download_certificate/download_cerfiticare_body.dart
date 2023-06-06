@@ -1,6 +1,4 @@
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
-import 'package:lms_apps/View/screens/theme/theme.dart';
 
 class DownloadCertifBody extends StatelessWidget {
   const DownloadCertifBody({super.key});

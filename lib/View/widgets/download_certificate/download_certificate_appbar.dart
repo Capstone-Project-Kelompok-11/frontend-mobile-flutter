@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lms_apps/View/screens/home_screen.dart';
-import 'package:lms_apps/View/screens/my_course_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 
 class DownloadCertifAppbar extends StatelessWidget {
