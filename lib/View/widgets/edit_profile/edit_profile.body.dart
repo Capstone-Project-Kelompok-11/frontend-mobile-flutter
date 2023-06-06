@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lms_apps/Services/edit_profile_service.dart';
-import 'package:lms_apps/View%20Models/edit_profile_view_model.dart';
+import 'package:lms_apps/ViewModels/edit_profile_view_model.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:provider/provider.dart';
 
