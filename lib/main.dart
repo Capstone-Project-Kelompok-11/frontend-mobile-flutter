@@ -8,7 +8,8 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider<EditProfileViewModel>(
-            create: (_) => EditProfileViewModel()),
+          create: (_) => EditProfileViewModel(),
+        ),
       ],
       child: const MyApp(),
     ),
