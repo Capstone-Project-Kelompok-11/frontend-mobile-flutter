@@ -39,7 +39,7 @@ class _login_screenState extends State<login_screen> {
     Dio dio = Dio();
 
     try {
-      Response response = await dio.post('$url/users/login',
+      Response response = await dio.post('${APIConstant.url}/users/login',
           data: FormData.fromMap({
             "username": "*",
             "email": emailController.text,

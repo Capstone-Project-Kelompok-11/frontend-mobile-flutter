@@ -1,11 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
+import 'package:lms_apps/ViewModels/edit_profile_view_model.dart';
+import 'package:provider/provider.dart';
 
-class EditProfileAppBar extends StatelessWidget {
+class EditProfileAppBar extends StatefulWidget {
   const EditProfileAppBar({super.key});
 
   @override
+  State<EditProfileAppBar> createState() => _EditProfileAppBarState();
+}
+
+class _EditProfileAppBarState extends State<EditProfileAppBar> {
+  @override
+  void initState() {
+    final editProfileViewModel =
+        Provider.of<EditProfileViewModel>(context, listen: false);
+    editProfileViewModel.getUserInfo();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final editProfileViewModel = Provider.of<EditProfileViewModel>(context);
     return Column(
       children: [
         Stack(
@@ -34,8 +50,14 @@ class EditProfileAppBar extends StatelessWidget {
         ),
         const SizedBox(height: 20),
         CircleAvatar(
-          radius: 80,
-          child: Image.asset('assets/images/img_profile.png'),
+          radius: 90,
+          backgroundImage: NetworkImage(
+            '${editProfileViewModel.imagePath}',
+          ),
+          // child: Image.network(
+          //   '${editProfileViewModel.imagePath}',
+          //   fit: BoxFit.contain,
+          // ),
         ),
       ],
     );
