@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 
-class EditProfileAppBar extends StatelessWidget {
+class EditProfileAppBar extends StatefulWidget {
   const EditProfileAppBar({super.key});
 
+  @override
+  State<EditProfileAppBar> createState() => _EditProfileAppBarState();
+}
+
+class _EditProfileAppBarState extends State<EditProfileAppBar> {
   @override
   Widget build(BuildContext context) {
     return Column(
