@@ -6,6 +6,13 @@ class LessonsBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> datalesson = [
+      'Keterbacaan: Desain antarmuka pengguna harus mudah dibaca dan dipahami oleh pengguna. Ini meliputi penggunaan font yang jelas dan mudah dibaca, tata letak yang jelas dan terorganisir, serta warna yang mudah dibaca dan kontras.',
+      'Navigasi yang mudah: Antarmuka pengguna harus memiliki navigasi yang mudah dipahami dan dapat membantu pengguna mencapai tujuan mereka dengan cepat dan efisien.' ,
+      'Konsistensi: Desain antarmuka pengguna harus konsisten dalam seluruh produk digital. Ini termasuk konsistensi dalam tata letak, warna, font, dan interaksi pengguna.' ,
+      'Estetika visual: Antarmuka pengguna harus menarik secara visual dan menunjukkan identitas merek yang jelas. Ini dapat dicapai melalui penggunaan warna, gambar, dan ilustrasi yang menarik.' ,
+      'Responsivitas: Desain antarmuka pengguna harus responsif dan dapat menyesuaikan dengan berbagai ukuran layar, baik di desktop maupun di perangkat mobile.'
+    ];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Stack(
@@ -57,8 +64,30 @@ class LessonsBody extends StatelessWidget {
               const SizedBox(
                 height: 8,
               ),
-              const Text(
-                  'Keterbacaan: Desain antarmuka pengguna harus mudah dibaca dan dipahami oleh pengguna. Ini meliputi penggunaan font yang jelas dan mudah dibaca, tata letak yang jelas dan terorganisir, serta warna yang mudah dibaca dan kontras'),
+              ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: datalesson.length,
+                itemBuilder: (context , index){
+                return Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${index + 1}. ',
+                    style: const TextStyle(height: 1.65),
+                  ),
+                  Expanded(
+                    child: Text(
+                      '${datalesson[index]}',
+                      textAlign: TextAlign.justify,
+                      style: const TextStyle(height: 1.65),
+                    ),
+                    // flex: 6,
+                  ),
+                ],
+              );
+              },),
+              SizedBox(height: 60,)
             ],
           ),
         ],
