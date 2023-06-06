@@ -6,15 +6,11 @@ import 'package:lms_apps/utils/shared_pref.dart';
 class EditProfileService {
   Future<UsersInformationResponse> getUserInfo() async {
     final token = await SharedPref.getToken();
-    // print(token);
 
     final response = await Dio().get(
       '${APIConstant.url}/users/info',
       options: Options(headers: APIConstant.auth('$token')),
     );
-    // print(response.data);
-
-    // return jsonResponse;
     return UsersInformationResponse.fromJson(response.data);
   }
 
@@ -35,7 +31,7 @@ class EditProfileService {
           "city": "string",
           "postal_code": "string",
           "name": name,
-          "phone": phone,
+          "phone": "+62 ${phone}",
           "confirm_password": password,
         },
         '${APIConstant.url}/users/info',
