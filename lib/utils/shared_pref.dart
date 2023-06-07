@@ -22,9 +22,8 @@ class SharedPref {
     return prefs.getString('token');
   }
 
-  void removeToken() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    await prefs.remove('token');
+  static Future<void> removeToken() async {
+    final prefs = await preferences;
+    prefs.remove('token');
   }
 }
