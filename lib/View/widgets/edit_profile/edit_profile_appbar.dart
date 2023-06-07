@@ -49,15 +49,21 @@ class _EditProfileAppBarState extends State<EditProfileAppBar> {
           ],
         ),
         const SizedBox(height: 20),
-        CircleAvatar(
-          radius: 90,
-          backgroundImage: NetworkImage(
-            '${editProfileViewModel.imagePath}',
-          ),
-          // child: Image.network(
-          //   '${editProfileViewModel.imagePath}',
-          //   fit: BoxFit.contain,
-          // ),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(500),
+          child: editProfileViewModel.imagePath != ''
+              ? Image.network(
+                  '${editProfileViewModel.imagePath}',
+                  fit: BoxFit.cover,
+                  height: 200,
+                  width: 200,
+                )
+              : Image.asset(
+                  'assets/images/img_profile.png',
+                  fit: BoxFit.cover,
+                  height: 200,
+                  width: 200,
+                ),
         ),
       ],
     );
