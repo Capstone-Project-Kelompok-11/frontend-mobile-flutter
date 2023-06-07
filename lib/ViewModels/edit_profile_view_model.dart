@@ -48,7 +48,11 @@ class EditProfileViewModel with ChangeNotifier {
         _phone = result.data!.phone;
         _password = result.data!.confirmPassword;
         _email = result.data!.email;
-        _imagePath = "${APIConstant.url}/public/image/${result.data!.image}";
+        if (result.data?.image != '') {
+          _imagePath = "${APIConstant.url}/public/image/${result.data!.image}";
+        } else {
+          _imagePath = '';
+        }
 
         nameController.text = '';
         phoneController.text = '';
