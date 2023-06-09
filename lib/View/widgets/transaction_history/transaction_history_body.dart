@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lms_apps/ViewModels/transaction_history_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -45,7 +46,7 @@ class _TransactionHistoryBodyState extends State<TransactionHistoryBody> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${transactionHistory.data?.courseId}'),
+                  Text('${transactionHistory.data?.courseId?.toUpperCase()}'),
                   const SizedBox(height: 5),
                   Container(
                     padding: const EdgeInsets.all(5),
@@ -62,7 +63,9 @@ class _TransactionHistoryBodyState extends State<TransactionHistoryBody> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Paid on : ${transactionHistory.createdAt}'),
+                      Text('Paid on : ${DateFormat('dd MMMM yyyy').format(
+                        DateTime.parse(transactionHistory.createdAt.toString()),
+                      )}'),
                       Text(
                         transactionHistoryViewModel.currencyFormat(
                           number: transactionHistory.course?.price,
@@ -73,7 +76,8 @@ class _TransactionHistoryBodyState extends State<TransactionHistoryBody> {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                      'Payment Method : ${transactionHistory.data?.paymentMethod}'),
+                    'Payment Method : ${transactionHistory.data?.paymentMethod}',
+                  ),
                 ],
               ),
             ),
