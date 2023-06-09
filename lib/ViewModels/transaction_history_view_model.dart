@@ -25,7 +25,6 @@ class TransactionHistoryViewModel with ChangeNotifier {
       symbol: 'Rp.',
       decimalDigits: decimalDigit,
     );
-    // notifyListeners();
     return currencyFormatter.format(number);
   }
 }
