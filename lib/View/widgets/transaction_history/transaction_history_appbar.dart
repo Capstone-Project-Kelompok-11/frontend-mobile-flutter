@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:lms_apps/View/screens/home_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 
-class TransactionHistoryAppBar extends StatelessWidget {
+class TransactionHistoryAppBar extends StatefulWidget {
   const TransactionHistoryAppBar({super.key});
 
+  @override
+  State<TransactionHistoryAppBar> createState() =>
+      _TransactionHistoryAppBarState();
+}
+
+class _TransactionHistoryAppBarState extends State<TransactionHistoryAppBar> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
