@@ -11,7 +11,7 @@ class MyCourseViewModel with ChangeNotifier {
   DetailCourseResponse get course => _course;
 
   DetailCourseResponseData _complete = DetailCourseResponseData();
-  DetailCourseResponseData get complete => _complete;
+  DetailCourseResponseData get complete => _complete;  
 
   void getMyCourseProgress() async {
     final result = await MyCourseOnProgressService().getMyCourse();

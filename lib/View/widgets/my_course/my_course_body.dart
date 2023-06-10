@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:lms_apps/Services/constant.dart';
 import 'package:lms_apps/View/screens/certificate_screen.dart';
 import 'package:lms_apps/View/screens/lessons_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
@@ -106,6 +105,7 @@ class _MyCourseBodyState extends State<MyCourseBody> {
           shrinkWrap: true,
           itemBuilder: (context, index) {
             var myCourseComplete = myCourseViewModel.complete.completion;
+            print(myCourseViewModel.course.data?.modules?[0]);
 
             return Container(
               width: double.infinity,
