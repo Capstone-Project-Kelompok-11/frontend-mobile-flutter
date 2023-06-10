@@ -49,7 +49,7 @@ class EditProfileViewModel with ChangeNotifier {
         _password = result.data!.confirmPassword;
         _email = result.data!.email;
         if (result.data?.image != '') {
-          _imagePath = "${APIConstant.url}/public/image/${result.data!.image}";
+          _imagePath = "${result.data?.image}";
         } else {
           _imagePath = '';
         }
