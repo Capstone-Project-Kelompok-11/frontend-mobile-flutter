@@ -2,6 +2,7 @@
     package="com.capstone11.lms_apps">
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/> <!-- Add this line -->
    <application
         android:label="lms_apps"
         android:name="${applicationName}"

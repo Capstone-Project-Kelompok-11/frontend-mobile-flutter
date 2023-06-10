@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lms_apps/View/screens/login_screen.dart';
@@ -222,67 +224,30 @@ class _registration_screenState extends State<registration_screen> {
                     child: Column(
                       children: [
                         buttonWidget(
-                          onTap: registerProvider.isButtonNameValid &&
-                                  registerProvider.isButtonuserNameValid &&
-                                  registerProvider.isButtonEmailValid &&
-                                  registerProvider.isButtonPasswordValid
-                              ? () {
-                                  registerProvider.register(context);
-                                  registerProvider.nameController.clear();
-                                  registerProvider.userNameController.clear();
-                                  registerProvider.emailController.clear();
-                                  registerProvider.passwordController.clear();
-                                  registerProvider.passwordController.clear();
-                                  registerProvider.confirmPasswordController
-                                      .clear();
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      Future.delayed(
-                                        const Duration(seconds: 2),
-                                        () {
-                                          registerProvider.register(context);
-                                          Navigator.of(context)
-                                              .pop(); // Tutup dialog setelah 2 detik
-                                        },
-                                      );
-                                      return SizedBox(
-                                        height: double.infinity,
-                                        width: double.infinity,
-                                        child: AlertDialog(
-                                          contentPadding:
-                                              const EdgeInsets.only(right: 39),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                          ),
-                                          backgroundColor: Colors.white,
-                                          icon: const Icon(
-                                            Icons.check_circle_rounded,
-                                            size: 92.44,
-                                          ),
-                                          title: Text(
-                                            'Successful!',
-                                            textAlign: TextAlign.center,
-                                            style: blackTextStyle.copyWith(
-                                                fontSize: 18, fontWeight: bold),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                }
-                              : null,
-                          isIcon: true,
-                          title: 'Sign Up',
-                          textColor: whiteTextStyle.copyWith(
-                            fontSize: 14,
-                            fontWeight: regular,
-                          ),
-                          color: registerProvider.disableButtonRegister()
-                              ? blueColor // Gunakan warna tombol dinonaktifkan saat disableButtonLogin() bernilai true
-                              : Colors.grey,
-                        ),
+                            onTap: registerProvider.isfullnameValid &&
+                                    registerProvider.isButtonuserNameValid &&
+                                    registerProvider.isButtonEmailValid &&
+                                    registerProvider.isButtonPasswordValid &&
+                                    registerProvider
+                                        .isButtonConfirmPasswordValid
+                                ? () {
+                                    registerProvider.register(
+                                        context); // Perbarui RegisterProvider dan reset nilai formulir
+                                    registerProvider.nameController.clear();
+                                    registerProvider.userNameController.clear();
+                                    registerProvider.emailController.clear();
+                                    registerProvider.passwordController.clear();
+                                    registerProvider.confirmPasswordController
+                                        .clear();
+                                  }
+                                : null,
+                            isIcon: true,
+                            title: 'Sign Up',
+                            textColor: whiteTextStyle.copyWith(
+                              fontSize: 14,
+                              fontWeight: regular,
+                            ),
+                            color: blueColor),
                         InkWell(
                           onTap: () {
                             Navigator.push(
