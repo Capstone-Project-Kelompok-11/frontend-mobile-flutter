@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:lms_apps/Services/constant.dart';
 import 'package:lms_apps/View/screens/home_screen.dart';
-import 'package:lms_apps/View/screens/theme/theme.dart';
+// import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:lms_apps/View/widgets/register/register_body.dart';
 import 'package:lms_apps/utils/shared_pref.dart';
 import 'package:email_validator/email_validator.dart';
@@ -111,46 +111,41 @@ class LoginProvider with ChangeNotifier {
     SharedPref.saveToken(token);
   }
 
-  void showDialogGagal(
-    BuildContext context,
-  ) {
+  void showDialogTidakTerdaftar(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        Future.delayed(
-          const Duration(seconds: 1),
-          () {
-            Navigator.of(context).pop(); // Tutup dialog setelah 1 detik
-          },
-        );
         return AlertDialog(
-          contentPadding: const EdgeInsets.only(right: 39),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-          ),
-          backgroundColor: Colors.white,
-          content: SizedBox(
-            height: 200, // Atur tinggi sesuai kebutuhan
-            width: 200, // Atur lebar sesuai kebutuhan
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(
-                  Icons.check_circle_rounded,
-                  size: 92.44,
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  'Akun tidak terdaftar',
-                  textAlign: TextAlign.center,
-                  style: blackTextStyle.copyWith(
-                    fontSize: 18,
-                    fontWeight: bold,
-                  ),
-                ),
-              ],
+          title: const Text("Gagal Login"),
+          content: const Text("Akun tidak terdaftar"),
+          actions: [
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop(); // Menutup dialog
+              },
             ),
-          ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showDialogkosong(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Gagal Login"),
+          content: const Text("Field tidak boleh kosong."),
+          actions: [
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop(); // Menutup dialog
+              },
+            ),
+          ],
         );
       },
     );
@@ -171,17 +166,49 @@ class LoginProvider with ChangeNotifier {
           }));
       print(response);
 
+      // final res = await http.get(Uri.parse('${APIConstant.url}/users/login'));
+
+      // if (res.statusCode == StatusCode.OK) {
+      //   final statusMessage = getStatusMessage(res.statusCode);
+      //   navigateToHomeScreen(context);
+
+      //   return {
+      //     'statusCode': res.statusCode,
+      //     'statusMessage': statusMessage,
+      //     'data': res.body
+      //   };
+      // }
       if (response.statusCode == 200 || response.statusCode == 201) {
         print(response.data["data"]['token']);
         saveToken(response.data['data']
             ['token']); // Simpan token ke shared preferences
         navigateToHomeScreen(context); // Navigasi ke layar beranda
-      } else if (response.statusCode == 400 || response.statusCode == 401) {
-        showDialogGagal(context);
-        // Tambahkan logika lain yang diperlukan untuk penanganan kode status ini
+      } else if (response.statusCode == 401) {
+        showDialogTidakTerdaftar(context);
+      } else if (response.statusCode == 400) {
+        showDialogkosong(context);
       }
+      // else {
+      //   print('Error from server : ');
+      // }
+      notifyListeners();
     } catch (e) {
-      print('Error from server : $e');
+      if (e is DioError) {
+        // Handle DioError
+        if (e.response?.statusCode == 400) {
+          showDialogkosong(context);
+          print('Error from server (400): ${e.response}');
+        } else if (e.response?.statusCode == 401) {
+          showDialogTidakTerdaftar(context);
+          print('Error from server (401): ${e.response}');
+        } else {
+          // DioError without response
+          print('Error from server (no response): ${e.error}');
+        }
+      } else {
+        // Handle other exceptions
+        print('Error: $e');
+      }
     }
   }
 

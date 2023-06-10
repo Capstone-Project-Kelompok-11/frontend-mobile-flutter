@@ -84,22 +84,11 @@ class RegisterProvider with ChangeNotifier {
       _isuserNameValid = false;
       _isButtonuserNameValid = false;
       _erroruserNameMessage = "userName Tidak Boleh Kosong!";
-    }
-    // else if (_userName[0] != _userName[0].toUpperCase()) {
-    //   _isuserNameValid = false;
-    //   _isButtonuserNameValid = false;
-    //   _erroruserNameMessage = "Huruf petama harus diawali dengan kapital";
-    // }
-    else if (_userName.length < 4) {
+    } else if (_userName.length < 4) {
       _isuserNameValid = false;
       _isButtonNameValid = false;
 
       _erroruserNameMessage = "userName harus lebih dari 4 Huruf";
-      // } else if (RegExp(r'^[a-z A-Z]+$').hasMatch(_userName)) {
-      //   _isuseruseNameValid = false;
-      //   _isButtonuserNameValid = false;
-
-      //   _erroruserNameMessage = "userName harus memiliki angka";
     } else {
       _isButtonuserNameValid = true;
       _isuserNameValid = true;
@@ -170,13 +159,11 @@ class RegisterProvider with ChangeNotifier {
       _errorPasswordMessage = "Password harus lebih dari 4";
       _isPasswordValid = false;
       _isButtonPasswordValid = false;
-    }
-    // else if (RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(_password)) {
-    //   _errorPasswordMessage = "Password minimal memiliki spesial karakter";
-    //   _isPasswordValid = false;
-    //   _isButtonPasswordValid = false;
-    // }
-    else if (RegExp(r'^[a-z A-Z]+$').hasMatch(_password)) {
+    } else if (!_password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+      _errorPasswordMessage = "Password minimal memiliki spesial karakter";
+      _isPasswordValid = false;
+      _isButtonPasswordValid = false;
+    } else if (RegExp(r'^[a-z A-Z]+$').hasMatch(_password)) {
       _errorPasswordMessage = "Password minimal memiliki angka";
       _isPasswordValid = false;
       _isButtonPasswordValid = false;
@@ -249,7 +236,7 @@ class RegisterProvider with ChangeNotifier {
         _isConfirmPasswordValid;
     return isDisableButton;
   }
-  // Disable Button
+  //Disable Button
 
   void saveToken(String token) {
     // Simpan token ke shared preferences
@@ -308,6 +295,87 @@ class RegisterProvider with ChangeNotifier {
     });
   }
 
+  void showDialogBerhasil(BuildContext context) {
+    // Delay selama 2 detik
+    Future.delayed(const Duration(seconds: 2), () {
+      // Navigasi ke layar beranda (HomeScreen) setelah penundaan selesai
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          Future.delayed(
+            const Duration(seconds: 2),
+            () {
+              Navigator.of(context).pop(); // Tutup dialog setelah 2 detik
+            },
+          );
+          return SizedBox(
+            height: double.infinity,
+            width: double.infinity,
+            child: AlertDialog(
+              contentPadding: const EdgeInsets.only(right: 39),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              backgroundColor: Colors.white,
+              icon: const Icon(
+                Icons.check_circle_rounded,
+                size: 92.44,
+              ),
+              title: Text(
+                'Successful!',
+                textAlign: TextAlign.center,
+                style: blackTextStyle.copyWith(
+                  fontSize: 18,
+                  fontWeight: bold,
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    });
+  }
+
+  void showDialogTidakTerdaftar(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Gagal Login"),
+          content: const Text("Akun tidak terdaftar"),
+          actions: [
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop(); // Menutup dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showDialogkosong(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Gagal Login"),
+          content: const Text("Field tidak boleh kosong."),
+          actions: [
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop(); // Menutup dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   register(BuildContext context) async {
     print(nameController.text);
     print(userNameController.text);
@@ -325,13 +393,29 @@ class RegisterProvider with ChangeNotifier {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Simpan token ke shared preferences
+        showDialogBerhasil(context);
         navigateToLoginScreen(context); // Navigasi ke layar beranda
       } else if (response.statusCode == 401 || response.statusCode == 400) {
         showDialogGagal(context);
         // Tambahkan logika lain yang diperlukan untuk penanganan kode status ini
       }
     } catch (e) {
-      print('Error from server : $e');
+      if (e is DioError) {
+        // Handle DioError
+        if (e.response?.statusCode == 400) {
+          showDialogkosong(context);
+          print('Error from server (400): ${e.response}');
+        } else if (e.response?.statusCode == 401) {
+          showDialogTidakTerdaftar(context);
+          print('Error from server (401): ${e.response}');
+        } else {
+          // DioError without response
+          print('Error from server (no response): ${e.error}');
+        }
+      } else {
+        // Handle other exceptions
+        print('Error: $e');
+      }
     }
   }
 }
