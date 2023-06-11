@@ -29,14 +29,18 @@ class CategoryCourseViewModel with ChangeNotifier {
   List<Courses> get courses => _courses;
 
 //to get data and save it to the _courses
-  void getCourses() async {
+  void getCourses({String? search}) async {
     _isLoading = true;
     await Future.delayed(const Duration(seconds: 5));
-    final publicCourseResponse =
-        await PublicCourseService().getPublicCourse(search: '', category: '');
+
+    //get the data from response
+    final publicCourseResponse = await PublicCourseService()
+        .getPublicCourse(search: search ?? '', category: '');
     if (publicCourseResponse.data.isEmpty) {
       _courses = [];
     }
+
+    //assign to the courses
     _courses = publicCourseResponse.data;
 
     _isLoading = false;
