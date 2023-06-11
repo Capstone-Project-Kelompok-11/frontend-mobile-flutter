@@ -41,21 +41,11 @@ class RegisterProvider with ChangeNotifier {
       _isButtonNameValid = false;
       _errorfullnameMessage = "Fullname Tidak Boleh Kosong!";
     }
-    // else if (_fullname[0] != _fullname[0].toUpperCase()) {
-    //   _isfullnameValid = false;
-    //   _isButtonNameValid = false;
-    //   _errorfullnameMessage = "Huruf petama harus diawali dengan kapital";
-    // }
     else if (_fullname.length < 4) {
       _isfullnameValid = false;
       _isButtonNameValid = false;
 
       _errorfullnameMessage = "fullname harus lebih dari 4 Huruf";
-      // } else if (RegExp(r'^[a-z A-Z]+$').hasMatch(_fullname)) {
-      //   _isfullnameValid = false;
-      //   _isButtonNameValid = false;
-
-      //   _errorfullnameMessage = "fullname harus memiliki angka";
     } else {
       _isButtonNameValid = true;
       _isfullnameValid = true;
