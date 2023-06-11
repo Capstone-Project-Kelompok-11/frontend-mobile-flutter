@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:lms_apps/View/widgets/search/search_screen_appbar.dart';
 
 class CategoryCourseAppbar extends StatelessWidget {
@@ -16,11 +17,11 @@ class CategoryCourseAppbar extends StatelessWidget {
                   Navigator.pop(context);
                 },
                 child: const Icon(Icons.arrow_back)),
-            const Center(
+            Center(
               child: Text(
                 'Category',
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
+                style: blackTextStyle.copyWith(
+                  fontWeight: bold,
                   fontSize: 24.0,
                 ),
               ),
