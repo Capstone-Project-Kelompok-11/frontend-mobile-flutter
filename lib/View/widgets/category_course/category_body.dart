@@ -7,7 +7,9 @@ import 'package:lms_apps/utils/utility.dart';
 import 'package:provider/provider.dart';
 
 class CategoryCourseBody extends StatefulWidget {
-  const CategoryCourseBody({super.key});
+  //get the value from SearchScreen
+  final String? search;
+  const CategoryCourseBody({super.key, this.search});
 
   @override
   State<CategoryCourseBody> createState() => _CategoryCourseBodyState();
@@ -19,7 +21,8 @@ class _CategoryCourseBodyState extends State<CategoryCourseBody> {
     super.initState();
 
     //call get course function from provider/viewmodel
-    Provider.of<CategoryCourseViewModel>(context, listen: false).getCourses();
+    Provider.of<CategoryCourseViewModel>(context, listen: false)
+        .getCourses(search: widget.search);
   }
 
   @override
@@ -46,7 +49,7 @@ class _CategoryCourseBodyState extends State<CategoryCourseBody> {
                     courses.setIndex = index;
 
                     //call function over and over when pressed the button
-                    courses.getCourses();
+                    courses.getCourses(search: widget.search);
                   },
                   child: Container(
                     margin: const EdgeInsets.only(right: 16.0),
