@@ -52,7 +52,8 @@ dependencies:
   intl: ^0.18.1
   email_validator: ^2.1.17
   http_status_code: ^0.0.2
-  
+  email_otp: ^2.0.1
+  flutter_timer_countdown: ^1.0.5
 
 dev_dependencies:
   flutter_test:

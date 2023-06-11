@@ -6,7 +6,6 @@ import 'package:lms_apps/View/screens/login_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:lms_apps/View/widgets/login/login_widget.dart';
 import 'package:lms_apps/View/widgets/register/buttonWidget.dart';
-// import 'package:lms_apps/View/widgets/register/register_widget.dart';
 import 'package:lms_apps/ViewModels/register_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -159,7 +158,7 @@ class _registration_screenState extends State<registration_screen> {
                               },
                               controller:
                                   registerProvider.confirmPasswordController,
-                              title: 'Password',
+                              title: 'Confirm Password',
                               hintText: '*****',
                               errorMessage:
                                   registerProvider.errorConfirmPasswordMessage,
