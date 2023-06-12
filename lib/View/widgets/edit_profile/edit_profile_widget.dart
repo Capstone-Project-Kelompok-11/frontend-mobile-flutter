@@ -13,6 +13,8 @@ Widget textFormFieldWidget({
   String? prefixText,
   TextInputType? keyboardType,
   List<TextInputFormatter>? inputFormatters,
+  Function(String)? onChanged,
+  String? errorText,
 }) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,11 +30,13 @@ Widget textFormFieldWidget({
       const SizedBox(height: 5),
       TextFormField(
         inputFormatters: inputFormatters,
+        onChanged: onChanged,
         keyboardType: keyboardType,
         obscureText: obscureText,
         readOnly: readOnly,
         controller: controller,
         decoration: InputDecoration(
+          errorText: errorText,
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
           contentPadding: const EdgeInsets.only(left: 16),
