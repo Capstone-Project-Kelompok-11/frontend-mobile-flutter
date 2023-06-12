@@ -3,56 +3,82 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lms_apps/View/screens/certificate_screen.dart';
 import 'package:lms_apps/View/screens/lessons_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
+import 'package:lms_apps/ViewModels/my_course_view_model.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 
-class MyCourseBody extends StatelessWidget {
-  const MyCourseBody({super.key});
+class MyCourseBody extends StatefulWidget {
+  // final String courseID;
+  const MyCourseBody({
+    super.key,
+  });
+
+  @override
+  State<MyCourseBody> createState() => _MyCourseBodyState();
+}
+
+class _MyCourseBodyState extends State<MyCourseBody> {
+  @override
+  void initState() {
+    final myCourseViewModel =
+        Provider.of<MyCourseViewModel>(context, listen: false);
+    myCourseViewModel.getMyCourseProgress();
+    // myCourseViewModel.getMyCourseProgressByID();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final myCourseViewModel = Provider.of<MyCourseViewModel>(context);
     return TabBarView(
       children: [
         ListView.builder(
-          itemCount: 15,
+          itemCount: myCourseViewModel.myCourse.length,
           itemBuilder: (context, index) {
+            var myCourse = myCourseViewModel.myCourse[index];
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 31, vertical: 15),
               child: GestureDetector(
                 onTap: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LessonsScreen(),
-                      ));
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LessonsScreen(),
+                    ),
+                  );
                 },
                 child: Container(
                   height: 98,
                   // margin: const EdgeInsets.symmetric(vertical: 15),
                   width: double.infinity,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      // color: Colors.grey,
-                      border: Border.all(
-                        color: Colors.grey,
-                      )),
+                    borderRadius: BorderRadius.circular(10),
+                    // color: Colors.grey,
+                    border: Border.all(
+                      color: Colors.grey,
+                    ),
+                  ),
                   child: Row(
                     children: [
                       Container(
                         width: 74,
                         height: 74,
                         margin: const EdgeInsets.all(13),
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+                        child: myCourse.course?.thumbnail != ''
+                            ? Image.network(
+                                '${myCourse.course?.thumbnail}',
+                              )
+                            : Image.asset(
+                                'assets/images/img_basic_microsoft_word.png',
+                              ),
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('UI/UX'),
+                          Text('${myCourse.course?.name}'),
                           const SizedBox(height: 11),
-                          const Text('4 / 5 Lesson'),
+                          Text('4 / 5 Lesson'),
                           const SizedBox(height: 11),
                           SimpleAnimationProgressBar(
                             height: 8,
@@ -75,16 +101,20 @@ class MyCourseBody extends StatelessWidget {
           },
         ),
         ListView.builder(
-          itemCount: 10,
+          itemCount: myCourseViewModel.myCourse.length,
           shrinkWrap: true,
           itemBuilder: (context, index) {
+            // var myCourseComplete = myCourseViewModel.complete.completion;
+            // print(myCourseViewModel.course.data?.modules?[0]);
+
             return Container(
               width: double.infinity,
               margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
               height: 100,
               decoration: BoxDecoration(
-                  border: Border.all(width: 0.5),
-                  borderRadius: BorderRadius.circular(10)),
+                border: Border.all(width: 0.5),
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,7 +124,8 @@ class MyCourseBody extends StatelessWidget {
                       height: 74,
                       width: 74,
                       child: Image.asset(
-                          'assets/images/img_basic_microsoft_word.png'),
+                        'assets/images/img_basic_microsoft_word.png',
+                      ),
                     ),
                   ),
                   Expanded(
@@ -149,15 +180,18 @@ class MyCourseBody extends StatelessWidget {
                                 isDismissible: false,
                                 useSafeArea: true,
                                 shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.vertical(
-                                        top: Radius.circular(30))),
+                                  borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(30),
+                                  ),
+                                ),
                                 context: context,
                                 builder: (BuildContext context) {
                                   return Padding(
                                     padding: EdgeInsets.only(
-                                        bottom: MediaQuery.of(context)
-                                            .viewInsets
-                                            .bottom),
+                                      bottom: MediaQuery.of(context)
+                                          .viewInsets
+                                          .bottom,
+                                    ),
                                     child: SizedBox(
                                       height: 460,
                                       child: Column(
@@ -194,7 +228,8 @@ class MyCourseBody extends StatelessWidget {
                                             itemCount: 5,
                                             itemPadding:
                                                 const EdgeInsets.symmetric(
-                                                    horizontal: 4.0),
+                                              horizontal: 4.0,
+                                            ),
                                             itemBuilder: (context, _) =>
                                                 const Icon(
                                               Icons.star,
@@ -232,7 +267,8 @@ class MyCourseBody extends StatelessWidget {
                                                     border: OutlineInputBorder(
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              8),
+                                                        8,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -264,7 +300,8 @@ class MyCourseBody extends StatelessWidget {
                                                           ),
                                                         ),
                                                         child: const Text(
-                                                            'Maybe Later'),
+                                                          'Maybe Later',
+                                                        ),
                                                       ),
                                                     ),
                                                     const SizedBox(
@@ -294,7 +331,8 @@ class MyCourseBody extends StatelessWidget {
                                                           ),
                                                         ),
                                                         child: const Text(
-                                                            'Submit'),
+                                                          'Submit',
+                                                        ),
                                                       ),
                                                     ),
                                                   ],
