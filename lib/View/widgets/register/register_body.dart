@@ -1,7 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lms_apps/View/screens/login_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
+import 'package:lms_apps/View/widgets/login/login_widget.dart';
+import 'package:lms_apps/View/widgets/register/buttonWidget.dart';
+import 'package:lms_apps/ViewModels/register_view_model.dart';
+import 'package:provider/provider.dart';
 
 class registration_screen extends StatefulWidget {
   const registration_screen({super.key});
@@ -12,10 +18,14 @@ class registration_screen extends StatefulWidget {
 
 class _registration_screenState extends State<registration_screen> {
   bool _isChecked = false;
+
   @override
   Widget build(BuildContext context) {
+    final registerProvider = Provider.of<RegisterProvider>(context);
+    final screenHeight = MediaQuery.of(context).size.height;
     return SingleChildScrollView(
       child: Container(
+        height: screenHeight,
         margin: const EdgeInsets.only(top: 121, left: 30, right: 30),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -55,7 +65,16 @@ class _registration_screenState extends State<registration_screen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             textFormFieldWidget(
-                                hintText: 'Fullname', title: 'Fullname'),
+                                onChanged: (value) {
+                                  registerProvider.validatefullname(value);
+                                },
+                                controller: registerProvider.nameController,
+                                errorMessage:
+                                    registerProvider.errorfullnameMessage,
+                                isValidTextField:
+                                    registerProvider.isfullnameValid,
+                                hintText: 'Fullname',
+                                title: 'Fullname'),
                           ],
                         ),
                       ),
@@ -65,9 +84,16 @@ class _registration_screenState extends State<registration_screen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             textFormFieldWidget(
-                              title: 'Email',
-                              hintText: 'Capstone11@gmail.com',
-                            ),
+                                onChanged: (value) {
+                                  registerProvider.validateuserName(value);
+                                },
+                                controller: registerProvider.userNameController,
+                                errorMessage:
+                                    registerProvider.erroruserNameMessage,
+                                isValidTextField:
+                                    registerProvider.isuserNameValid,
+                                hintText: 'Username',
+                                title: 'Username'),
                           ],
                         ),
                       ),
@@ -77,8 +103,46 @@ class _registration_screenState extends State<registration_screen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             textFormFieldWidget(
+                                onChanged: (value) {
+                                  registerProvider.validateEmail(value);
+                                },
+                                controller: registerProvider.emailController,
+                                title: 'Email',
+                                hintText: 'Capstone11@gmail.com',
+                                errorMessage:
+                                    registerProvider.errorEmailMessage,
+                                isValidTextField:
+                                    registerProvider.isEmailValid),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            textFormFieldWidget(
+                              onChanged: (value) {
+                                registerProvider.validatePassword(value);
+                              },
+                              controller: registerProvider.passwordController,
                               title: 'Password',
                               hintText: '*****',
+                              errorMessage:
+                                  registerProvider.errorPasswordMessage,
+                              isValidTextField:
+                                  registerProvider.isPasswordValid,
+                              isObsucreText: registerProvider.isHidePassword,
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  registerProvider.showHidePassword();
+                                },
+                                icon: registerProvider.isHidePassword
+                                    ? const Icon(Icons.lock)
+                                    : const Icon(
+                                        Icons.lock_open,
+                                      ),
+                              ),
                             ),
                           ],
                         ),
@@ -89,11 +153,29 @@ class _registration_screenState extends State<registration_screen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             textFormFieldWidget(
+                              onChanged: (value) {
+                                registerProvider.validateConfirmPassword(value);
+                              },
+                              controller:
+                                  registerProvider.confirmPasswordController,
                               title: 'Confirm Password',
-                              hintText: '******',
+                              hintText: '*****',
+                              errorMessage:
+                                  registerProvider.errorConfirmPasswordMessage,
+                              isValidTextField:
+                                  registerProvider.isConfirmPasswordValid,
+                              isObsucreText:
+                                  registerProvider.isHideConfirmPassword,
                               suffixIcon: IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.lock)),
+                                onPressed: () {
+                                  registerProvider.showHideConfirmPassword();
+                                },
+                                icon: registerProvider.isHideConfirmPassword
+                                    ? const Icon(Icons.lock)
+                                    : const Icon(
+                                        Icons.lock_open,
+                                      ),
+                              ),
                             ),
                           ],
                         ),
@@ -136,51 +218,42 @@ class _registration_screenState extends State<registration_screen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 100),
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 16),
-                        child: InkWell(
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: Column(
+                      children: [
+                        buttonWidget(
+                            onTap: registerProvider.isfullnameValid &&
+                                    registerProvider.isButtonuserNameValid &&
+                                    registerProvider.isButtonEmailValid &&
+                                    registerProvider.isButtonPasswordValid &&
+                                    registerProvider
+                                        .isButtonConfirmPasswordValid
+                                ? () {
+                                    registerProvider.register(
+                                        context); // Perbarui RegisterProvider dan reset nilai formulir
+                                    registerProvider.nameController.clear();
+                                    registerProvider.userNameController.clear();
+                                    registerProvider.emailController.clear();
+                                    registerProvider.passwordController.clear();
+                                    registerProvider.confirmPasswordController
+                                        .clear();
+                                  }
+                                : null,
+                            isIcon: true,
+                            title: 'Sign Up',
+                            textColor: whiteTextStyle.copyWith(
+                              fontSize: 14,
+                              fontWeight: regular,
+                            ),
+                            color: blueColor),
+                        InkWell(
                           onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                Future.delayed(
-                                  const Duration(seconds: 2),
-                                  () {
-                                    Navigator.of(context)
-                                        .pop(); // Tutup dialog setelah 2 detik
-                                    Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const LoginScreen()),
-                                    );
-                                  },
-                                );
-                                return SizedBox(
-                                  height: double.infinity,
-                                  width: double.infinity,
-                                  child: AlertDialog(
-                                    contentPadding:
-                                        const EdgeInsets.only(right: 39),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    backgroundColor: Colors.white,
-                                    icon: const Icon(
-                                      Icons.check_circle_rounded,
-                                      size: 92.44,
-                                    ),
-                                    title: Text(
-                                      'Successful!',
-                                      textAlign: TextAlign.center,
-                                      style: blackTextStyle.copyWith(
-                                          fontSize: 18, fontWeight: bold),
-                                    ),
-                                  ),
-                                );
-                              },
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LoginScreen(),
+                              ),
                             );
                           },
                           child: Container(
@@ -188,38 +261,16 @@ class _registration_screenState extends State<registration_screen> {
                             height: 34,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
-                                color: Colors.blue),
+                                border: Border.all(color: blueColor)),
                             child: Center(
                                 child: Text(
-                              'Sign Up',
-                              style: whiteTextStyle,
+                              'Already have an account, Sign In',
+                              style: blueTextStyle,
                             )),
                           ),
                         ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const LoginScreen(),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          height: 34,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: blueColor)),
-                          child: Center(
-                              child: Text(
-                            'Already have an account, Sign In',
-                            style: blueTextStyle,
-                          )),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -227,39 +278,6 @@ class _registration_screenState extends State<registration_screen> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget textFormFieldWidget({
-    required String title,
-    required String hintText,
-    Widget? prefixIcon,
-    Widget? suffixIcon,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 15),
-        Text(
-          title,
-          style: blackTextStyle.copyWith(
-            fontSize: 15,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        const SizedBox(height: 5),
-        TextFormField(
-          decoration: InputDecoration(
-            prefixIcon: prefixIcon,
-            suffixIcon: suffixIcon,
-            contentPadding: const EdgeInsets.only(left: 16),
-            hintText: hintText,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

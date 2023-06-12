@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 
 Widget textFormFieldWidget({
   required String title,
   required String hintText,
+  required String errorMessage,
+  required bool isValidTextField,
+  required Function(String)? onChanged,
+  bool isObsucreText = false,
   Widget? prefixIcon,
   Widget? suffixIcon,
-  bool readOnly = false,
   TextEditingController? controller,
-  bool obscureText = false,
-  String? prefixText,
-  TextInputType? keyboardType,
-  List<TextInputFormatter>? inputFormatters,
-  Function(String)? onChanged,
-  String? errorText,
 }) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,14 +25,10 @@ Widget textFormFieldWidget({
       ),
       const SizedBox(height: 5),
       TextFormField(
-        inputFormatters: inputFormatters,
-        onChanged: onChanged,
-        keyboardType: keyboardType,
-        obscureText: obscureText,
-        readOnly: readOnly,
         controller: controller,
+        onChanged: onChanged,
+        obscureText: isObsucreText,
         decoration: InputDecoration(
-          errorText: errorText,
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
           contentPadding: const EdgeInsets.only(left: 16),
@@ -46,6 +38,17 @@ Widget textFormFieldWidget({
           ),
         ),
       ),
+      if (!isValidTextField)
+        Padding(
+          padding: const EdgeInsets.only(left: 5, top: 5),
+          child: Text(
+            errorMessage,
+            style: const TextStyle(
+              color: Colors.red,
+              fontSize: 12,
+            ),
+          ),
+        ),
     ],
   );
 }
