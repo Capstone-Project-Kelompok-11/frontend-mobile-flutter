@@ -7,7 +7,7 @@ class EditProfileService {
   Future<UsersInformationResponse> getUserInfo() async {
     final token = await SharedPref.getToken();
 
-    final response = await Dio().get(
+    Response response = await Dio().get(
       '${APIConstant.url}/users/info',
       options: Options(headers: APIConstant.auth('$token')),
     );
@@ -15,14 +15,14 @@ class EditProfileService {
   }
 
   Future<UsersInformationResponse> changeUserInfo({
-    required String name,
-    required String phone,
-    required String password,
+    String? name,
+    String? phone,
+    String? password,
   }) async {
     final token = await SharedPref.getToken();
 
     try {
-      final response = await Dio().post(
+      Response response = await Dio().post(
         data: {
           "gender": "M",
           "dob": '2006-01-02T15:04:05Z',
@@ -31,16 +31,19 @@ class EditProfileService {
           "city": "string",
           "postal_code": "string",
           "name": name,
-          "phone": "+62 ${phone}",
+          "phone": phone,
           "confirm_password": password,
         },
         '${APIConstant.url}/users/info',
         options: Options(headers: APIConstant.auth('$token')),
       );
-      print(response.data['message']);
-      return UsersInformationResponse.fromJson(response.data);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // status = response.data['message'];
+        print('Ini Service ${response.data['message']}');
+      }
     } on DioError catch (e) {
-      print('Error ${e.response?.data['message']}');
+      print('Gagal Service Dio ${e.response?.data['message']}');
     }
     return UsersInformationResponse();
   }
