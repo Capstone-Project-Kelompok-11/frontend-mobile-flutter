@@ -104,8 +104,8 @@ class _MyCourseBodyState extends State<MyCourseBody> {
           itemCount: myCourseViewModel.myCourse.length,
           shrinkWrap: true,
           itemBuilder: (context, index) {
-            var myCourseComplete = myCourseViewModel.complete.completion;
-            print(myCourseViewModel.course.data?.modules?[0]);
+            // var myCourseComplete = myCourseViewModel.complete.completion;
+            // print(myCourseViewModel.course.data?.modules?[0]);
 
             return Container(
               width: double.infinity,
