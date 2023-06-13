@@ -33,9 +33,12 @@ class _MyCourseBodyState extends State<MyCourseBody> {
     return TabBarView(
       children: [
         ListView.builder(
+          shrinkWrap: true,
           itemCount: myCourseViewModel.myCourse.length,
           itemBuilder: (context, index) {
             var myCourse = myCourseViewModel.myCourse[index];
+            var module = myCourse.lessonLength?.length;
+            var moduleComplete = myCourse.completeModule?.length;
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 31, vertical: 15),
               child: GestureDetector(
@@ -49,11 +52,9 @@ class _MyCourseBodyState extends State<MyCourseBody> {
                 },
                 child: Container(
                   height: 98,
-                  // margin: const EdgeInsets.symmetric(vertical: 15),
                   width: double.infinity,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    // color: Colors.grey,
                     border: Border.all(
                       color: Colors.grey,
                     ),
@@ -78,19 +79,32 @@ class _MyCourseBodyState extends State<MyCourseBody> {
                         children: [
                           Text('${myCourse.course?.name}'),
                           const SizedBox(height: 11),
-                          Text('4 / 5 Lesson'),
+                          Text(
+                              '${moduleComplete ?? 0} / ${module ?? 5} Lesson'),
                           const SizedBox(height: 11),
-                          SimpleAnimationProgressBar(
-                            height: 8,
-                            width: 181,
-                            backgroundColor: const Color(0x666EA8FE),
-                            foregrondColor: Colors.blue,
-                            ratio: 4 / 5,
-                            direction: Axis.horizontal,
-                            curve: Curves.fastLinearToSlowEaseIn,
-                            duration: const Duration(seconds: 3),
-                            borderRadius: BorderRadius.circular(10),
-                          )
+                          moduleComplete == 0 && module == 0
+                              ? SimpleAnimationProgressBar(
+                                  height: 10,
+                                  width: 200,
+                                  backgroundColor: const Color(0x666EA8FE),
+                                  foregrondColor: Colors.blue,
+                                  ratio: 0,
+                                  direction: Axis.horizontal,
+                                  curve: Curves.fastLinearToSlowEaseIn,
+                                  duration: const Duration(seconds: 3),
+                                  borderRadius: BorderRadius.circular(10),
+                                )
+                              : SimpleAnimationProgressBar(
+                                  height: 10,
+                                  width: 200,
+                                  backgroundColor: const Color(0x666EA8FE),
+                                  foregrondColor: Colors.blue,
+                                  ratio: (moduleComplete ?? 0) / (module ?? 5),
+                                  direction: Axis.horizontal,
+                                  curve: Curves.fastLinearToSlowEaseIn,
+                                  duration: const Duration(seconds: 3),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                         ],
                       ),
                     ],
