@@ -6,6 +6,7 @@ import 'package:lms_apps/ViewModels/forgot_password_view_model.dart';
 import 'package:lms_apps/ViewModels/login_view_model.dart';
 import 'package:lms_apps/ViewModels/my_course_view_model.dart';
 import 'package:lms_apps/ViewModels/otp_view_model.dart';
+import 'package:lms_apps/ViewModels/profile_view_model.dart';
 import 'package:lms_apps/ViewModels/register_view_model.dart';
 import 'package:lms_apps/ViewModels/transaction_history_view_model.dart';
 import 'package:provider/provider.dart';
@@ -38,6 +39,8 @@ void main() {
         ChangeNotifierProvider<MyCourseViewModel>(
           create: (_) => MyCourseViewModel(),
         ),
+        ChangeNotifierProvider<ProfileViewModel>(
+            create: (_) => ProfileViewModel()),
       ],
       child: const MyApp(),
     ),

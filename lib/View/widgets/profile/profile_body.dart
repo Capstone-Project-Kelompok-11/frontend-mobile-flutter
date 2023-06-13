@@ -6,9 +6,14 @@ import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:lms_apps/View/screens/transaction_history_screen.dart';
 import 'package:lms_apps/utils/shared_pref.dart';
 
-class ProfileBody extends StatelessWidget {
+class ProfileBody extends StatefulWidget {
   const ProfileBody({super.key});
 
+  @override
+  State<ProfileBody> createState() => _ProfileBodyState();
+}
+
+class _ProfileBodyState extends State<ProfileBody> {
   @override
   Widget build(BuildContext context) {
     return Padding(
