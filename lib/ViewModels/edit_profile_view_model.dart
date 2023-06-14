@@ -1,6 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:lms_apps/Services/edit_profile_service.dart';
+import 'package:lms_apps/View/screens/theme/theme.dart';
 
 class EditProfileViewModel with ChangeNotifier {
   TextEditingController nameController = TextEditingController();
@@ -118,63 +121,90 @@ class EditProfileViewModel with ChangeNotifier {
   bool _isHidePassword = true;
   bool get isHidePassword => _isHidePassword;
 
-  getNewChangeUserInfo() async {
+  getNewChangeUserInfo(BuildContext context) async {
     final result = await EditProfileService().changeUserInfo(
       name: nameController.text,
       phone: phoneController.text,
       password: confirmPasswordController.text,
     );
-    result.data;
+    if (result == true) {
+      scaffoldMessenger(
+        context: context,
+        title: 'Update Profile Berhasil!',
+        color: greenColor,
+        result: result,
+      );
+    } else {
+      scaffoldMessenger(
+        context: context,
+        title: 'Update Profile Gagal!',
+        color: redColor,
+        result: result,
+      );
+    }
     notifyListeners();
   }
 
   cekPerkondisian(BuildContext context) async {
     if (nameController.text.isEmpty &&
         confirmPasswordController.text.isNotEmpty) {
-      updatePhoneNumber();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Update Nomor Handphone Berhasil!'),
-        ),
-      );
+      updatePhoneNumber(context);
     } else if (phoneController.text.isEmpty &&
         confirmPasswordController.text.isNotEmpty) {
-      updateFullname();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Update Fullname Berhasil!'),
-        ),
-      );
+      updateFullname(context);
     } else if (nameController.text.isNotEmpty &&
         phoneController.text.isNotEmpty &&
         confirmPasswordController.text.isNotEmpty) {
-      getNewChangeUserInfo();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Update Profile Berhasil!'),
-        ),
-      );
+      getNewChangeUserInfo(context);
     } else {}
     notifyListeners();
   }
 
-  updateFullname() async {
+  updateFullname(BuildContext context) async {
     final result = await EditProfileService().changeUserInfo(
       name: nameController.text,
       phone: phone,
       password: confirmPasswordController.text,
     );
-    result.data;
+    if (result == true) {
+      scaffoldMessenger(
+        context: context,
+        title: 'Update Fullname Berhasil!',
+        color: greenColor,
+        result: result,
+      );
+    } else {
+      scaffoldMessenger(
+        context: context,
+        title: 'Update Fullname Gagal!',
+        color: redColor,
+        result: result,
+      );
+    }
     notifyListeners();
   }
 
-  updatePhoneNumber() async {
+  updatePhoneNumber(BuildContext context) async {
     final result = await EditProfileService().changeUserInfo(
       name: name,
       phone: phoneController.text,
       password: confirmPasswordController.text,
     );
-    result.data;
+    if (result == true) {
+      scaffoldMessenger(
+        context: context,
+        title: 'Update Nomor Handphone Berhasil!',
+        color: greenColor,
+        result: result,
+      );
+    } else {
+      scaffoldMessenger(
+        context: context,
+        title: 'Update Nomor Handphone Gagal!',
+        color: redColor,
+        result: result,
+      );
+    }
     notifyListeners();
   }
 
@@ -206,5 +236,32 @@ class EditProfileViewModel with ChangeNotifier {
   void showHidePassword() {
     _isHidePassword = !_isHidePassword;
     notifyListeners();
+  }
+
+  scaffoldMessenger({
+    required BuildContext context,
+    required String title,
+    required Color color,
+    required bool result,
+  }) {
+    if (result == true) {
+      nameController.clear();
+      phoneController.clear();
+      confirmPasswordController.clear();
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: color,
+          content: Text(title),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: color,
+          content: Text(title),
+        ),
+      );
+    }
   }
 }

@@ -14,7 +14,7 @@ class EditProfileService {
     return UsersInformationResponse.fromJson(response.data);
   }
 
-  Future<UsersInformationResponse> changeUserInfo({
+  Future<bool> changeUserInfo({
     String? name,
     String? phone,
     String? password,
@@ -37,14 +37,11 @@ class EditProfileService {
         '${APIConstant.url}/users/info',
         options: Options(headers: APIConstant.auth('$token')),
       );
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        // status = response.data['message'];
-        print('Ini Service ${response.data['message']}');
-      }
+      response.data;
+      return true;
     } on DioError catch (e) {
-      print('Gagal Service Dio ${e.response?.data['message']}');
+      e.response?.data;
+      return false;
     }
-    return UsersInformationResponse();
   }
 }
