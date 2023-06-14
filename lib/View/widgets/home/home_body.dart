@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:lms_apps/View/screens/category_course_screen.dart';
 import 'package:lms_apps/View/screens/detail_course_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
+import 'package:lms_apps/ViewModels/edit_profile_view_model.dart';
+import 'package:lms_apps/ViewModels/popular_course_view_model.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 
 class HomeBody extends StatefulWidget {
@@ -13,6 +16,14 @@ class HomeBody extends StatefulWidget {
 }
 
 class _HomeBodyState extends State<HomeBody> {
+  @override
+  void initState() {
+    super.initState();
+    //call get course function from provider/viewmodel
+    Provider.of<PopularCourseViewModel>(context, listen: false)
+        .getPopularCourse();
+  }
+
   List<Widget> carouselBoxes = [
     Container(
       width: 260,
@@ -46,6 +57,8 @@ class _HomeBodyState extends State<HomeBody> {
 
   @override
   Widget build(BuildContext context) {
+    final popularCourse =
+        Provider.of<PopularCourseViewModel>(context, listen: true);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30.0),
       child: Column(
@@ -79,11 +92,12 @@ class _HomeBodyState extends State<HomeBody> {
                     horizontal: 4.0,
                   ),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: (Theme.of(context).brightness == Brightness.light
-                              ? Colors.black
-                              : Colors.black)
-                          .withOpacity(setIndex == entry.key ? 0.9 : 0.4)),
+                    borderRadius: BorderRadius.circular(8),
+                    color: (Theme.of(context).brightness == Brightness.light
+                            ? Colors.black
+                            : Colors.black)
+                        .withOpacity(setIndex == entry.key ? 0.9 : 0.4),
+                  ),
                 ),
               );
             }).toList(),
@@ -132,6 +146,7 @@ class _HomeBodyState extends State<HomeBody> {
 
           //Popular Course
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -144,13 +159,13 @@ class _HomeBodyState extends State<HomeBody> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: (){
-                       Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const CategoryCourseScreen(),
-                    ),
-                  );
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CategoryCourseScreen(),
+                        ),
+                      );
                     },
                     child: Text(
                       'View All',
@@ -161,83 +176,99 @@ class _HomeBodyState extends State<HomeBody> {
                 ],
               ),
               const SizedBox(height: 10.0),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const DetailCourseScreen(),
+              popularCourse.isLoading
+                  ? const SizedBox(
+                      height: 180.0,
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    )
+                  : GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const DetailCourseScreen(),
+                          ),
+                        );
+                      },
+                      child: SizedBox(
+                        height: 180.0,
+                        child: popularCourse.popularCourses.isNotEmpty
+                            ? ListView.builder(
+                                shrinkWrap: true,
+                                clipBehavior: Clip.none,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: popularCourse.popularCourses.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(right: 16.0),
+                                    child: Material(
+                                      elevation: 2.0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                      child: Container(
+                                        width: 140.0,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            SizedBox(
+                                              height: 110.0,
+                                              width: double.infinity,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                child: Image.network(
+                                                  'https://ik.imagekit.io/mrggsfxta/Voyager_68_v2-keyboard.jpg?updatedAt=1682567212420',
+                                                  fit: BoxFit.fill,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 8.0),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 4.0),
+                                              child: SizedBox(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    const Text('UI Design'),
+                                                    const SizedBox(
+                                                        height: 16.0),
+                                                    Row(children: [
+                                                      Image.asset(
+                                                          'assets/icon/ic_star.png'),
+                                                      const SizedBox(
+                                                          width: 8.0),
+                                                      const Text('4,5'),
+                                                      const Spacer(),
+                                                      Text(
+                                                        'Rp. 300.000',
+                                                        style: TextStyle(
+                                                            color: blueColor),
+                                                      ),
+                                                    ])
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              )
+                            : const Center(child: Text('No Popular Courses')),
+                      ),
                     ),
-                  );
-                },
-                child: SizedBox(
-                  height: 180.0,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    clipBehavior: Clip.none,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 5,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 16.0),
-                        child: Material(
-                          elevation: 2.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: Container(
-                            width: 140.0,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  height: 110.0,
-                                  width: double.infinity,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    child: Image.network(
-                                      'https://ik.imagekit.io/mrggsfxta/Voyager_68_v2-keyboard.jpg?updatedAt=1682567212420',
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 8.0),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 4.0),
-                                  child: SizedBox(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const Text('UI Design'),
-                                        const SizedBox(height: 16.0),
-                                        Row(children: [
-                                          Image.asset(
-                                              'assets/icon/ic_star.png'),
-                                          const SizedBox(width: 8.0),
-                                          const Text('4,5'),
-                                          const Spacer(),
-                                          Text(
-                                            'Rp. 300.000',
-                                            style: TextStyle(color: blueColor),
-                                          ),
-                                        ])
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
             ],
           ),
           const SizedBox(height: 16.0),
