@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:lms_apps/View/screens/category_course_screen.dart';
 import 'package:lms_apps/View/screens/detail_course_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
-import 'package:lms_apps/ViewModels/edit_profile_view_model.dart';
 import 'package:lms_apps/ViewModels/popular_course_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
