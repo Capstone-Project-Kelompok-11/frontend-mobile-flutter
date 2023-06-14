@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:lms_apps/View/screens/edit_profile_screen.dart';
+import 'package:lms_apps/View/screens/login_screen.dart';
 import 'package:lms_apps/View/screens/my_certificate_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:lms_apps/View/screens/transaction_history_screen.dart';
+import 'package:lms_apps/utils/shared_pref.dart';
 
-class ProfileBody extends StatelessWidget {
+class ProfileBody extends StatefulWidget {
   const ProfileBody({super.key});
 
+  @override
+  State<ProfileBody> createState() => _ProfileBodyState();
+}
+
+class _ProfileBodyState extends State<ProfileBody> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -52,7 +59,15 @@ class ProfileBody extends StatelessWidget {
               title: 'Help Center',
               textColor: blueTextStyle.copyWith(fontSize: 14.4)),
           buttonWidget(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginScreen(),
+                  ),
+                  (route) => false);
+              SharedPref.removeToken();
+            },
             image: 'assets/icon/ic_logout.png',
             title: 'Logout',
             color: redColor,

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lms_apps/Services/constant.dart';
+import 'package:lms_apps/ViewModels/login_view_model.dart';
 import 'package:lms_apps/View/screens/forgot_password.dart';
-import 'package:lms_apps/View/screens/home_screen.dart';
-// import 'package:lms_apps/View/screens/home_screen.dart';
 import 'package:lms_apps/View/screens/register_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
-import 'package:dio/dio.dart';
-import 'package:lms_apps/utils/shared_pref.dart';
+import 'package:lms_apps/View/widgets/login/buttonWidget.dart';
+import 'package:lms_apps/View/widgets/login/login_widget.dart';
+import 'package:provider/provider.dart';
 
 class login_screen extends StatefulWidget {
   const login_screen({super.key});
@@ -17,52 +16,11 @@ class login_screen extends StatefulWidget {
 }
 
 class _login_screenState extends State<login_screen> {
-  void saveToken(String token) {
-    // Simpan token ke shared preferences
-    SharedPref.saveToken(token);
-  }
-
-  void navigateToHomeScreen(BuildContext context) {
-    // Navigasi ke layar beranda (HomeScreen)
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (_) => const HomeScreen(),
-      ),
-    );
-  }
-
-  login() async {
-    print(emailController.text);
-    print(passwordController.text);
-
-    Dio dio = Dio();
-
-    try {
-      Response response = await dio.post('$url/users/login',
-          data: FormData.fromMap({
-            "username": "*",
-            "email": emailController.text,
-            "password": passwordController.text
-          }));
-      print(response);
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        print(response.data["data"]['token']);
-        saveToken(response.data['data']
-            ['token']); // Simpan token ke shared preferences
-        navigateToHomeScreen(context); // Navigasi ke layar beranda
-      }
-    } catch (e) {
-      print('Error from server : $e');
-    }
-  }
-
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
   bool _isChecked = false;
+
   @override
   Widget build(BuildContext context) {
+    final loginProvider = Provider.of<LoginProvider>(context);
     return SingleChildScrollView(
       child: Container(
         margin: const EdgeInsets.only(top: 121, left: 30, right: 30),
@@ -100,10 +58,14 @@ class _login_screenState extends State<login_screen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       textFormFieldWidget(
-                        controller: emailController,
-                        title: 'Email',
-                        hintText: 'Enter your email',
-                      )
+                          onChanged: (value) {
+                            loginProvider.validateEmail(value);
+                          },
+                          controller: loginProvider.emailController,
+                          title: 'Email',
+                          hintText: 'Enter your email',
+                          isValidTextField: loginProvider.isEmailValid,
+                          errorMessage: loginProvider.errorEmailMessage)
                     ],
                   ),
                 ),
@@ -113,10 +75,26 @@ class _login_screenState extends State<login_screen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       textFormFieldWidget(
-                          controller: passwordController,
-                          title: 'Password',
-                          hintText: '*****',
-                          suffixIcon: const Icon(Icons.lock)),
+                        onChanged: (value) {
+                          loginProvider.validatePassword(value);
+                        },
+                        controller: loginProvider.passwordController,
+                        title: 'Password',
+                        hintText: '*****',
+                        errorMessage: loginProvider.errorPasswordMessage,
+                        isValidTextField: loginProvider.isPasswordValid,
+                        isObsucreText: loginProvider.isHidePassword,
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            loginProvider.showHidePassword();
+                          },
+                          icon: loginProvider.isHidePassword
+                              ? const Icon(Icons.lock)
+                              : const Icon(
+                                  Icons.lock_open,
+                                ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -168,25 +146,25 @@ class _login_screenState extends State<login_screen> {
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: InkWell(
-                  onTap: () {
-                    login();
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: 34,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.blue),
-                    child: Center(
-                        child: Text(
-                      "Sign In",
-                      style: whiteTextStyle,
-                    )),
-                  ),
+              buttonWidget(
+                onTap: loginProvider.isButtonEmailValid &&
+                        loginProvider.isButtonPasswordValid
+                    ? () {
+                        loginProvider.login(context);
+                        loginProvider.emailController.clear();
+                        loginProvider.passwordController.clear();
+                        loginProvider.disableButtonLogin();
+                      }
+                    : null,
+                isIcon: true,
+                title: 'Sign In',
+                textColor: whiteTextStyle.copyWith(
+                  fontSize: 14,
+                  fontWeight: regular,
                 ),
+                color: loginProvider.disableButtonLogin()
+                    ? blueColor // Gunakan warna tombol dinonaktifkan saat disableButtonLogin() bernilai true
+                    : Colors.grey,
               ),
               InkWell(
                 onTap: () {
@@ -216,79 +194,4 @@ class _login_screenState extends State<login_screen> {
       ),
     );
   }
-
-  Widget textFormFieldWidget({
-    required String title,
-    required String hintText,
-    Widget? prefixIcon,
-    Widget? suffixIcon,
-    TextEditingController? controller,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 15),
-        Text(
-          title,
-          style: blackTextStyle.copyWith(
-            fontSize: 15,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        const SizedBox(height: 5),
-        TextFormField(
-          controller: controller,
-          decoration: InputDecoration(
-            prefixIcon: prefixIcon,
-            suffixIcon: suffixIcon,
-            contentPadding: const EdgeInsets.only(left: 16),
-            hintText: hintText,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  // void saveToken(String token) {
-  //   // Simpan token ke shared preferences
-  //   SharedPref.saveToken(token);
-  // }
-
-  // void navigateToDashboard(BuildContext context) {
-  //   // Navigasi ke layar beranda (HomeScreen)
-  //   Navigator.pushReplacement(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (_) => const HomeScreen(),
-  //     ),
-  //   );
-  // }
-
-  // login() async {
-  //   print(emailController.text);
-  //   print(passwordController.text);
-
-  //   Dio dio = Dio();
-
-  //   try {
-  //     Response response = await dio.post('$url/users/login',
-  //         data: FormData.fromMap({
-  //           "username": "*",
-  //           "email": emailController.text,
-  //           "password": passwordController.text
-  //         }));
-  //     print(response);
-
-  //     if (response.statusCode == 200) {
-  //       print(response.data['token']);
-  //       saveToken(response.data['token']); // Simpan token ke shared preferences
-  //       navigateToDashboard(context); // Navigasi ke layar beranda
-  //     }
-  //   } catch (e) {
-  //     print('Error from server : $e');
-  //   }
-  // }
 }

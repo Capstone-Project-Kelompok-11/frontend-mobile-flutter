@@ -48,7 +48,12 @@ dependencies:
   flutter_html: ^3.0.0-beta.2
   file_picker: ^4.6.1
   open_file: ^3.2.1
-  
+  provider: ^6.0.5
+  intl: ^0.18.1
+  email_validator: ^2.1.17
+  http_status_code: ^0.0.2
+  email_otp: ^2.0.1
+  flutter_timer_countdown: ^1.0.5
 
 dev_dependencies:
   flutter_test:

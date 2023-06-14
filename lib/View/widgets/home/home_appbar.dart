@@ -1,13 +1,30 @@
-
 import 'package:flutter/material.dart';
 import 'package:lms_apps/View/screens/search_screen.dart';
+import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:lms_apps/View/widgets/search/search_screen_appbar.dart';
+import 'package:lms_apps/ViewModels/edit_profile_view_model.dart';
+import 'package:provider/provider.dart';
 
-class HomeAppBar extends StatelessWidget {
+
+
+class HomeAppBar extends StatefulWidget {
   const HomeAppBar({super.key});
 
   @override
+  State<HomeAppBar> createState() => _HomeAppBarState();
+}
+
+class _HomeAppBarState extends State<HomeAppBar> {
+  @override
+  void initState() {
+    super.initState();
+
+    Provider.of<EditProfileViewModel>(context, listen: false).getUserInfo();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final userInfo = Provider.of<EditProfileViewModel>(context, listen: true);
     return Padding(
       padding: const EdgeInsets.only(top: 44.0),
       child: Column(
@@ -17,11 +34,18 @@ class HomeAppBar extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 36.0),
             child: Row(
               children: [
-                const CircleAvatar(),
+                userInfo.imagePath != null
+                    ? CircleAvatar(
+                        backgroundImage: NetworkImage('${userInfo.imagePath}'))
+                    : CircleAvatar(
+                        backgroundColor: blueColor,
+                        child: Icon(Icons.question_mark, color: whiteColor),
+                      ),
                 const SizedBox(width: 10),
-                const Text(
-                  'Welcome, Chandra',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+                Text(
+                  'Welcome, ${userInfo.name ?? 'Guest'}',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w700),
                 ),
                 const Spacer(),
                 Image.asset(
@@ -64,5 +88,3 @@ class HomeAppBar extends StatelessWidget {
     );
   }
 }
-
-
