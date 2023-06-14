@@ -1,11 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
+import 'package:lms_apps/ViewModels/profile_view_model.dart';
+import 'package:provider/provider.dart';
 
-class ProfileAppBar extends StatelessWidget {
+class ProfileAppBar extends StatefulWidget {
   const ProfileAppBar({super.key});
 
   @override
+  State<ProfileAppBar> createState() => _ProfileAppBarState();
+}
+
+class _ProfileAppBarState extends State<ProfileAppBar> {
+  @override
+  void initState() {
+    final profileViewModel =
+        Provider.of<ProfileViewModel>(context, listen: false);
+    profileViewModel.getUserInfo();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final profileViewModel = Provider.of<ProfileViewModel>(context);
     return Center(
       child: Column(
         children: [
@@ -19,15 +35,27 @@ class ProfileAppBar extends StatelessWidget {
               ),
             ),
           ),
-          CircleAvatar(
-            radius: 80,
-            child: Image.asset('assets/images/img_profile.png'),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(500),
+            child: profileViewModel.imagePath != ''
+                ? Image.network(
+                    '${profileViewModel.imagePath}',
+                    fit: BoxFit.cover,
+                    height: 180,
+                    width: 180,
+                  )
+                : Image.asset(
+                    'assets/images/img_profile.png',
+                    fit: BoxFit.cover,
+                    height: 180,
+                    width: 180,
+                  ),
           ),
           const SizedBox(height: 15),
           Text(
-            'Chandra Lion',
+            '${profileViewModel.nama}',
             style: blackTextStyle.copyWith(
-              fontSize: 14.4,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
