@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lms_apps/Models/public_course_response.dart';
+import 'package:lms_apps/Services/categories_service.dart';
 import 'package:lms_apps/Services/public_course_service.dart';
 
 class CategoryCourseViewModel with ChangeNotifier {
@@ -7,12 +8,9 @@ class CategoryCourseViewModel with ChangeNotifier {
 
   bool get isLoading => _isLoading;
 
-  List<String> categories = [
-    'All',
-    'Business',
-    'Graphic Design',
-    'Programming'
-  ];
+  List<String> _categories = [];
+
+  List<String> get categories => _categories;
 
   int _categoryIndex = 0;
   int get categoryIndex => _categoryIndex;
@@ -31,7 +29,7 @@ class CategoryCourseViewModel with ChangeNotifier {
 //to get data and save it to the _courses
   void getCourses({String? search}) async {
     _isLoading = true;
-    await Future.delayed(const Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 3));
 
     //get the data from response
     final publicCourseResponse = await PublicCourseService()
@@ -44,6 +42,13 @@ class CategoryCourseViewModel with ChangeNotifier {
     _courses = publicCourseResponse.data;
 
     _isLoading = false;
+    notifyListeners();
+  }
+
+  //to get categories data
+  void getCategories() async {
+    final categoriesResponse = await CategoriesService().getCategories();
+    _categories = categoriesResponse.data;
     notifyListeners();
   }
 }
