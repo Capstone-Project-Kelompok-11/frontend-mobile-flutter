@@ -15,7 +15,7 @@ class CategoryCourseScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: Column(
               children: [
-                const CategoryCourseAppbar(),
+                CategoryCourseAppbar(search: search),
                 const SizedBox(height: 16.0),
                 CategoryCourseBody(search: search),
               ],
