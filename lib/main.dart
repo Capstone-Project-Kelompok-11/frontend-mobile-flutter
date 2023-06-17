@@ -9,6 +9,7 @@ import 'package:lms_apps/ViewModels/otp_view_model.dart';
 import 'package:lms_apps/ViewModels/popular_course_view_model.dart';
 import 'package:lms_apps/ViewModels/profile_view_model.dart';
 import 'package:lms_apps/ViewModels/register_view_model.dart';
+import 'package:lms_apps/ViewModels/search_view_model.dart';
 import 'package:lms_apps/ViewModels/transaction_history_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -45,7 +46,8 @@ void main() {
         ),
         ChangeNotifierProvider<ProfileViewModel>(
             create: (_) => ProfileViewModel()),
-      ],
+      ChangeNotifierProvider<SearchViewModel>(
+            create: (_) => SearchViewModel()),],
       child: const MyApp(),
     ),
   );
