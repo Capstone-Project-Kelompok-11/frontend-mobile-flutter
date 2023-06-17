@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lms_apps/View/screens/final_screen.dart';
+import 'package:lms_apps/View/screens/quiz_screen.dart';
 import 'package:lms_apps/ViewModels/edit_profile_view_model.dart';
 import 'package:lms_apps/View/screens/splash_screen.dart';
 import 'package:lms_apps/ViewModels/login_view_model.dart';
