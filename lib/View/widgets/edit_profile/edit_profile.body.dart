@@ -15,10 +15,10 @@ class EditProfileBody extends StatefulWidget {
 class _EditProfileBodyState extends State<EditProfileBody> {
   @override
   void initState() {
-    final editProfileViewModel =
-        Provider.of<EditProfileViewModel>(context, listen: false);
+    // final editProfileViewModel =
+    //     Provider.of<EditProfileViewModel>(context, listen: false);
     final userInfo = Provider.of<EditProfileViewModel>(context, listen: false);
-    editProfileViewModel.getNewChangeUserInfo();
+    // editProfileViewModel.getNewChangeUserInfo();
     userInfo.getUserInfo();
     super.initState();
   }

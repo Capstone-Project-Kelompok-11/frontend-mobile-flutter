@@ -20,6 +20,17 @@ class _CategoryCourseBodyState extends State<CategoryCourseBody> {
   void initState() {
     super.initState();
 
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // executes after build
+
+      //set categoryIndex to 0 to make categories index at first category
+      Provider.of<CategoryCourseViewModel>(context, listen: false).setIndex = 0;
+    });
+
+    //call categories
+    Provider.of<CategoryCourseViewModel>(context, listen: false)
+        .getCategories();
+
     //call get course function from provider/viewmodel
     Provider.of<CategoryCourseViewModel>(context, listen: false)
         .getCourses(search: widget.search);
@@ -37,6 +48,7 @@ class _CategoryCourseBodyState extends State<CategoryCourseBody> {
           //custom category bar
           SizedBox(
             height: 34.0,
+            width: double.infinity,
             child: ListView.builder(
               clipBehavior: Clip.none,
               shrinkWrap: true,
@@ -64,7 +76,7 @@ class _CategoryCourseBodyState extends State<CategoryCourseBody> {
                         border: Border.all(
                           color: courses.categoryIndex == index
                               ? Colors.transparent
-                              : Colors.blue,
+                              : blueColor,
                         )),
                     child: Text(
                       courses.categories[index],
