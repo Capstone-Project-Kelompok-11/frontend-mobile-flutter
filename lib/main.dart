@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lms_apps/ViewModels/category_course_view_model.dart';
+import 'package:lms_apps/ViewModels/detail_lesson_viewmodel.dart';
 import 'package:lms_apps/ViewModels/edit_profile_view_model.dart';
 import 'package:lms_apps/View/screens/splash_screen.dart';
 import 'package:lms_apps/ViewModels/forgot_password_view_model.dart';
@@ -45,6 +46,8 @@ void main() {
         ),
         ChangeNotifierProvider<ProfileViewModel>(
             create: (_) => ProfileViewModel()),
+        ChangeNotifierProvider<DetailLessonViewModel>
+        (create: (_) => DetailLessonViewModel())
       ],
       child: const MyApp(),
     ),
