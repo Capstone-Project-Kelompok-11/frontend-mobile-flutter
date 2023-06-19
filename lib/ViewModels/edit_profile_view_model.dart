@@ -10,6 +10,9 @@ class EditProfileViewModel with ChangeNotifier {
   TextEditingController phoneController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
 
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
   // FULLNAME PROPERTY
   String _fullname = "";
   String get fullname => _fullname;
@@ -122,6 +125,7 @@ class EditProfileViewModel with ChangeNotifier {
   bool get isHidePassword => _isHidePassword;
 
   getNewChangeUserInfo(BuildContext context) async {
+    _isLoading = true;
     final result = await EditProfileService().changeUserInfo(
       name: nameController.text,
       phone: phoneController.text,
@@ -142,6 +146,7 @@ class EditProfileViewModel with ChangeNotifier {
         result: result,
       );
     }
+    _isLoading = false;
     notifyListeners();
   }
 
@@ -209,6 +214,8 @@ class EditProfileViewModel with ChangeNotifier {
   }
 
   getUserInfo() async {
+    _isLoading = true;
+    await Future.delayed(const Duration(milliseconds: 1000));
     try {
       final result = await EditProfileService().getUserInfo();
       if (result.data != null) {
@@ -225,12 +232,12 @@ class EditProfileViewModel with ChangeNotifier {
         nameController.text = '';
         phoneController.text = '';
         confirmPasswordController.text = '';
-
-        notifyListeners();
       }
     } on DioError catch (e) {
       throw Exception('Error on $e');
     }
+    _isLoading = false;
+    notifyListeners();
   }
 
   void showHidePassword() {
