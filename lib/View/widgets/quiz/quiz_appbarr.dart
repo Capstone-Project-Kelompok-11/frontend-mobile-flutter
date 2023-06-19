@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 
-class QuizAppbar extends StatelessWidget {
+class QuizAppbar extends StatefulWidget {
   const QuizAppbar({super.key});
 
+  @override
+  State<QuizAppbar> createState() => _QuizAppbarState();
+}
+
+class _QuizAppbarState extends State<QuizAppbar> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(

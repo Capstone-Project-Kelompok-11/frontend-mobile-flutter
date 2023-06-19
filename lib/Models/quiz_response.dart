@@ -15,7 +15,7 @@ class QuizResponse {
   String? status;
   String? message;
   bool? error;
-  List<Datum>? data;
+  List<Quiz>? data;
 
   QuizResponse({
     this.id,
@@ -36,7 +36,7 @@ class QuizResponse {
         error: json["error"],
         data: json["data"] == null
             ? []
-            : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+            : List<Quiz>.from(json["data"]!.map((x) => Quiz.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -51,16 +51,16 @@ class QuizResponse {
       };
 }
 
-class Datum {
+class Quiz {
   String? question;
   List<Choice>? choices;
 
-  Datum({
+  Quiz({
     this.question,
     this.choices,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory Quiz.fromJson(Map<String, dynamic> json) => Quiz(
         question: json["question"],
         choices: json["choices"] == null
             ? []

@@ -4,11 +4,12 @@ import 'package:lms_apps/View/widgets/quiz/quiz_body.dart';
 import 'package:lms_apps/View/widgets/quiz/quiz_button_widget.dart';
 
 class QuizScreen extends StatelessWidget {
-  const QuizScreen({super.key});
+  const QuizScreen({super.key, required this.modulid});
+  final String modulid;
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -16,7 +17,9 @@ class QuizScreen extends StatelessWidget {
             SizedBox(
               height: 29,
             ),
-            QuizBody(),
+            QuizBody(
+              modulId: '1b26949893aa466daf79409b7bd80c82',
+            ),
           ],
         ),
       ),
