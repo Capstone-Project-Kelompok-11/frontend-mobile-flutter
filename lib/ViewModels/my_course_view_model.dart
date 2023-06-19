@@ -37,16 +37,18 @@ class MyCourseViewModel with ChangeNotifier {
       }
 
       for (var i = 0; i < _listDetailCourse.length; i++) {
-        _myCourse.forEach((element) {
-          if (element.course?.id == _listDetailCourse[i].data?.id.toString()) {
-            element.lessonLength = _listDetailCourse[i].data?.modules;
-            element.completeModule = element.lessonLength
-                ?.where((element) => element.completion == true)
-                .toList();
-          }
-        });
+        _myCourse.forEach(
+          (element) {
+            if (element.course?.id ==
+                _listDetailCourse[i].data?.id.toString()) {
+              element.lessonLength = _listDetailCourse[i].data?.modules;
+              element.completeModule = element.lessonLength
+                  ?.where((element) => element.completion == true)
+                  .toList();
+            }
+          },
+        );
       }
-
       _myNewCourse = _myCourse;
     } else {
       _myCourse = [];

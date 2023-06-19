@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:lms_apps/View/screens/quiz_screen.dart';
 import '../../screens/theme/theme.dart';
 
-class LessonBottom extends StatelessWidget {
+class LessonBottom extends StatefulWidget {
   const LessonBottom({super.key});
 
+  @override
+  State<LessonBottom> createState() => _LessonBottomState();
+}
+
+class _LessonBottomState extends State<LessonBottom> {
   @override
   Widget build(BuildContext context) {
     return Padding(
