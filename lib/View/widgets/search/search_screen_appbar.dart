@@ -1,30 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:lms_apps/ViewModels/search_view_model.dart';
+import 'package:provider/provider.dart';
 
-class SearchAppbar extends StatelessWidget {
+class SearchAppbar extends StatefulWidget {
   const SearchAppbar({super.key});
 
   @override
+  State<SearchAppbar> createState() => _SearchAppbarState();
+}
+
+class _SearchAppbarState extends State<SearchAppbar> {
+  final TextEditingController searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    searchController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final searchProvider = Provider.of<SearchViewModel>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32.0),
       child: Row(
         children: [
-          InkWell(
+          GestureDetector(
               onTap: () {
                 Navigator.pop(context);
               },
-              child: const Icon(Icons.arrow_back)),
+              child: Image.asset(
+                'assets/icon/ic_arrow_left.png',
+                height: 20.0,
+                width: 20.0,
+              )),
           const SizedBox(width: 16.0),
           Expanded(
             child: CustomSearchBar(
+              controller: searchController,
               onChanged: (value) {
                 // print(searchProvider.value);
+                searchProvider.setValue = value;
+              },
+              onTap: () {},
+              onFieldSubmitted: (value) {
+                searchProvider.checkValue(search: value, context: context);
+                searchController.clear();
               },
               prefixIcon: Image.asset(
                 'assets/icon/ic_search.png',
               ),
-              suffixIcon: Image.asset(
-                'assets/icon/ic_stroke.png',
+              suffixIcon: GestureDetector(
+                onTap: () {
+                  searchProvider.clearValue();
+                  searchController.clear();
+                },
+                child: Image.asset(
+                  'assets/icon/ic_stroke.png',
+                ),
               ),
             ),
           ),
@@ -36,10 +69,13 @@ class SearchAppbar extends StatelessWidget {
 
 class CustomSearchBar extends StatelessWidget {
   final bool? readOnly;
+  final String? initialValue;
   final void Function()? onTap;
   final Function(String)? onChanged;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
+  final Function(String)? onFieldSubmitted;
+  final TextEditingController? controller;
   const CustomSearchBar({
     super.key,
     this.readOnly,
@@ -47,13 +83,19 @@ class CustomSearchBar extends StatelessWidget {
     this.onTap,
     this.suffixIcon,
     this.onChanged,
+    this.onFieldSubmitted,
+    this.controller,
+    this.initialValue,
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 36.0,
-      child: TextField(
+      child: TextFormField(
+        initialValue: initialValue,
+        controller: controller,
+        onFieldSubmitted: onFieldSubmitted,
         readOnly: readOnly ?? false,
         onTap: onTap,
         onChanged: onChanged,

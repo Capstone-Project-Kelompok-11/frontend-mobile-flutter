@@ -11,10 +11,8 @@ class TransactionHistoryViewModel with ChangeNotifier {
     final result = await TransactionHistoryService().getUserCourse();
     if (result.data!.isNotEmpty) {
       _transactionHistory = result.data!;
-      notifyListeners();
     } else {
       _transactionHistory = [];
-      notifyListeners();
     }
     notifyListeners();
   }

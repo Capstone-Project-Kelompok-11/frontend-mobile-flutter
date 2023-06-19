@@ -8,44 +8,44 @@ class QuizBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Quiz> _quizes = [
-      Quiz(question: 'Jam berapa matahari terbit?', choices: [
+    List<Datum> _quizes = [
+      Datum(question: 'Jam berapa matahari terbit?', choices: [
         Choice(text: 'jam 4', valid: false),
         Choice(text: 'jam 5', valid: false),
         Choice(text: 'jam 6', valid: false),
         Choice(text: 'jam 2', valid: false),
       ]),
-      Quiz(question: 'kapan saya lahir?', choices: [
+      Datum(question: 'kapan saya lahir?', choices: [
         Choice(text: '24 oktober', valid: false),
         Choice(text: '21 oktober', valid: false),
         Choice(text: '22 oktober', valid: false),
         Choice(text: '23 oktober', valid: false),
       ]),
-      Quiz(question: 'siapa nama saya?', choices: [
+      Datum(question: 'siapa nama saya?', choices: [
         Choice(text: 'gtw', valid: false),
         Choice(text: 'tanya bunda', valid: false),
         Choice(text: 'maybe', valid: false),
         Choice(text: 'IKD', valid: false),
       ]),
-      Quiz(question: 'nama saya?', choices: [
+      Datum(question: 'nama saya?', choices: [
         Choice(text: 'gtw', valid: false),
         Choice(text: 'tanya bunda', valid: false),
         Choice(text: 'maybe', valid: false),
         Choice(text: 'IKD', valid: false),
       ]),
-      Quiz(question: 'siapa nama saya?', choices: [
+      Datum(question: 'siapa nama saya?', choices: [
         Choice(text: 'gtw', valid: false),
         Choice(text: 'tanya bunda', valid: false),
         Choice(text: 'maybe', valid: false),
         Choice(text: 'IKD', valid: false),
       ]),
-      Quiz(question: 'siapa nama saya?', choices: [
+      Datum(question: 'siapa nama saya?', choices: [
         Choice(text: 'gtw', valid: false),
         Choice(text: 'tanya bunda', valid: false),
         Choice(text: 'maybe', valid: false),
         Choice(text: 'IKD', valid: false),
       ]),
-      Quiz(question: 'siapa nama saya?', choices: [
+      Datum(question: 'siapa nama saya?', choices: [
         Choice(text: 'gtw', valid: false),
         Choice(text: 'tanya bunda', valid: false),
         Choice(text: 'maybe', valid: false),

@@ -15,10 +15,10 @@ class EditProfileBody extends StatefulWidget {
 class _EditProfileBodyState extends State<EditProfileBody> {
   @override
   void initState() {
-    final editProfileViewModel =
-        Provider.of<EditProfileViewModel>(context, listen: false);
+    // final editProfileViewModel =
+    //     Provider.of<EditProfileViewModel>(context, listen: false);
     final userInfo = Provider.of<EditProfileViewModel>(context, listen: false);
-    editProfileViewModel.getNewChangeUserInfo();
+    // editProfileViewModel.getNewChangeUserInfo();
     userInfo.getUserInfo();
     super.initState();
   }
@@ -33,6 +33,12 @@ class _EditProfileBodyState extends State<EditProfileBody> {
         children: [
           textFormFieldWidget(
             title: 'Fullname',
+            errorText: editProfileViewModel.isFullnameValid
+                ? null
+                : editProfileViewModel.errorFullnameMessage,
+            onChanged: (value) {
+              editProfileViewModel.validateFullname(value);
+            },
             keyboardType: TextInputType.name,
             inputFormatters: [
               FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s")),
@@ -48,6 +54,12 @@ class _EditProfileBodyState extends State<EditProfileBody> {
           ),
           textFormFieldWidget(
             title: 'Number Phone',
+            errorText: editProfileViewModel.isPhoneNumberValid
+                ? null
+                : editProfileViewModel.errorPhoneNumberMessage,
+            onChanged: (value) {
+              editProfileViewModel.validatePhoneNumber(value);
+            },
             keyboardType: TextInputType.phone,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             prefixIcon: SizedBox(
@@ -61,11 +73,17 @@ class _EditProfileBodyState extends State<EditProfileBody> {
               ),
             ),
             controller: editProfileViewModel.phoneController,
-            hintText: '8778312453',
+            hintText: '${editProfileViewModel.phone}',
           ),
           textFormFieldWidget(
             title: 'Confirm Password',
-            controller: editProfileViewModel.confirmPassword,
+            errorText: editProfileViewModel.isConfirmPasswordValid
+                ? null
+                : editProfileViewModel.errorConfirmPasswordMessage,
+            onChanged: (value) {
+              editProfileViewModel.validateConfirmPassword(value);
+            },
+            controller: editProfileViewModel.confirmPasswordController,
             obscureText: editProfileViewModel.isHidePassword,
             hintText: '**************',
             suffixIcon: IconButton(
@@ -84,14 +102,16 @@ class _EditProfileBodyState extends State<EditProfileBody> {
           SizedBox(height: MediaQuery.of(context).size.height * 0.15),
           InkWell(
             onTap: () {
-              editProfileViewModel.getNewChangeUserInfo();
+              editProfileViewModel.cekPerkondisian(context);
             },
             child: Container(
               width: double.infinity,
               height: 34,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: Colors.blue,
+                color: editProfileViewModel.disableButtonSave()
+                    ? Colors.grey
+                    : Colors.blue,
               ),
               child: Center(
                 child: Text(

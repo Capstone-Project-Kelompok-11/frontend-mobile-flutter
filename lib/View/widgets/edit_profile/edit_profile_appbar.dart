@@ -28,6 +28,9 @@ class _EditProfileAppBarState extends State<EditProfileAppBar> {
           children: [
             IconButton(
               onPressed: () {
+                editProfileViewModel.nameController.text == '';
+                editProfileViewModel.phoneController.text == '';
+                editProfileViewModel.confirmPasswordController.text == '';
                 Navigator.pop(context);
               },
               icon: Image.asset(

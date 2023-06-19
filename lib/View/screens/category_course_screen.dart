@@ -3,20 +3,21 @@ import 'package:lms_apps/View/widgets/category_course/category_appbar.dart';
 import 'package:lms_apps/View/widgets/category_course/category_body.dart';
 
 class CategoryCourseScreen extends StatelessWidget {
-  const CategoryCourseScreen({super.key});
+  final String? search;
+  const CategoryCourseScreen({super.key, this.search});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 16.0),
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: Column(
               children: [
-                CategoryCourseAppbar(),
-                SizedBox(height: 16.0),
-                CategoryCourseBody(),
+                CategoryCourseAppbar(search: search),
+                const SizedBox(height: 16.0),
+                CategoryCourseBody(search: search),
               ],
             ),
           ),

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 
-class MyCourseAppBar extends StatelessWidget {
+class MyCourseAppBar extends StatefulWidget {
   const MyCourseAppBar({super.key});
 
+  @override
+  State<MyCourseAppBar> createState() => _MyCourseAppBarState();
+}
+
+class _MyCourseAppBarState extends State<MyCourseAppBar> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
