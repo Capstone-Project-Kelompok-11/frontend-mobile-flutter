@@ -17,7 +17,7 @@ class DetailCourseAppbar extends StatelessWidget {
           ),
           const Center(
             child: Text(
-              'Category',
+              'Course Detail',
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 24.0,

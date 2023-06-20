@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lms_apps/ViewModels/category_course_view_model.dart';
+import 'package:lms_apps/ViewModels/detail_course_view_model.dart';
 import 'package:lms_apps/ViewModels/change_image_profile_view_model.dart';
 import 'package:lms_apps/ViewModels/detail_lesson_viewmodel.dart';
 import 'package:lms_apps/ViewModels/edit_profile_view_model.dart';
@@ -49,13 +50,24 @@ void main() {
         ChangeNotifierProvider<ProfileViewModel>(
           create: (_) => ProfileViewModel(),
         ),
+        ChangeNotifierProvider<SearchViewModel>(
+          create: (_) => SearchViewModel(),
+        ),
+        ChangeNotifierProvider<DetailCourseViewModel>(
+          create: (_) => DetailCourseViewModel(),
+        ),
+        ChangeNotifierProvider<ProfileViewModel>(
+          create: (_) => ProfileViewModel(),
+        ),
         ChangeNotifierProvider<ChangeImageProfileViewModel>(
           create: (_) => ChangeImageProfileViewModel(),
         ),
         ChangeNotifierProvider<DetailLessonViewModel>(
-            create: (_) => DetailLessonViewModel()),
+          create: (_) => DetailLessonViewModel(),
+        ),
         ChangeNotifierProvider<SearchViewModel>(
-            create: (_) => SearchViewModel()),
+          create: (_) => SearchViewModel(),
+        ),
       ],
       child: const MyApp(),
     ),
