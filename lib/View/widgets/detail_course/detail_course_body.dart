@@ -116,10 +116,12 @@ class _DetailCourseBodyState extends State<DetailCourseBody> {
                           ),
                           child: Text(
                             'Overview',
-                            style: TextStyle(
-                                color: courseById.currentIndex == 0
-                                    ? Colors.white
-                                    : blueColor),
+                            style: blackTextStyle.copyWith(
+                              fontSize: 12.0,
+                              color: courseById.currentIndex == 0
+                                  ? whiteColor
+                                  : blueColor,
+                            ),
                           ),
                         ),
                       ),
@@ -140,9 +142,10 @@ class _DetailCourseBodyState extends State<DetailCourseBody> {
                           ),
                           child: Text(
                             'Lessons',
-                            style: TextStyle(
+                            style: blackTextStyle.copyWith(
+                              fontSize: 12.0,
                               color: courseById.currentIndex == 1
-                                  ? Colors.white
+                                  ? whiteColor
                                   : blueColor,
                             ),
                           ),
@@ -252,22 +255,28 @@ class OverView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         //Description
-        const Text(
-          'Description',
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-          ),
-        ),
+        Text('Description',
+            style: blackTextStyle.copyWith(
+              fontSize: 12.0,
+              fontWeight: bold,
+            )),
         const SizedBox(height: 10.0),
         Text(
           description,
-          style: const TextStyle(fontSize: 10.0, height: 1.5),
+          style: blackTextStyle.copyWith(
+            fontSize: 10.0,
+            fontWeight: regular,
+            height: 1.5,
+          ),
         ),
         const SizedBox(height: 20.0),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            //Lesson container
             Container(
+              width: 90.0,
+              height: 60.0,
               decoration: BoxDecoration(
                 border: Border.all(
                   width: 1.0,
@@ -278,16 +287,26 @@ class OverView extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 32.0,
-                    width: 32.0,
-                    child: Image.asset('assets/icon/ic_lesson.png'),
+                  Image.asset(
+                    'assets/icon/ic_lesson.png',
+                    width: 30.0,
+                    height: 30.0,
                   ),
-                  Text('$modulesLength Lessons'),
+                  FittedBox(
+                    child: Text(
+                      '$modulesLength Lessons',
+                      style: blackTextStyle.copyWith(
+                          fontSize: 10.0, fontWeight: bold),
+                    ),
+                  ),
                 ],
               ),
             ),
+
+            //Level container
             Container(
+              width: 90.0,
+              height: 60.0,
               decoration: BoxDecoration(
                 border: Border.all(
                   width: 1.0,
@@ -298,15 +317,28 @@ class OverView extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
               child: Column(
                 children: [
-                  SizedBox(
-                      height: 32.0,
-                      width: 32.0,
-                      child: Image.asset('assets/icon/ic_level.png')),
-                  Text(level),
+                  Image.asset(
+                    'assets/icon/ic_level.png',
+                    height: 30.0,
+                    width: 30.0,
+                  ),
+                  FittedBox(
+                    child: Text(
+                      level,
+                      style: blackTextStyle.copyWith(
+                        fontSize: 10.0,
+                        fontWeight: bold,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
+
+            //Language Container
             Container(
+              width: 90.0,
+              height: 60.0,
               decoration: BoxDecoration(
                 border: Border.all(
                   width: 1.0,
@@ -317,11 +349,18 @@ class OverView extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
               child: Column(
                 children: [
-                  Container(
-                      height: 32.0,
-                      width: 32.0,
-                      child: Image.asset('assets/icon/ic_language.png')),
-                  const Text('Indonesia'),
+                  Image.asset(
+                    'assets/icon/ic_language.png',
+                    width: 30.0,
+                    height: 30.0,
+                  ),
+                  FittedBox(
+                    child: Text(
+                      'Indonesia',
+                      style: blackTextStyle.copyWith(
+                          fontSize: 10.0, fontWeight: bold),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -330,18 +369,17 @@ class OverView extends StatelessWidget {
         const SizedBox(height: 20.0),
 
         // Reviews
-        const Text('Reviews',
-            style: TextStyle(
-              fontSize: 12.0,
-              fontWeight: FontWeight.w700,
-            )),
+        Text(
+          'Reviews',
+          style: blackTextStyle.copyWith(fontSize: 12.0, fontWeight: bold),
+        ),
 
         const SizedBox(height: 16.0),
         Row(
           children: [
-            const Text(
+            Text(
               '4,5',
-              style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w700),
+              style: blackTextStyle.copyWith(fontSize: 24.0, fontWeight: bold),
             ),
             const SizedBox(width: 30.0),
             Expanded(
@@ -374,7 +412,7 @@ class OverView extends StatelessWidget {
           height: 10.0,
           width: 250.0,
           backgroundColor: const Color(0x666EA8FE),
-          foregrondColor: Colors.blue,
+          foregrondColor: blueColor,
           ratio: 1 / 2,
           direction: Axis.horizontal,
           curve: Curves.fastLinearToSlowEaseIn,
