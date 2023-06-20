@@ -8,7 +8,12 @@ class ProfileViewModel with ChangeNotifier {
   var _imagePath;
   get imagePath => _imagePath;
 
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
   getUserInfo() async {
+    _isLoading = true;
+    await Future.delayed(const Duration(milliseconds: 1000));
     try {
       final result = await ProfileService().getUserInfo();
       if (result.data != null) {
@@ -19,6 +24,7 @@ class ProfileViewModel with ChangeNotifier {
           _imagePath = '';
         }
       }
+      _isLoading = false;
       notifyListeners();
     } on DioError catch (e) {
       throw Exception('Error on $e');

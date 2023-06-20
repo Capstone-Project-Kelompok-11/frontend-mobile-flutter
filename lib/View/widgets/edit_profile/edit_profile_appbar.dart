@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lms_apps/View/screens/change_image_profile_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:lms_apps/ViewModels/edit_profile_view_model.dart';
 import 'package:provider/provider.dart';
@@ -52,21 +53,58 @@ class _EditProfileAppBarState extends State<EditProfileAppBar> {
           ],
         ),
         const SizedBox(height: 20),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(500),
-          child: editProfileViewModel.imagePath != ''
-              ? Image.network(
-                  '${editProfileViewModel.imagePath}',
-                  fit: BoxFit.cover,
-                  height: 200,
-                  width: 200,
-                )
-              : Image.asset(
-                  'assets/images/img_profile.png',
-                  fit: BoxFit.cover,
-                  height: 200,
-                  width: 200,
+        Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(500),
+              child: editProfileViewModel.isLoading
+                  ? Padding(
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0.3),
+                      child: const CircularProgressIndicator(),
+                    )
+                  : editProfileViewModel.imagePath != ''
+                      ? Image.network(
+                          '${editProfileViewModel.imagePath}',
+                          fit: BoxFit.cover,
+                          height: 200,
+                          width: 200,
+                        )
+                      : Image.asset(
+                          'assets/images/img_profile.png',
+                          fit: BoxFit.cover,
+                          height: 200,
+                          width: 200,
+                        ),
+            ),
+            Positioned(
+              right: 5,
+              bottom: 5,
+              child: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(500),
+                    color: Colors.grey),
+                child: IconButton(
+                  splashRadius: 20,
+                  iconSize: 20,
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ChangeImageProfileScreen(),
+                      ),
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.camera_alt,
+                    color: Colors.white,
+                  ),
                 ),
+              ),
+            ),
+          ],
         ),
       ],
     );

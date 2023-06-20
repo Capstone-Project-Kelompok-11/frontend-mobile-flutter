@@ -48,10 +48,11 @@ class _MyCourseBodyState extends State<MyCourseBody> {
                     ),
                     child: GestureDetector(
                       onTap: () {
+
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const LessonsScreen(),
+                            builder: (context) =>  LessonsScreen(courseId: myCourse.course!.id!,listModules: myCourse.lessonLength,),
                           ),
                         );
                       },
