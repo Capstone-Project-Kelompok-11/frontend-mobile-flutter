@@ -1,50 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:lms_apps/View/widgets/detail_course/detail_course_appbar.dart';
 import 'package:lms_apps/View/widgets/detail_course/detail_course_body.dart';
+import 'package:lms_apps/View/widgets/detail_course/detail_course_button.dart';
+import 'package:lms_apps/ViewModels/detail_course_view_model.dart';
+import 'package:provider/provider.dart';
 
 class DetailCourseScreen extends StatelessWidget {
-  const DetailCourseScreen({super.key});
+  final String? courseId;
+  const DetailCourseScreen({super.key, this.courseId});
 
   @override
   Widget build(BuildContext context) {
+    final courseById =
+        Provider.of<DetailCourseViewModel>(context, listen: true);
     return Scaffold(
-      body: const SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 16.0),
-            child: Column(
-              children: [
-                DetailCourseAppbar(),
-                SizedBox(height: 30.0),
-                DetailCourseBody(),
-              ],
+      body: SafeArea(
+        child: RefreshIndicator(
+          onRefresh: () async {
+            courseById.refreshDetail(courseId: courseId);
+          },
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: Column(
+                children: [
+                  const DetailCourseAppbar(),
+                  const SizedBox(height: 30.0),
+                  DetailCourseBody(courseId: courseId),
+                ],
+              ),
             ),
           ),
         ),
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 30.0,
-        ),
-        child: SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-            ),
-            child: const Text(
-              'Test',
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-            onPressed: () {},
-          ),
-        ),
-      ),
+      floatingActionButton: const BuyButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
