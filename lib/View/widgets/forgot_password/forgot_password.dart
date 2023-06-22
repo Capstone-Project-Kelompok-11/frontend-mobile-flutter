@@ -2,8 +2,13 @@
 
 import 'package:email_otp/email_otp.dart';
 import 'package:flutter/material.dart';
+// import 'package:lms_apps/View/screens/new_password_screen.dart';
 import 'package:lms_apps/View/screens/otp_screen.dart';
+// import 'package:lms_apps/View/screens/new_password_screen.dart';
+// import 'package:lms_apps/View/screens/otp_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
+// import 'package:lms_apps/View/widgets/forgot_password/new_password.dart';
+// import 'package:lms_apps/View/widgets/forgot_password/passwordreset.dart';
 import 'package:lms_apps/ViewModels/forgot_password_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +23,7 @@ class forgot_password extends StatefulWidget {
 }
 
 class _forgot_passwordState extends State<forgot_password> {
-  String sendOTP = '';
+  // String sendOTP = '';
   @override
   Widget build(BuildContext context) {
     ForgotPasswordProvider forgotPasswordProvider =
@@ -67,14 +72,12 @@ class _forgot_passwordState extends State<forgot_password> {
             buttonWidget(
               onTap: () async {
                 myauth.setConfig(
-                    appEmail: "Alterra@AcadeMade.com",
-                    appName: "AcadeMade",
-                    userEmail: forgotPasswordProvider.email,
+                    appEmail: "me@rohitchouhan.com",
+                    appName: "Email OTP",
+                    userEmail: forgotPasswordProvider.emailController.text,
                     otpLength: 4,
                     otpType: OTPType.digitsOnly);
                 if (await myauth.sendOTP() == true) {
-                  // Memperbarui sentOTP dengan nilai OTP yang dikirim
-                  print('OTP sent to email: $sendOTP');
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text("OTP has been sent"),
                   ));
@@ -84,7 +87,7 @@ class _forgot_passwordState extends State<forgot_password> {
                           builder: (context) => const OTPScreen()));
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Oops, OTP send failed'),
+                    content: Text("Oops, OTP send failed"),
                   ));
                 }
               },

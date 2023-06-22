@@ -166,18 +166,6 @@ class LoginProvider with ChangeNotifier {
           }));
       print(response);
 
-      // final res = await http.get(Uri.parse('${APIConstant.url}/users/login'));
-
-      // if (res.statusCode == StatusCode.OK) {
-      //   final statusMessage = getStatusMessage(res.statusCode);
-      //   navigateToHomeScreen(context);
-
-      //   return {
-      //     'statusCode': res.statusCode,
-      //     'statusMessage': statusMessage,
-      //     'data': res.body
-      //   };
-      // }
       if (response.statusCode == 200 || response.statusCode == 201) {
         print(response.data["data"]['token']);
         saveToken(response.data['data']
