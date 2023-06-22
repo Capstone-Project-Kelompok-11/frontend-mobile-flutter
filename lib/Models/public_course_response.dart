@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final publicCourseResponse = publicCourseResponseFromJson(jsonString);
+
 import 'dart:convert';
 
 PublicCourseResponse publicCourseResponseFromJson(String str) => PublicCourseResponse.fromJson(json.decode(str));
@@ -10,7 +14,7 @@ class PublicCourseResponse {
     String status;
     String message;
     bool error;
-    List<Courses> data;
+    List<PublicCourse> data;
 
     PublicCourseResponse({
         required this.id,
@@ -27,7 +31,7 @@ class PublicCourseResponse {
         status: json["status"],
         message: json["message"],
         error: json["error"],
-        data: List<Courses>.from(json["data"].map((x) => Courses.fromJson(x))),
+        data: List<PublicCourse>.from(json["data"].map((x) => PublicCourse.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -40,8 +44,8 @@ class PublicCourseResponse {
     };
 }
 
-class Courses {
-    List<dynamic> categories;
+class PublicCourse {
+    List<String> categories;
     CreateBy createBy;
     DateTime createdAt;
     String description;
@@ -53,11 +57,17 @@ class Courses {
     String name;
     int price;
     int rating;
+    int rating1;
+    int rating2;
+    int rating3;
+    int rating4;
+    int rating5;
+    int ratingN;
     String thumbnail;
     DateTime updateAt;
     String video;
 
-    Courses({
+    PublicCourse({
         required this.categories,
         required this.createBy,
         required this.createdAt,
@@ -70,13 +80,19 @@ class Courses {
         required this.name,
         required this.price,
         required this.rating,
+        required this.rating1,
+        required this.rating2,
+        required this.rating3,
+        required this.rating4,
+        required this.rating5,
+        required this.ratingN,
         required this.thumbnail,
         required this.updateAt,
         required this.video,
     });
 
-    factory Courses.fromJson(Map<String, dynamic> json) => Courses(
-        categories: List<dynamic>.from(json["categories"].map((x) => x)),
+    factory PublicCourse.fromJson(Map<String, dynamic> json) => PublicCourse(
+        categories: List<String>.from(json["categories"].map((x) => x)),
         createBy: CreateBy.fromJson(json["create_by"]),
         createdAt: DateTime.parse(json["created_at"]),
         description: json["description"],
@@ -88,6 +104,12 @@ class Courses {
         name: json["name"],
         price: json["price"],
         rating: json["rating"],
+        rating1: json["rating1"],
+        rating2: json["rating2"],
+        rating3: json["rating3"],
+        rating4: json["rating4"],
+        rating5: json["rating5"],
+        ratingN: json["ratingN"],
         thumbnail: json["thumbnail"],
         updateAt: DateTime.parse(json["update_at"]),
         video: json["video"],
@@ -106,6 +128,12 @@ class Courses {
         "name": name,
         "price": price,
         "rating": rating,
+        "rating1": rating1,
+        "rating2": rating2,
+        "rating3": rating3,
+        "rating4": rating4,
+        "rating5": rating5,
+        "ratingN": ratingN,
         "thumbnail": thumbnail,
         "update_at": updateAt.toIso8601String(),
         "video": video,

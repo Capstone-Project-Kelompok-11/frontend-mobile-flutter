@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lms_apps/View/screens/search_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:lms_apps/View/widgets/search/search_screen_appbar.dart';
+import 'package:lms_apps/ViewModels/category_course_view_model.dart';
+import 'package:provider/provider.dart';
 
 class CategoryCourseAppbar extends StatelessWidget {
   final String? search;
@@ -9,6 +11,8 @@ class CategoryCourseAppbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final courseProvider =
+        Provider.of<CategoryCourseViewModel>(context, listen: true);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
@@ -17,6 +21,7 @@ class CategoryCourseAppbar extends StatelessWidget {
             GestureDetector(
                 onTap: () {
                   Navigator.pop(context);
+                  courseProvider.resetPage();
                 },
                 child: const Icon(Icons.arrow_back)),
             Center(
@@ -47,9 +52,6 @@ class CategoryCourseAppbar extends StatelessWidget {
               initialValue: search,
               prefixIcon: Image.asset(
                 'assets/icon/ic_search.png',
-              ),
-              suffixIcon: Image.asset(
-                'assets/icon/ic_filter.png',
               ),
             ),
           ),
