@@ -14,6 +14,7 @@ class QuizBody extends StatefulWidget {
 }
 
 class _QuizBodyState extends State<QuizBody> {
+  int setIndex = 0;
   @override
   void initState() {
     Provider.of<QuizViewModel>(context, listen: false)
@@ -109,12 +110,64 @@ class _QuizBodyState extends State<QuizBody> {
                         itemBuilder: (context, choicesIndex) {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 16),
-                            child: Text(
-                              quiz.quizes[questionIndex].choices?[choicesIndex]
-                                      .text ??
-                                  '',
-                              style: blackTextStyle.copyWith(
-                                  fontWeight: small, fontSize: 12),
+                            child: Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    List<bool> validityValues = List.filled(
+                                        quiz.quizes[questionIndex].choices!
+                                            .length,
+                                        false);
+                                    setIndex = choicesIndex;
+
+                                    if (setIndex >= 0 &&
+                                        setIndex <
+                                            quiz.quizes[questionIndex].choices!
+                                                .length) {
+                                      validityValues[setIndex] = true;
+                                    } else {
+                                      validityValues[quiz.quizes[questionIndex]
+                                              .choices!.length -
+                                          1] = true;
+                                    }
+
+                                    for (int i = 0;
+                                        i <
+                                            quiz.quizes[questionIndex].choices!
+                                                .length;
+                                        i++) {
+                                      quiz.quizes[questionIndex].choices?[i]
+                                          .valid = validityValues[i];
+                                    }
+
+                                    print(validityValues);
+                                    print(quiz.quizes[questionIndex].choices);
+                                    // for (int i = 0;
+                                    //     i < quiz.quizes.length;
+                                    //     i++) {
+                                    //   print(quiz.quizes[questionIndex]
+                                    //       .choices?[i].valid);
+                                    // }
+                                    setState(() {});
+                                  },
+                                  child: CircleAvatar(
+                                    backgroundColor: quiz.quizes[questionIndex]
+                                                .choices?[choicesIndex].valid ==
+                                            true
+                                        ? Colors.orange
+                                        : Colors.blue,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    quiz.quizes[questionIndex]
+                                            .choices?[choicesIndex].text ??
+                                        '',
+                                    style: blackTextStyle.copyWith(
+                                        fontWeight: small, fontSize: 12),
+                                  ),
+                                ),
+                              ],
                             ),
                           );
                         },

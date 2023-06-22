@@ -69,6 +69,9 @@ void main() {
         ChangeNotifierProvider<SearchViewModel>(
           create: (_) => SearchViewModel(),
         ),
+        ChangeNotifierProvider<QuizViewModel>(
+          create: (_) => QuizViewModel(),
+        ),
       ],
       child: const MyApp(),
     ),
