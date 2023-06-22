@@ -1,114 +1,180 @@
 import 'package:flutter/material.dart';
+import 'package:lms_apps/Models/detail_course_response.dart';
+import 'package:lms_apps/View/screens/theme/theme.dart';
+
+import 'package:lms_apps/ViewModels/detail_course_view_model.dart';
+import 'package:lms_apps/utils/utility.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 
 class DetailCourseBody extends StatefulWidget {
-  const DetailCourseBody({super.key});
+  final String? courseId;
+  const DetailCourseBody({super.key, this.courseId});
 
   @override
   State<DetailCourseBody> createState() => _DetailCourseBodyState();
 }
 
 class _DetailCourseBodyState extends State<DetailCourseBody> {
-  int currentIndex = 0;
-  List<String> module = [
-    'Pengenalan tentang Desain Antarmuka Pengguna (UI Design)',
-    'Desain Visual',
-    'Proses Desain Antarmuka Pengguna',
-    'Desain Responsif',
-    'Animasi dan Interaksi',
-    'Pengenalan tentang Desain Antarmuka Pengguna (UI Design)',
-    'Desain Visual',
-    'Proses Desain Antarmuka Pengguna',
-    'Desain Responsif',
-    'Animasi dan Interaksi'
-  ];
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<DetailCourseViewModel>(context, listen: false)
+        .getCourseById(courseId: widget.courseId);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      //set Index to 0 to make categories index at first category
+      Provider.of<DetailCourseViewModel>(context, listen: false).setIndex = 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final courseById =
+        Provider.of<DetailCourseViewModel>(context, listen: true);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 150.0,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Colors.grey,
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-          ),
-          const SizedBox(height: 16.0),
-          const Text('UI Design',
-              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w700)),
-          const SizedBox(height: 16.0),
-          const Row(children: [
-            Icon(Icons.star_border),
-            SizedBox(width: 6.0),
-            Text('4,5'),
-            Spacer(),
-            Text('Rp. 300.000')
-          ]),
-          const SizedBox(height: 22.0),
-
-          //overview and lessons button
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  currentIndex = 0;
-                  setState(() {});
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 50.0, vertical: 6.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
-                    color: currentIndex == 0 ? Colors.blue : Colors.transparent,
-                    border: Border.all(color: Colors.blue),
-                  ),
-                  child: Text(
-                    'Overview',
-                    style: TextStyle(
-                        color: currentIndex == 0 ? Colors.white : Colors.blue),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 16.0),
-              GestureDetector(
-                onTap: () {
-                  currentIndex = 1;
-                  setState(() {});
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 50.0, vertical: 6.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
-                    color: currentIndex == 1 ? Colors.blue : Colors.transparent,
-                    border: Border.all(color: Colors.blue),
-                  ),
-                  child: Text(
-                    'Lessons',
-                    style: TextStyle(
-                      color: currentIndex == 1 ? Colors.white : Colors.blue,
+      //if loading is false then return the detail widget, else circular progress indicator
+      child: RefreshIndicator(
+        onRefresh: () async {
+          courseById.getCourseById(courseId: widget.courseId);
+        },
+        child: courseById.isLoading == false
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: courseById.courseThumbnail.isNotEmpty
+                          ? Image.network(
+                              fit: BoxFit.cover,
+                              courseById.courseThumbnail,
+                              height: 150.0,
+                              width: double.infinity,
+                            )
+                          : Container(
+                              color: Colors.grey,
+                              width: double.infinity,
+                              height: 150.0,
+                              child: Center(
+                                child: Text('Image Belum Tersedia',
+                                    style: blackTextStyle.copyWith(
+                                      fontSize: 16.0,
+                                      fontWeight: regular,
+                                    )),
+                              ),
+                            ),
                     ),
                   ),
-                ),
+                  const SizedBox(height: 16.0),
+                  Text(
+                    courseById.courseName,
+                    style: const TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 16.0),
+                  Row(children: [
+                    Image.asset('assets/icon/ic_star.png'),
+                    const SizedBox(width: 6.0),
+                    Text(
+                      courseById.courseRating.toString(),
+                    ),
+                    const Spacer(),
+                    Text(
+                      Utility.rupiah.format(
+                        courseById.coursePrice,
+                      ),
+                      style: blueTextStyle.copyWith(
+                          fontSize: 14.0, fontWeight: bold),
+                    )
+                  ]),
+                  const SizedBox(height: 22.0),
+
+                  //overview and lessons button
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          courseById.setIndex = 0;
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 50.0, vertical: 6.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            color: courseById.currentIndex == 0
+                                ? blueColor
+                                : Colors.transparent,
+                            border: Border.all(color: blueColor),
+                          ),
+                          child: Text(
+                            'Overview',
+                            style: blackTextStyle.copyWith(
+                              fontSize: 12.0,
+                              color: courseById.currentIndex == 0
+                                  ? whiteColor
+                                  : blueColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 16.0),
+                      GestureDetector(
+                        onTap: () {
+                          courseById.setIndex = 1;
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 50.0, vertical: 6.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            color: courseById.currentIndex == 1
+                                ? blueColor
+                                : Colors.transparent,
+                            border: Border.all(color: blueColor),
+                          ),
+                          child: Text(
+                            'Lessons',
+                            style: blackTextStyle.copyWith(
+                              fontSize: 12.0,
+                              color: courseById.currentIndex == 1
+                                  ? whiteColor
+                                  : blueColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16.0),
+
+                  if (courseById.currentIndex == 0) ...[
+                    //OverView class
+                    OverView(
+                      description: courseById.courseDescription,
+                      modulesLength: courseById.modulesLength,
+                      level: courseById.courseLevel,
+                      price: courseById.coursePrice,
+                    ),
+                  ] else ...[
+                    Lessons(module: courseById.modules)
+                  ],
+
+                  const SizedBox(height: 50.0),
+                ],
+              )
+            : Padding(
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.35),
+                child: const CircularProgressIndicator(),
               ),
-            ],
-          ),
-          const SizedBox(height: 16.0),
-
-          if (currentIndex == 0) ...[
-            //OverView class
-            const OverView(),
-          ] else ...[
-            Lessons(module: module)
-          ],
-
-          const SizedBox(height: 50.0),
-        ],
       ),
     );
   }
@@ -120,47 +186,67 @@ class Lessons extends StatelessWidget {
     required this.module,
   });
 
-  final List<String> module;
+  final List<Module> module;
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: module.length,
-      itemBuilder: (context, index) {
-        return Container(
-          width: 300.0,
-          height: 50.0,
-          margin: index < module.length - 1
-              ? const EdgeInsets.only(bottom: 16.0)
-              : null,
-          padding: const EdgeInsets.only(
-            left: 12.0,
-            right: 120.0,
-          ),
-          decoration: BoxDecoration(
-            border: Border.all(width: 1.0),
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              textAlign: TextAlign.start,
-              module[index],
-              style:
-                  const TextStyle(fontSize: 12.0, fontWeight: FontWeight.w700),
+    return module.isNotEmpty
+        ? ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: module.length,
+            itemBuilder: (context, index) {
+              return Container(
+                width: 300.0,
+                height: 50.0,
+                margin: index < module.length - 1
+                    ? const EdgeInsets.only(bottom: 16.0)
+                    : null,
+                padding: const EdgeInsets.only(
+                  left: 12.0,
+                  right: 120.0,
+                ),
+                decoration: BoxDecoration(
+                  border: Border.all(width: 1.0),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    textAlign: TextAlign.start,
+                    module[index].data?.name ?? '',
+                    style: const TextStyle(
+                        fontSize: 12.0, fontWeight: FontWeight.w700),
+                  ),
+                ),
+              );
+            },
+          )
+        : Padding(
+            padding:
+                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.18),
+            child: Center(
+              child: Text(
+                'Modul Belum Tersedia',
+                style:
+                    blackTextStyle.copyWith(fontSize: 20.0, fontWeight: bold),
+              ),
             ),
-          ),
-        );
-      },
-    );
+          );
   }
 }
 
 class OverView extends StatelessWidget {
+  final int price;
+  final String description;
+  final int modulesLength;
+  final String level;
   const OverView({
     super.key,
+    required this.description,
+    required this.price,
+    required this.modulesLength,
+    required this.level,
   });
 
   @override
@@ -169,22 +255,28 @@ class OverView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         //Description
-        const Text(
-          'Description',
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-          ),
-        ),
+        Text('Description',
+            style: blackTextStyle.copyWith(
+              fontSize: 12.0,
+              fontWeight: bold,
+            )),
         const SizedBox(height: 10.0),
-        const Text(
-          'Kelas UI design (User Interface design) adalah kelas yang bertujuan untuk mengajarkan kepada peserta bagaimana merancang tampilan antarmuka yang mudah digunakan dan menarik bagi pengguna. UI design merupakan bagian dari disiplin desain yang fokus pada aspek visual dan interaktif dari sebuah produk digital, seperti website, aplikasi, dan perangkat lunak.',
-          style: TextStyle(fontSize: 10.0, height: 1.5),
+        Text(
+          description,
+          style: blackTextStyle.copyWith(
+            fontSize: 10.0,
+            fontWeight: regular,
+            height: 1.5,
+          ),
         ),
         const SizedBox(height: 20.0),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            //Lesson container
             Container(
+              width: 90.0,
+              height: 60.0,
               decoration: BoxDecoration(
                 border: Border.all(
                   width: 1.0,
@@ -195,16 +287,26 @@ class OverView extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
               child: Column(
                 children: [
-                  Container(
-                    height: 32.0,
-                    width: 32.0,
-                    color: Colors.grey,
+                  Image.asset(
+                    'assets/icon/ic_lesson.png',
+                    width: 30.0,
+                    height: 30.0,
                   ),
-                  const Text('5 Lessons'),
+                  FittedBox(
+                    child: Text(
+                      '$modulesLength Lessons',
+                      style: blackTextStyle.copyWith(
+                          fontSize: 10.0, fontWeight: bold),
+                    ),
+                  ),
                 ],
               ),
             ),
+
+            //Level container
             Container(
+              width: 90.0,
+              height: 60.0,
               decoration: BoxDecoration(
                 border: Border.all(
                   width: 1.0,
@@ -215,16 +317,28 @@ class OverView extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
               child: Column(
                 children: [
-                  Container(
-                    height: 32.0,
-                    width: 32.0,
-                    color: Colors.grey,
+                  Image.asset(
+                    'assets/icon/ic_level.png',
+                    height: 30.0,
+                    width: 30.0,
                   ),
-                  const Text('Beginner'),
+                  FittedBox(
+                    child: Text(
+                      level,
+                      style: blackTextStyle.copyWith(
+                        fontSize: 10.0,
+                        fontWeight: bold,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
+
+            //Language Container
             Container(
+              width: 90.0,
+              height: 60.0,
               decoration: BoxDecoration(
                 border: Border.all(
                   width: 1.0,
@@ -235,12 +349,18 @@ class OverView extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
               child: Column(
                 children: [
-                  Container(
-                    height: 32.0,
-                    width: 32.0,
-                    color: Colors.grey,
+                  Image.asset(
+                    'assets/icon/ic_language.png',
+                    width: 30.0,
+                    height: 30.0,
                   ),
-                  const Text('Indonesia'),
+                  FittedBox(
+                    child: Text(
+                      'Indonesia',
+                      style: blackTextStyle.copyWith(
+                          fontSize: 10.0, fontWeight: bold),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -249,18 +369,17 @@ class OverView extends StatelessWidget {
         const SizedBox(height: 20.0),
 
         // Reviews
-        const Text('Reviews',
-            style: TextStyle(
-              fontSize: 12.0,
-              fontWeight: FontWeight.w700,
-            )),
+        Text(
+          'Reviews',
+          style: blackTextStyle.copyWith(fontSize: 12.0, fontWeight: bold),
+        ),
 
         const SizedBox(height: 16.0),
         Row(
           children: [
-            const Text(
+            Text(
               '4,5',
-              style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w700),
+              style: blackTextStyle.copyWith(fontSize: 24.0, fontWeight: bold),
             ),
             const SizedBox(width: 30.0),
             Expanded(
@@ -293,8 +412,8 @@ class OverView extends StatelessWidget {
           height: 10.0,
           width: 250.0,
           backgroundColor: const Color(0x666EA8FE),
-          foregrondColor: Colors.blue,
-          ratio: 1/2,
+          foregrondColor: blueColor,
+          ratio: 1 / 2,
           direction: Axis.horizontal,
           curve: Curves.fastLinearToSlowEaseIn,
           duration: const Duration(seconds: 3),

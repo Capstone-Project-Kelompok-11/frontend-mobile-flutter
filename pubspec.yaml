@@ -54,6 +54,9 @@ dependencies:
   http_status_code: ^0.0.2
   email_otp: ^2.0.1
   flutter_timer_countdown: ^1.0.5
+  mime: ^1.0.4
+  http: ^0.13.6
+  http_parser: ^4.0.2
 
 dev_dependencies:
   flutter_test:

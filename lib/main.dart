@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lms_apps/ViewModels/category_course_view_model.dart';
+import 'package:lms_apps/ViewModels/checkout_view_model.dart';
+import 'package:lms_apps/ViewModels/detail_course_view_model.dart';
+import 'package:lms_apps/ViewModels/change_image_profile_view_model.dart';
+import 'package:lms_apps/ViewModels/detail_lesson_viewmodel.dart';
 import 'package:lms_apps/ViewModels/edit_profile_view_model.dart';
 import 'package:lms_apps/View/screens/splash_screen.dart';
+import 'package:lms_apps/ViewModels/final_task_view_model.dart';
 import 'package:lms_apps/ViewModels/forgot_password_view_model.dart';
 import 'package:lms_apps/ViewModels/login_view_model.dart';
 import 'package:lms_apps/ViewModels/my_course_view_model.dart';
@@ -45,9 +50,33 @@ void main() {
           create: (_) => PopularCourseViewModel(),
         ),
         ChangeNotifierProvider<ProfileViewModel>(
-            create: (_) => ProfileViewModel()),
-      ChangeNotifierProvider<SearchViewModel>(
-            create: (_) => SearchViewModel()),],
+          create: (_) => ProfileViewModel(),
+        ),
+        ChangeNotifierProvider<SearchViewModel>(
+          create: (_) => SearchViewModel(),
+        ),
+        ChangeNotifierProvider<DetailCourseViewModel>(
+          create: (_) => DetailCourseViewModel(),
+        ),
+        ChangeNotifierProvider<ProfileViewModel>(
+          create: (_) => ProfileViewModel(),
+        ),
+        ChangeNotifierProvider<ChangeImageProfileViewModel>(
+          create: (_) => ChangeImageProfileViewModel(),
+        ),
+        ChangeNotifierProvider<DetailLessonViewModel>(
+          create: (_) => DetailLessonViewModel(),
+        ),
+        ChangeNotifierProvider<SearchViewModel>(
+          create: (_) => SearchViewModel(),
+        ),
+        ChangeNotifierProvider<FinalTaskViewModel>(
+          create: (_) => FinalTaskViewModel(),
+        ),
+        ChangeNotifierProvider<CheckOutViewModel>(
+          create: (_) => CheckOutViewModel(),
+        ),
+      ],
       child: const MyApp(),
     ),
   );

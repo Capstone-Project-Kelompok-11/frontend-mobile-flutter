@@ -37,19 +37,25 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
           ),
           ClipRRect(
             borderRadius: BorderRadius.circular(500),
-            child: profileViewModel.imagePath != ''
-                ? Image.network(
-                    '${profileViewModel.imagePath}',
-                    fit: BoxFit.cover,
-                    height: 180,
-                    width: 180,
+            child: profileViewModel.isLoading == true
+                ? Padding(
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.3),
+                    child: const CircularProgressIndicator(),
                   )
-                : Image.asset(
-                    'assets/images/img_profile.png',
-                    fit: BoxFit.cover,
-                    height: 180,
-                    width: 180,
-                  ),
+                : profileViewModel.imagePath != ''
+                    ? Image.network(
+                        '${profileViewModel.imagePath}',
+                        fit: BoxFit.cover,
+                        height: 180,
+                        width: 180,
+                      )
+                    : Image.asset(
+                        'assets/images/img_profile.png',
+                        fit: BoxFit.cover,
+                        height: 180,
+                        width: 180,
+                      ),
           ),
           const SizedBox(height: 15),
           Text(

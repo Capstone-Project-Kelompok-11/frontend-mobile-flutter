@@ -1,18 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:lms_apps/Services/constant.dart';
+import 'package:lms_apps/View/screens/final_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
+import 'package:provider/provider.dart';
 
-class LessonsBody extends StatelessWidget {
-  const LessonsBody({super.key});
+import '../../../Models/detail_course_response.dart';
+import '../../../ViewModels/detail_lesson_viewmodel.dart';
+
+class LessonsBody extends StatefulWidget {
+  final String courseId;
+  final List<Module>? listModules;
+  final String? modulesName;
+  final String? modulesDesc;
+  final String? modulesimage;
+  const LessonsBody(
+      {super.key,
+      required this.courseId,
+      this.listModules,
+      this.modulesName,
+      this.modulesDesc,
+      this.modulesimage});
+
+  @override
+  State<LessonsBody> createState() => _LessonsBodyState();
+}
+
+class _LessonsBodyState extends State<LessonsBody> {
+  void getLessonDetail() async {
+    final detailLessonViewModel =
+        Provider.of<DetailLessonViewModel>(context, listen: false);
+    detailLessonViewModel.getLessonCourse(widget.courseId);
+  }
+
+  @override
+  void initState() {
+    getLessonDetail();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<String> datalesson = [
-      'Keterbacaan: Desain antarmuka pengguna harus mudah dibaca dan dipahami oleh pengguna. Ini meliputi penggunaan font yang jelas dan mudah dibaca, tata letak yang jelas dan terorganisir, serta warna yang mudah dibaca dan kontras.',
-      'Navigasi yang mudah: Antarmuka pengguna harus memiliki navigasi yang mudah dipahami dan dapat membantu pengguna mencapai tujuan mereka dengan cepat dan efisien.' ,
-      'Konsistensi: Desain antarmuka pengguna harus konsisten dalam seluruh produk digital. Ini termasuk konsistensi dalam tata letak, warna, font, dan interaksi pengguna.' ,
-      'Estetika visual: Antarmuka pengguna harus menarik secara visual dan menunjukkan identitas merek yang jelas. Ini dapat dicapai melalui penggunaan warna, gambar, dan ilustrasi yang menarik.' ,
-      'Responsivitas: Desain antarmuka pengguna harus responsif dan dapat menyesuaikan dengan berbagai ukuran layar, baik di desktop maupun di perangkat mobile.'
-    ];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Stack(
@@ -26,14 +53,17 @@ class LessonsBody extends StatelessWidget {
                   width: 300,
                   decoration:
                       BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                  child: Image.asset('assets/images/Rectangle 26.png'),
+                  child: widget.modulesimage != ''
+                      ? Image.network(
+                          "${APIConstant.url}/public/image/${widget.modulesimage ?? ""}")
+                      : Image.asset('assets/images/Rectangle 26.png'),
                 ),
               ),
               const SizedBox(
                 height: 17,
               ),
               Text(
-                'Pengenalan tentang Desain Antarmuka Pengguna (UI Design)',
+                widget.modulesName ?? "",
                 style: blackTextStyle.copyWith(
                     fontWeight: semiBold, fontSize: 14.4, color: Colors.black),
               ),
@@ -49,45 +79,30 @@ class LessonsBody extends StatelessWidget {
                 height: 8,
               ),
               Text(
-                'Desain antarmuka pengguna (UI design) adalah bagian penting dari pengembangan produk digital yang efektif. UI design melibatkan merancang antarmuka pengguna yang mudah digunakan dan menarik, serta memperhatikan aspek-aspek seperti navigasi, tata letak, interaksi, dan estetika visual. Kursus ini akan memberikan pengantar tentang UI design dan membahas prinsip-prinsip desain antarmuka pengguna yang baik.',
+                widget.modulesDesc ?? "",
                 style: blackTextStyle.copyWith(
                     fontWeight: regular, fontSize: 12, color: Colors.black),
               ),
               const SizedBox(
                 height: 18,
               ),
-              Text(
-                'Prinsip-prinsip desain antarmuka pengguna:',
-                style: blackTextStyle.copyWith(
-                    fontWeight: semiBold, fontSize: 14, color: Colors.black),
-              ),
+              widget.listModules?.last.completion == false
+                  ? ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FinalTaskScreen(
+                              fileID: widget.courseId,
+                            ),
+                          ),
+                        );
+                      },
+                      child: const Text('Final Task'))
+                  : Container(),
               const SizedBox(
-                height: 8,
+                height: 60,
               ),
-              ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: datalesson.length,
-                itemBuilder: (context , index){
-                return Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${index + 1}. ',
-                    style: const TextStyle(height: 1.65),
-                  ),
-                  Expanded(
-                    child: Text(
-                      '${datalesson[index]}',
-                      textAlign: TextAlign.justify,
-                      style: const TextStyle(height: 1.65),
-                    ),
-                    // flex: 6,
-                  ),
-                ],
-              );
-              },),
-              SizedBox(height: 60,)
             ],
           ),
         ],
