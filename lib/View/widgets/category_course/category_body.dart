@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lms_apps/View/screens/detail_course_screen.dart';
 
 import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:lms_apps/ViewModels/category_course_view_model.dart';
@@ -33,12 +34,13 @@ class _CategoryCourseBodyState extends State<CategoryCourseBody> {
 
     //call get course function from provider/viewmodel
     Provider.of<CategoryCourseViewModel>(context, listen: false)
-        .getCourses(search: widget.search);
+        .getCourses(search: widget.search, category: '');
   }
 
   @override
   Widget build(BuildContext context) {
-    final courses = Provider.of<CategoryCourseViewModel>(context, listen: true);
+    final courseProvider =
+        Provider.of<CategoryCourseViewModel>(context, listen: true);
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 30.0,
@@ -52,16 +54,21 @@ class _CategoryCourseBodyState extends State<CategoryCourseBody> {
             child: ListView.builder(
               clipBehavior: Clip.none,
               shrinkWrap: true,
+              physics: const AlwaysScrollableScrollPhysics(),
               scrollDirection: Axis.horizontal,
-              itemCount: courses.categories.length,
+              itemCount: courseProvider.categories.length,
               itemBuilder: (_, index) {
                 return GestureDetector(
                   onTap: () {
                     //set categories index for category parameter from service
-                    courses.setIndex = index;
-
+                    courseProvider.setIndex = index;
+                    courseProvider.resetPage();
                     //call function over and over when pressed the button
-                    courses.getCourses(search: widget.search);
+                    courseProvider.getCourses(
+                      search: widget.search,
+                      category: courseProvider
+                          .categories[courseProvider.categoryIndex],
+                    );
                   },
                   child: Container(
                     margin: const EdgeInsets.only(right: 16.0),
@@ -71,17 +78,18 @@ class _CategoryCourseBodyState extends State<CategoryCourseBody> {
                     ),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.0),
-                        color:
-                            courses.categoryIndex == index ? blueColor : null,
+                        color: courseProvider.categoryIndex == index
+                            ? blueColor
+                            : null,
                         border: Border.all(
-                          color: courses.categoryIndex == index
+                          color: courseProvider.categoryIndex == index
                               ? Colors.transparent
                               : blueColor,
                         )),
                     child: Text(
-                      courses.categories[index],
+                      courseProvider.categories[index],
                       style: TextStyle(
-                        color: courses.categoryIndex == index
+                        color: courseProvider.categoryIndex == index
                             ? whiteColor
                             : blueColor,
                       ),
@@ -94,97 +102,154 @@ class _CategoryCourseBodyState extends State<CategoryCourseBody> {
           const SizedBox(height: 30.0),
 
           //check if loading true, return Circular loading, else data
-          courses.isLoading
+          courseProvider.isLoading
               ? Padding(
                   padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.3),
-                  child: const CircularProgressIndicator(),
+                    top: MediaQuery.of(context).size.height * 0.3,
+                  ),
+                  child: const Center(child: CircularProgressIndicator()),
                 )
-              : courses.courses.isNotEmpty
-                  ? GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      itemCount: courses.courses.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 16.0,
-                        mainAxisSpacing: 16.0,
-                        mainAxisExtent: 180.0,
-                      ),
-                      itemBuilder: (_, index) {
-                        return Material(
-                          elevation: 2.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+              : courseProvider.courses.isNotEmpty
+                  ? SizedBox(
+                      child: GridView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          itemCount: courseProvider.pageLoading
+                              ? courseProvider.courses.length + 1
+                              : courseProvider.courses.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 16.0,
+                            mainAxisSpacing: 16.0,
+                            mainAxisExtent: 180.0,
                           ),
-                          child: GestureDetector(
-                            onTap: () {},
-                            child: Container(
-                              height: 140.0,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    height: 110.0,
-                                    width: double.infinity,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      child: Image.network(
-                                        'https://ik.imagekit.io/mrggsfxta/Voyager_68_v2-keyboard.jpg?updatedAt=1682567212420',
-                                        fit: BoxFit.cover,
+                          itemBuilder: (_, index) {
+                            if (index < courseProvider.courses.length) {
+                              return Material(
+                                elevation: 2.0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            DetailCourseScreen(
+                                                courseId: courseProvider
+                                                    .courses[index].id),
                                       ),
+                                    );
+                                  },
+                                  child: Container(
+                                    height: 140.0,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 110.0,
+                                          width: double.infinity,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            child: courseProvider.courses[index]
+                                                    .thumbnail.isNotEmpty
+                                                ? Image.network(
+                                                    courseProvider
+                                                        .courses[index]
+                                                        .thumbnail,
+                                                    fit: BoxFit.cover,
+                                                  )
+                                                : Container(
+                                                    color: Colors.grey,
+                                                    child: Center(
+                                                      child: Text(
+                                                        'Image Belum Tersedia',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: blackTextStyle
+                                                            .copyWith(
+                                                                fontSize: 16.0,
+                                                                fontWeight:
+                                                                    regular),
+                                                      ),
+                                                    ),
+                                                  ),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 8.0),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 4.0),
+                                          child: SizedBox(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  courseProvider
+                                                      .courses[index].name,
+                                                  style:
+                                                      blackTextStyle.copyWith(
+                                                          fontWeight: bold,
+                                                          fontSize: 12.0),
+                                                ),
+                                                const SizedBox(height: 16.0),
+                                                Row(
+                                                  children: [
+                                                    Image.asset(
+                                                        'assets/icon/ic_star.png'),
+                                                    const SizedBox(width: 8.0),
+                                                    Text(
+                                                        courseProvider
+                                                            .courses[index]
+                                                            .rating
+                                                            .toString(),
+                                                        style: blackTextStyle
+                                                            .copyWith(
+                                                          fontWeight: small,
+                                                        )),
+                                                    const Spacer(),
+                                                    Text(
+                                                        Utility.rupiah.format(
+                                                            courseProvider
+                                                                .courses[index]
+                                                                .price),
+                                                        style: blueTextStyle
+                                                            .copyWith(
+                                                                fontWeight:
+                                                                    bold,
+                                                                fontSize:
+                                                                    10.0)),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  const SizedBox(height: 8.0),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 4.0),
-                                    child: SizedBox(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(courses.courses[index].name),
-                                          const SizedBox(height: 16.0),
-                                          Row(children: [
-                                            Image.asset(
-                                                'assets/icon/ic_star.png'),
-                                            const SizedBox(width: 8.0),
-                                            Text(
-                                                courses.courses[index].rating
-                                                    .toString(),
-                                                style: blackTextStyle.copyWith(
-                                                  fontWeight: small,
-                                                )),
-                                            const Spacer(),
-                                            Text(
-                                                Utility.rupiah
-                                                    .format(courses
-                                                        .courses[index].price)
-                                                    .toString(),
-                                                style: blueTextStyle.copyWith(
-                                                    fontWeight: bold,
-                                                    fontSize: 10.0)),
-                                          ])
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      },
+                                ),
+                              );
+                            }
+                            return null;
+                          }),
                     )
                   : Padding(
                       padding: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height * 0.3),
-                      child: const Text('Data Tidak Ada')),
+                          top: MediaQuery.of(context).size.height * 0.28),
+                      child: Text(
+                        'Course Tidak Tersedia',
+                        style: blackTextStyle.copyWith(
+                            fontSize: 16.0, fontWeight: bold),
+                      ),
+                    ),
         ],
       ),
     );
