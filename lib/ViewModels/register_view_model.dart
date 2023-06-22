@@ -40,8 +40,7 @@ class RegisterProvider with ChangeNotifier {
       _isfullnameValid = false;
       _isButtonNameValid = false;
       _errorfullnameMessage = "Fullname Tidak Boleh Kosong!";
-    }
-    else if (_fullname.length < 4) {
+    } else if (_fullname.length < 4) {
       _isfullnameValid = false;
       _isButtonNameValid = false;
 
@@ -234,9 +233,35 @@ class RegisterProvider with ChangeNotifier {
   }
 
   void navigateToLoginScreen(BuildContext context) {
+    // Tampilkan dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          contentPadding: const EdgeInsets.only(right: 39),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          backgroundColor: Colors.white,
+          icon: const Icon(
+            Icons.check_circle_rounded,
+            size: 92.44,
+          ),
+          title: Text(
+            'Successful!',
+            textAlign: TextAlign.center,
+            style: blackTextStyle.copyWith(fontSize: 18, fontWeight: bold),
+          ),
+        );
+      },
+    );
+
     // Delay selama 2 detik
     Future.delayed(const Duration(seconds: 2), () {
-      // Navigasi ke layar beranda (HomeScreen) setelah penundaan selesai
+      // Tutup dialog sebelum navigasi
+      Navigator.of(context, rootNavigator: true).pop();
+
+      // Navigasi ke layar beranda (LoginScreen) setelah penundaan selesai
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
@@ -277,47 +302,6 @@ class RegisterProvider with ChangeNotifier {
                 'Unsuccessful Registration',
                 textAlign: TextAlign.center,
                 style: blackTextStyle.copyWith(fontSize: 18, fontWeight: bold),
-              ),
-            ),
-          );
-        },
-      );
-    });
-  }
-
-  void showDialogBerhasil(BuildContext context) {
-    // Delay selama 2 detik
-    Future.delayed(const Duration(seconds: 2), () {
-      // Navigasi ke layar beranda (HomeScreen) setelah penundaan selesai
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          Future.delayed(
-            const Duration(seconds: 2),
-            () {
-              Navigator.of(context).pop(); // Tutup dialog setelah 2 detik
-            },
-          );
-          return SizedBox(
-            height: double.infinity,
-            width: double.infinity,
-            child: AlertDialog(
-              contentPadding: const EdgeInsets.only(right: 39),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-              ),
-              backgroundColor: Colors.white,
-              icon: const Icon(
-                Icons.check_circle_rounded,
-                size: 92.44,
-              ),
-              title: Text(
-                'Successful!',
-                textAlign: TextAlign.center,
-                style: blackTextStyle.copyWith(
-                  fontSize: 18,
-                  fontWeight: bold,
-                ),
               ),
             ),
           );
@@ -382,13 +366,12 @@ class RegisterProvider with ChangeNotifier {
       print(response);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        // Simpan token ke shared preferences
-        showDialogBerhasil(context);
         navigateToLoginScreen(context); // Navigasi ke layar beranda
       } else if (response.statusCode == 401 || response.statusCode == 400) {
         showDialogGagal(context);
         // Tambahkan logika lain yang diperlukan untuk penanganan kode status ini
       }
+      
     } catch (e) {
       if (e is DioError) {
         // Handle DioError
