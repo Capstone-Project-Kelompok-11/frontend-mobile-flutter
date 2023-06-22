@@ -56,6 +56,10 @@ class DetailCourseViewModel with ChangeNotifier {
 
   String get courseThumbnail => _courseThumbnail;
 
+  String _courseId = '';
+
+  String get courseId => _courseId;
+
   void getCourseById({String? courseId}) async {
     _isLoading = true;
     await Future.delayed(const Duration(seconds: 1));
@@ -70,6 +74,7 @@ class DetailCourseViewModel with ChangeNotifier {
     _modulesLength = _modules.length;
     _courseLevel = detailCourseResponse.data?.level ?? '';
     _courseThumbnail = detailCourseResponse.data?.thumbnail ?? '';
+    _courseId = detailCourseResponse.data?.id ?? '';
     _isLoading = false;
 
     notifyListeners();

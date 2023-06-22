@@ -7,10 +7,10 @@ import 'constant.dart';
 
 class PublicCourseService {
   Future<PublicCourseResponse> getPublicCourse(
-      {String? search, String? category}) async {
+      {int? page, String? search, String? category, int? size}) async {
     try {
       final response = await Dio().get(
-          '${APIConstant.url}/public/courses?page=1&size=10&search=$search&category=$category');
+          '${APIConstant.url}/public/courses?page=$page&size=$size&search=$search&category=$category');
       // print(response.data);
       return PublicCourseResponse.fromJson(response.data);
     } on DioError catch (e) {
