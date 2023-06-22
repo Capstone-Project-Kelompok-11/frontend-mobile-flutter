@@ -19,30 +19,50 @@ class _LessonsScreenState extends State<LessonsScreen> {
     return SafeArea(
       child: Scaffold(
         body: PageView(
-            children: List.generate(
-                widget.listModules?.length ?? 0,
-                (index) => Column(
-                      children: [
-                        LessonsAppbar(),
-                        LessonsBody(
-                          courseId: widget.courseId,
-                          listModules: widget.listModules,
-                          modulesName:
-                              widget.listModules?[index].data?.name ?? "",
-                              modulesDesc: widget.listModules?[index].data?.description,
-                              modulesimage: widget.listModules?[index].data?.thumbnail,
-                        ),
-                        // Text(widget.listModules?[index].data?.name ?? ""),
-                        // Text(widget.listModules?[index].data?.description ?? "")
-                      ],
-                    ))
-
-            //LessonsAppbar(),
-            //PageView(children: [Text('Page 2')],)
-//LessonsBody(courseId:widget.courseId,listModules:widget.listModules),
-
-            ),
-        floatingActionButton: LessonBottom(),
+          children: List.generate(
+            widget.listModules?.length ?? 0,
+            (index) {
+              var complete = widget.listModules!
+                  .where((element) => element.completion == true)
+                  .toList()
+                  .length;
+                  print(complete);
+              for (var i = 0;
+                  i <
+                      widget.listModules!
+                          .where((element) => element.completion == false)
+                          .toList()
+                          .length;
+                  i++) {
+                if (widget.listModules?[i].completion == true) {
+                  return Column(
+                    children: [
+                      const LessonsAppbar(),
+                      LessonsBody(
+                        courseId: widget.courseId,
+                        listModules: widget.listModules,
+                        modulesName:
+                            widget.listModules?[index].data?.name ?? "",
+                        modulesDesc:
+                            widget.listModules?[index].data?.description,
+                        modulesimage:
+                            widget.listModules?[index].data?.thumbnail,
+                        
+                      ),
+                      //  if (complete == widget.listModules?.length){
+                        
+                      //  }
+                    ],
+                  );
+                }
+              }
+              return const Center(
+                child: Text('Module Belum ada'),
+              );
+            },
+          ),
+        ),
+        floatingActionButton: const LessonBottom(),
       ),
     );
   }

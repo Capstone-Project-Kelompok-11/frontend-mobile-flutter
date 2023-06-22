@@ -12,11 +12,21 @@ class DetailLessonViewModel with ChangeNotifier{
   
   List<DetailCourseResponse> _module = [];
   List<DetailCourseResponse> get module => _module;
+
+  var _imagePath;
+  get imagePath => _imagePath;
   
   Future<DetailCourseResponse>getLessonCourse (String courseId) async {
   _lesson = await DetailLessonService().getLessonCourse(courseId);
+  // if (_lesson.data != null) {
+  //   if (_lesson.data.modules.) {
+      
+  //   }
+  // }
   print('hello${_lesson.data?.id}');
   notifyListeners();
   return _lesson;
-  } 
+  }
+  
+  
 }
