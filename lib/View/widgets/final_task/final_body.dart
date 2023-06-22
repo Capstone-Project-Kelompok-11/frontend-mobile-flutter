@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:open_file/open_file.dart';
+import 'package:lms_apps/ViewModels/final_task_view_model.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
+import 'package:provider/provider.dart';
 
-class FinalBody extends StatelessWidget {
-  const FinalBody({super.key});
+class FinalBody extends StatefulWidget {
+  final String? fileID;
+  const FinalBody({super.key, this.fileID});
+
+  @override
+  State<FinalBody> createState() => _FinalBodyState();
+}
+
+class _FinalBodyState extends State<FinalBody> {
+  @override
+  void initState() {
+    // Provider.of<FinalTaskViewModel>(context, listen: false)
+    //     .uploadFile("546c320fd3284e948fc96a78130cb740", context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<String> data = [
-      'Pilih Topik Aplikasi: Pilihlah topik aplikasi yang menarik dan relevan. Anda dapat memilih topik seperti aplikasi perjalanan, aplikasi kesehatan, aplikasi keuangan, atau topik lain sesuai minat Anda.',
-      'Rancang Wireframe: Buat wireframe untuk antarmuka aplikasi Anda. Tentukan tata letak halaman, penempatan elemen-elemen penting, dan alur navigasi yang intuitif.',
-      'Desain Visual: Berdasarkan wireframe, buat desain visual yang menarik dan sesuai dengan tema aplikasi Anda. Pertimbangkan pemilihan warna, tipografi, ikon, dan elemen grafis lainnya untuk menciptakan tampilan yang konsisten dan menarik.'
-    ];
+    final finalTaskViewModel = Provider.of<FinalTaskViewModel>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Column(
@@ -41,17 +50,11 @@ class FinalBody extends StatelessWidget {
             height: 8,
           ),
           ListView.builder(
+            clipBehavior: Clip.none,
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
+            itemCount: finalTaskViewModel.data.length,
             itemBuilder: (context, index) {
-              // return ListTile(
-              //   dense: true,
-              //   leading: Text('${index + 1}. '),
-              //   minLeadingWidth: 0,
-              //   minVerticalPadding: 0,
-              //   // horizontalTitleGap: 5.0,
-              //   contentPadding: EdgeInsets.zero,
-              //   title: Text('${data[index]} '),
-              // );
               return Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -61,7 +64,7 @@ class FinalBody extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      '${data[index]}',
+                      finalTaskViewModel.data[index],
                       textAlign: TextAlign.justify,
                       style: const TextStyle(height: 1.65),
                     ),
@@ -70,7 +73,6 @@ class FinalBody extends StatelessWidget {
                 ],
               );
             },
-            itemCount: data.length,
           ),
           const SizedBox(
             height: 8,
@@ -83,7 +85,7 @@ class FinalBody extends StatelessWidget {
             style: blackTextStyle.copyWith(
               fontWeight: semiBold,
               fontSize: 12,
-              color: Colors.black,
+              color: blackColor,
             ),
           ),
           Text(
@@ -91,7 +93,7 @@ class FinalBody extends StatelessWidget {
             style: blackTextStyle.copyWith(
               fontWeight: semiBold,
               fontSize: 12,
-              color: Colors.black,
+              color: blackColor,
             ),
           ),
           const SizedBox(
@@ -99,7 +101,8 @@ class FinalBody extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              _pickFile();
+              finalTaskViewModel.uploadFile("9a215293cf144266873351b0264f6277", context);
+              print('ERROR 5 ${widget.fileID}');
             },
             child: Container(
               color: const Color(0xFFEFEFEF),
@@ -140,18 +143,5 @@ class FinalBody extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  void _pickFile() async {
-    final result = await FilePicker.platform.pickFiles();
-    if (result == null) return;
-
-    final file = result.files.first;
-    _openFile(file);
-  }
-
-  void _openFile(PlatformFile file) {
-    // OpenFile.open(file.path, file);
-    OpenFile.open(file.path!);
   }
 }
