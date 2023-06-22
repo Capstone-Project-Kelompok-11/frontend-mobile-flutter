@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lms_apps/ViewModels/category_course_view_model.dart';
+import 'package:lms_apps/ViewModels/checkout_view_model.dart';
 import 'package:lms_apps/ViewModels/detail_course_view_model.dart';
 import 'package:lms_apps/ViewModels/change_image_profile_view_model.dart';
 import 'package:lms_apps/ViewModels/detail_lesson_viewmodel.dart';
@@ -67,6 +68,9 @@ void main() {
         ),
         ChangeNotifierProvider<SearchViewModel>(
           create: (_) => SearchViewModel(),
+        ),
+        ChangeNotifierProvider<CheckOutViewModel>(
+          create: (_) => CheckOutViewModel(),
         ),
       ],
       child: const MyApp(),
