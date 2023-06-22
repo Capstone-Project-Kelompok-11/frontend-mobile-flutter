@@ -4,8 +4,8 @@ import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 class FinalBody extends StatefulWidget {
-  final String? fileID;
-  const FinalBody({super.key, this.fileID});
+  final String fileID;
+  const FinalBody({super.key, required this.fileID});
 
   @override
   State<FinalBody> createState() => _FinalBodyState();
@@ -101,7 +101,7 @@ class _FinalBodyState extends State<FinalBody> {
           ),
           GestureDetector(
             onTap: () {
-              finalTaskViewModel.uploadFile("9a215293cf144266873351b0264f6277", context);
+              finalTaskViewModel.uploadFile(widget.fileID, context);
               print('ERROR 5 ${widget.fileID}');
             },
             child: Container(

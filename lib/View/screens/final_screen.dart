@@ -2,21 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:lms_apps/View/widgets/final_task/final_appbar.dart';
 import 'package:lms_apps/View/widgets/final_task/final_body.dart';
 
-class FinalTaskScreen extends StatelessWidget {
-  const FinalTaskScreen({super.key});
+class FinalTaskScreen extends StatefulWidget {
+  final String? fileID;
+  const FinalTaskScreen({super.key, this.fileID});
 
   @override
+  State<FinalTaskScreen> createState() => _FinalTaskScreenState();
+}
+
+class _FinalTaskScreenState extends State<FinalTaskScreen> {
+  @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SingleChildScrollView(
-        physics: AlwaysScrollableScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
           children: [
-            FinalAppbar(),
-            SizedBox(
+            const FinalAppbar(),
+            const SizedBox(
               height: 29,
             ),
-            FinalBody(),
+            FinalBody(fileID: widget.fileID ?? ""),
           ],
         ),
       ),
