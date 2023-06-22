@@ -1,0 +1,69 @@
+import 'package:flutter/material.dart';
+import 'package:lms_apps/Models/checkout_response.dart';
+import 'package:lms_apps/Services/checkout_service.dart';
+
+class CheckOutViewModel with ChangeNotifier {
+  //to save checkoutunpaid for comparison id checkout
+  List<CheckOut> _temp = [];
+
+  List<CheckOut> get temp => _temp;
+
+  set setTemp(List<CheckOut> checkOutUnpaid) {
+    _temp = checkOutUnpaid;
+  }
+
+  //to checkoutUnpaid
+  List<CheckOut> _checkOutUnpaid = [];
+
+  List<CheckOut> get checkOutUnpaid => _checkOutUnpaid;
+  final List<Map<String, String>> _paymentMethod = [
+    {'payment': 'Gopay', 'image': 'assets/images/gopay.png'},
+    {'payment': 'Dana', 'image': 'assets/images/dana.png'},
+    {'payment': 'LinkAja', 'image': 'assets/images/linkaja.png'},
+    {'payment': 'PayPal', 'image': 'assets/images/paypal.png'},
+  ];
+
+  List<Map<String, String>> get paymentMethod => _paymentMethod;
+
+  int _selectedPayment = 0;
+
+  int get selectedPayment => _selectedPayment;
+
+  set setSelectedPayment(int index) {
+    _selectedPayment = index;
+    notifyListeners();
+  }
+
+  Future<void> checkOut({required String courseId}) async {
+    await CheckOutService().checkOut(courseId: courseId);
+
+    notifyListeners();
+  }
+
+  Future<void> deleteCheckOut({required String courseId}) async {
+    await CheckOutService().deleteCheckOut(courseId: courseId);
+
+    notifyListeners();
+  }
+
+   Future<void> verify({required String courseId, required String paymentMethod}) async {
+    await CheckOutService().checkOutVerify(courseId: courseId, paymentMethod: paymentMethod);
+
+    notifyListeners();
+  }
+
+  Future<void> getUnpaidCheckout() async {
+    final checkOutResponse = await CheckOutService().checkOutUnpaid();
+    _checkOutUnpaid = checkOutResponse.data;
+    notifyListeners();
+  }
+
+  Future<void> deleteDuplicatePaid(
+      List<CheckOut> temp, List<CheckOut> checkOutUnpaid) async {
+    for (int i = 0; i < checkOutUnpaid.length; i++) {
+      if (temp[i].id == checkOutUnpaid[i].id) {
+        await deleteCheckOut(courseId: checkOutUnpaid[i].id);
+      }
+    }
+  }
+}
