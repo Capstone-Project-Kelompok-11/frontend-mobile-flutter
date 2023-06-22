@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lms_apps/Services/constant.dart';
+import 'package:lms_apps/View/screens/final_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -85,7 +86,20 @@ class _LessonsBodyState extends State<LessonsBody> {
               const SizedBox(
                 height: 18,
               ),
-              cekPerkondisian(),
+              widget.listModules?.last.completion == false
+                  ? ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FinalTaskScreen(
+                              fileID: widget.courseId,
+                            ),
+                          ),
+                        );
+                      },
+                      child: const Text('Final Task'))
+                  : Container(),
               const SizedBox(
                 height: 60,
               ),
@@ -94,16 +108,5 @@ class _LessonsBodyState extends State<LessonsBody> {
         ],
       ),
     );
-  }
-
-  Widget cekPerkondisian() {
-    if (widget.listModules?.lastWhere((element) => element.data != null) != null) {
-      return ElevatedButton(onPressed: () {}, child: Text('Final Task'));
-    }else{
-      return Container();
-    }
-    // for (var i = 0; i < widget.listModules?.where((element) => element.data.id.l); i++) {
-      
-    // }
   }
 }
