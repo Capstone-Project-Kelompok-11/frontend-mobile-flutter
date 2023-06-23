@@ -111,135 +111,164 @@ class _CategoryCourseBodyState extends State<CategoryCourseBody> {
                 )
               : courseProvider.courses.isNotEmpty
                   ? SizedBox(
-                      child: GridView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          itemCount: courseProvider.pageLoading
-                              ? courseProvider.courses.length + 1
-                              : courseProvider.courses.length,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 16.0,
-                            mainAxisSpacing: 16.0,
-                            mainAxisExtent: 180.0,
-                          ),
-                          itemBuilder: (_, index) {
-                            if (index < courseProvider.courses.length) {
-                              return Material(
-                                elevation: 2.0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            DetailCourseScreen(
-                                                courseId: courseProvider
-                                                    .courses[index].id),
-                                      ),
-                                    );
-                                  },
-                                  child: Container(
-                                    height: 140.0,
-                                    decoration: BoxDecoration(
+                      child: Column(
+                        children: [
+                          GridView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemCount: courseProvider.pageLoading
+                                  ? courseProvider.courses.length + 1
+                                  : courseProvider.courses.length,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 16.0,
+                                mainAxisSpacing: 16.0,
+                                mainAxisExtent: 180.0,
+                              ),
+                              itemBuilder: (_, index) {
+                                if (index < courseProvider.courses.length) {
+                                  return Material(
+                                    elevation: 2.0,
+                                    shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
-                                    child: Column(
-                                      children: [
-                                        SizedBox(
-                                          height: 110.0,
-                                          width: double.infinity,
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                            child: courseProvider.courses[index]
-                                                    .thumbnail.isNotEmpty
-                                                ? Image.network(
-                                                    courseProvider
-                                                        .courses[index]
-                                                        .thumbnail,
-                                                    fit: BoxFit.cover,
-                                                  )
-                                                : Container(
-                                                    color: Colors.grey,
-                                                    child: Center(
-                                                      child: Text(
-                                                        'Image Belum Tersedia',
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: blackTextStyle
-                                                            .copyWith(
-                                                                fontSize: 16.0,
-                                                                fontWeight:
-                                                                    regular),
-                                                      ),
-                                                    ),
-                                                  ),
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                DetailCourseScreen(
+                                                    courseId: courseProvider
+                                                        .courses[index].id),
                                           ),
+                                        );
+                                      },
+                                      child: Container(
+                                        height: 140.0,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
                                         ),
-                                        const SizedBox(height: 8.0),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 4.0),
-                                          child: SizedBox(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  courseProvider
-                                                      .courses[index].name,
-                                                  style:
-                                                      blackTextStyle.copyWith(
-                                                          fontWeight: bold,
-                                                          fontSize: 12.0),
-                                                ),
-                                                const SizedBox(height: 16.0),
-                                                Row(
-                                                  children: [
-                                                    Image.asset(
-                                                        'assets/icon/ic_star.png'),
-                                                    const SizedBox(width: 8.0),
-                                                    Text(
+                                        child: Column(
+                                          children: [
+                                            SizedBox(
+                                              height: 110.0,
+                                              width: double.infinity,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                child: courseProvider
+                                                        .courses[index]
+                                                        .thumbnail
+                                                        .isNotEmpty
+                                                    ? Image.network(
                                                         courseProvider
                                                             .courses[index]
-                                                            .rating
-                                                            .toString(),
-                                                        style: blackTextStyle
-                                                            .copyWith(
-                                                          fontWeight: small,
-                                                        )),
-                                                    const Spacer(),
+                                                            .thumbnail,
+                                                        fit: BoxFit.cover,
+                                                      )
+                                                    : Container(
+                                                        color: Colors.grey,
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Image Belum Tersedia',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: blackTextStyle
+                                                                .copyWith(
+                                                                    fontSize:
+                                                                        16.0,
+                                                                    fontWeight:
+                                                                        regular),
+                                                          ),
+                                                        ),
+                                                      ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 8.0),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 4.0),
+                                              child: SizedBox(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
                                                     Text(
-                                                        Utility.rupiah.format(
+                                                      courseProvider
+                                                          .courses[index].name,
+                                                      style: blackTextStyle
+                                                          .copyWith(
+                                                              fontWeight: bold,
+                                                              fontSize: 12.0),
+                                                    ),
+                                                    const SizedBox(
+                                                        height: 16.0),
+                                                    Row(
+                                                      children: [
+                                                        Image.asset(
+                                                            'assets/icon/ic_star.png'),
+                                                        const SizedBox(
+                                                            width: 8.0),
+                                                        Text(
                                                             courseProvider
                                                                 .courses[index]
-                                                                .price),
-                                                        style: blueTextStyle
-                                                            .copyWith(
-                                                                fontWeight:
-                                                                    bold,
-                                                                fontSize:
-                                                                    10.0)),
+                                                                .rating
+                                                                .toString(),
+                                                            style:
+                                                                blackTextStyle
+                                                                    .copyWith(
+                                                              fontWeight: small,
+                                                            )),
+                                                        const Spacer(),
+                                                        Text(
+                                                            Utility.rupiah.format(
+                                                                courseProvider
+                                                                    .courses[
+                                                                        index]
+                                                                    .price),
+                                                            style: blueTextStyle
+                                                                .copyWith(
+                                                                    fontWeight:
+                                                                        bold,
+                                                                    fontSize:
+                                                                        10.0)),
+                                                      ],
+                                                    ),
                                                   ],
                                                 ),
-                                              ],
+                                              ),
                                             ),
-                                          ),
+                                          ],
                                         ),
-                                      ],
+                                      ),
                                     ),
-                                  ),
+                                  );
+                                }
+                                return null;
+                              }),
+                          const SizedBox(height: 10.0),
+                          if (courseProvider.pageLoading) ...[
+                            const CircularProgressIndicator(),
+                          ] else ...[
+                            if (courseProvider.isDataEmpty) ...[
+                              Text(
+                                'No More Data',
+                                style: blackTextStyle.copyWith(
+                                  fontWeight: bold,
                                 ),
-                              );
-                            }
-                            return null;
-                          }),
+                              ),
+                            ] else ...[
+                              Container(),
+                            ],
+                            Container(),
+                          ]
+                        ],
+                      ),
                     )
                   : Padding(
                       padding: EdgeInsets.only(

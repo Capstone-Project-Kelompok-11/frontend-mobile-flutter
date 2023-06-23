@@ -63,10 +63,12 @@ class _CategoryCourseScreenState extends State<CategoryCourseScreen> {
               ),
             ),
           ),
-        ),
-        floatingActionButton: courseProvider.pageLoading
-            ? const CircularProgressIndicator()
-            : null,
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
+        ));
+        // floatingActionButton: courseProvider.listCheck
+        //     ? courseProvider.pageLoading
+        //         ? const CircularProgressIndicator()
+        //         : null
+        //     : const Text('No More Data'),
+        // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
   }
 }
