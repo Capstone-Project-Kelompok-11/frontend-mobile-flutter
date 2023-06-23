@@ -15,4 +15,16 @@ class QuizService {
     );
     return QuizResponse.fromJson(response.data);
   }
+
+  Future<void> postQuiz(String moduleId) async {
+    final token = await SharedPref.getToken();
+
+    final response = await Dio().post(
+      '${APIConstant.url}/users/quiz?id=$moduleId',
+      // data: Quiz.,
+      options: Options(
+        headers: APIConstant.auth('$token'),
+      ),
+    );
+  }
 }

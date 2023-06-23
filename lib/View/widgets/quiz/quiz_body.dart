@@ -150,13 +150,19 @@ class _QuizBodyState extends State<QuizBody> {
                                     // }
                                     setState(() {});
                                   },
-                                  child: CircleAvatar(
-                                    backgroundColor: quiz.quizes[questionIndex]
-                                                .choices?[choicesIndex].valid ==
-                                            true
-                                        ? Colors.orange
-                                        : Colors.blue,
-                                  ),
+                                  child: quiz.quizes[questionIndex]
+                                              .choices?[choicesIndex].valid ==
+                                          true
+                                      ? Image.asset(
+                                          'assets/images/tick-circle.png',
+                                          height: 24,
+                                          width: 24,
+                                        )
+                                      : Image.asset(
+                                          'assets/icon/ic_outline.png'),
+                                ),
+                                const SizedBox(
+                                  width: 8,
                                 ),
                                 Expanded(
                                   child: Text(
