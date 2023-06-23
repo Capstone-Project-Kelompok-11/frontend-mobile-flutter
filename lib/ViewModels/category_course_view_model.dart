@@ -4,6 +4,10 @@ import 'package:lms_apps/Services/categories_service.dart';
 import 'package:lms_apps/Services/public_course_service.dart';
 
 class CategoryCourseViewModel with ChangeNotifier {
+  bool _isDataEmpty = false;
+
+  bool get isDataEmpty => _isDataEmpty;
+
   bool _isLoading = false;
 
   bool get isLoading => _isLoading;
@@ -62,6 +66,12 @@ class CategoryCourseViewModel with ChangeNotifier {
     //assign to the courses
     _courses = publicCourseResponse.data;
 
+    //check if courses < size then _isDataEmpty to false for not showing check
+    if (courses.length < _size) {
+      _isDataEmpty = false;
+      notifyListeners();
+    }
+
     _isLoading = false;
 
     notifyListeners();
@@ -89,14 +99,28 @@ class CategoryCourseViewModel with ChangeNotifier {
         controller.position.atEdge) {
       _pageLoading = true;
       notifyListeners();
+
       _currentPage = _currentPage + 1;
 
-      await Future.delayed(const Duration(seconds: 3));
       final publicCourseResponse = await PublicCourseService().getPublicCourse(
           page: _currentPage,
           search: search ?? '',
           category: category ?? '',
           size: _size);
+
+      if (publicCourseResponse.data.isEmpty) {
+        _isDataEmpty = true;
+        _pageLoading = false;
+        _currentPage = _currentPage - 1;
+
+        notifyListeners();
+        return null;
+      }
+
+      if (courses.length < _size) {
+        _isDataEmpty = false;
+        notifyListeners();
+      }
 
       _courses = _courses + publicCourseResponse.data;
 
