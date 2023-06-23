@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+
 import 'package:lms_apps/View/screens/theme/theme.dart';
 
 class BuyButton extends StatelessWidget {
-  const BuyButton({super.key});
+  final Function()? onPressed;
+
+  const BuyButton({
+    super.key,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +25,13 @@ class BuyButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(8.0),
             ),
           ),
+          onPressed: onPressed,
           child: const Text(
             'Buy Now',
             style: TextStyle(
               color: Colors.white,
             ),
           ),
-          onPressed: () {},
         ),
       ),
     );

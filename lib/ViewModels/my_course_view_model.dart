@@ -4,6 +4,9 @@ import 'package:lms_apps/Models/my_course_response.dart';
 import 'package:lms_apps/Services/my_course_service.dart';
 
 class MyCourseViewModel with ChangeNotifier {
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
   List<Datum> _myCourse = [];
   List<Datum> get myCourse => _myCourse;
 
@@ -26,6 +29,7 @@ class MyCourseViewModel with ChangeNotifier {
   DetailCourseResponseData get complete => _complete;
 
   void getMyCourseProgress() async {
+    _isLoading = true;
     final result = await MyCourseOnProgressService().getMyCourse();
 
     if (result.data!.isNotEmpty) {
@@ -50,14 +54,19 @@ class MyCourseViewModel with ChangeNotifier {
         );
       }
       _myNewCourse = _myCourse;
+      await Future.delayed(const Duration(milliseconds: 1000));
     } else {
       _myCourse = [];
     }
+    _isLoading = false;
     notifyListeners();
   }
 
   Future<DetailCourseResponse> getMyCourseProgressByID(String courseID) async {
+    _isLoading = true;
+    await Future.delayed(const Duration(milliseconds: 1000));
     _course = await MyCourseOnProgressService().getMyCourseByID(courseID);
+    _isLoading = false;
     notifyListeners();
     return _course;
   }
