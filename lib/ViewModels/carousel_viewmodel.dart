@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lms_apps/Models/banner_response.dart';
-import 'package:lms_apps/Services/carouesl_service.dart';
+import 'package:lms_apps/Services/carousel_service.dart';
+
 
 class CarouselViewModel with ChangeNotifier {
   List<BannerImage> _banners = [];
