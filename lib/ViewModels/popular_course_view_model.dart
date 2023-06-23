@@ -9,7 +9,7 @@ class PopularCourseViewModel with ChangeNotifier {
 
   List<PopularCourse> _popularCourses = [];
 
-  List get popularCourses => _popularCourses;
+  List<PopularCourse> get popularCourses => _popularCourses;
 
   void getPopularCourse() async {
     _isLoading = true;

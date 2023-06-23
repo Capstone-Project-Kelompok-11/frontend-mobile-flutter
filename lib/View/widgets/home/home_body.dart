@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:lms_apps/View/screens/category_course_screen.dart';
 import 'package:lms_apps/View/screens/detail_course_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
+import 'package:lms_apps/ViewModels/carousel_viewmodel.dart';
 import 'package:lms_apps/ViewModels/popular_course_view_model.dart';
+import 'package:lms_apps/utils/utility.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 
@@ -21,35 +23,8 @@ class _HomeBodyState extends State<HomeBody> {
     //call get course function from provider/viewmodel
     Provider.of<PopularCourseViewModel>(context, listen: false)
         .getPopularCourse();
+    Provider.of<CarouselViewModel>(context, listen: false).getBanner();
   }
-
-  List<Widget> carouselBoxes = [
-    Container(
-      width: 260,
-      decoration: BoxDecoration(
-        color: Colors.grey,
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-    ),
-    Container(
-        width: 260,
-        decoration: BoxDecoration(
-          color: Colors.grey,
-          borderRadius: BorderRadius.circular(10.0),
-        )),
-    Container(
-        width: 260,
-        decoration: BoxDecoration(
-          color: Colors.grey,
-          borderRadius: BorderRadius.circular(10.0),
-        )),
-    Container(
-        width: 260,
-        decoration: BoxDecoration(
-          color: Colors.grey,
-          borderRadius: BorderRadius.circular(10.0),
-        )),
-  ];
 
   final CarouselController _controller = CarouselController();
   int setIndex = 0;
@@ -58,49 +33,56 @@ class _HomeBodyState extends State<HomeBody> {
   Widget build(BuildContext context) {
     final popularCourse =
         Provider.of<PopularCourseViewModel>(context, listen: true);
+    final banner = Provider.of<CarouselViewModel>(context, listen: true);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30.0),
       child: Column(
         children: [
           //Carousel Slider
-          CarouselSlider(
-            items: carouselBoxes,
-            carouselController: _controller,
-            options: CarouselOptions(
-              height: 100.0,
-              clipBehavior: Clip.none,
-              autoPlay: true,
-              onPageChanged: (index, _) {
-                setState(() {});
-                setIndex = index;
-              },
-            ),
+          Column(
+            children: [
+              CarouselSlider.builder(
+                carouselController: _controller,
+                itemCount: banner.banners.length,
+                itemBuilder: (context, itemIndex, _) {
+                  return Container(
+                    child: Image.network(banner.banners[itemIndex].src),
+                  );
+                },
+                options: CarouselOptions(
+                  height: 100.0,
+                  clipBehavior: Clip.none,
+                  autoPlay: true,
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 8.0),
 
           //Carousel Indicator
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: carouselBoxes.asMap().entries.map((entry) {
-              return GestureDetector(
-                onTap: () => _controller.animateToPage(entry.key),
-                child: Container(
-                  width: 15.0,
-                  height: 15.0,
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 4.0,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: (Theme.of(context).brightness == Brightness.light
-                            ? Colors.black
-                            : Colors.black)
-                        .withOpacity(setIndex == entry.key ? 0.9 : 0.4),
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: carouselBoxes.asMap().entries.map((entry) {
+          //     return GestureDetector(
+          //       onTap: () => _controller.animateToPage(entry.key),
+          //       child: Container(
+          //         width: 15.0,
+          //         height: 15.0,
+          //         margin: const EdgeInsets.symmetric(
+          //           horizontal: 4.0,
+          //         ),
+          //         decoration: BoxDecoration(
+          //           borderRadius: BorderRadius.circular(8),
+          //           color: (Theme.of(context).brightness == Brightness.light
+          //                   ? Colors.black
+          //                   : Colors.black)
+          //               .withOpacity(setIndex == entry.key ? 0.9 : 0.4),
+          //         ),
+          //       ),
+          //     );
+          //   }).toList(),
+          // ),
 
           const SizedBox(height: 16.0),
 
@@ -223,7 +205,9 @@ class _HomeBodyState extends State<HomeBody> {
                                                 borderRadius:
                                                     BorderRadius.circular(10.0),
                                                 child: Image.network(
-                                                  'https://ik.imagekit.io/mrggsfxta/Voyager_68_v2-keyboard.jpg?updatedAt=1682567212420',
+                                                  popularCourse
+                                                      .popularCourses[index]
+                                                      .thumbnail,
                                                   fit: BoxFit.fill,
                                                 ),
                                               ),
@@ -238,7 +222,9 @@ class _HomeBodyState extends State<HomeBody> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    const Text('UI Design'),
+                                                    Text(popularCourse
+                                                        .popularCourses[index]
+                                                        .name),
                                                     const SizedBox(
                                                         height: 16.0),
                                                     Row(children: [
@@ -246,12 +232,25 @@ class _HomeBodyState extends State<HomeBody> {
                                                           'assets/icon/ic_star.png'),
                                                       const SizedBox(
                                                           width: 8.0),
-                                                      const Text('4,5'),
+                                                      Text(popularCourse
+                                                          .popularCourses[index]
+                                                          .rating
+                                                          .toString()),
                                                       const Spacer(),
-                                                      Text(
-                                                        'Rp. 300.000',
-                                                        style: TextStyle(
-                                                            color: blueColor),
+                                                      SizedBox(
+                                                        width: 60.0,
+                                                        child: FittedBox(
+                                                          child: Text(
+                                                            Utility.rupiah.format(
+                                                                popularCourse
+                                                                    .popularCourses[
+                                                                        index]
+                                                                    .price),
+                                                            style: TextStyle(
+                                                              color: blueColor,
+                                                            ),
+                                                          ),
+                                                        ),
                                                       ),
                                                     ])
                                                   ],

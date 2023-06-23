@@ -4,6 +4,15 @@ import 'package:lms_apps/Services/categories_service.dart';
 import 'package:lms_apps/Services/public_course_service.dart';
 
 class CategoryCourseViewModel with ChangeNotifier {
+  final List<Map<String, String>> _categoryList = [
+    {'category': 'Design', 'image': ''},
+    {'category': 'Business', 'image': ''},
+    {'category': 'Teknologi', 'image': ''},
+    {'category': 'Software', 'image': ''},
+  ];
+
+  List<Map<String,String>> get categoryList => _categoryList;
+
   bool _isDataEmpty = false;
 
   bool get isDataEmpty => _isDataEmpty;
