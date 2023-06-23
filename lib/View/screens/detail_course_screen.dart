@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lms_apps/Models/checkout_response.dart';
 import 'package:lms_apps/View/screens/checkout_screen.dart';
 import 'package:lms_apps/View/widgets/detail_course/detail_course_appbar.dart';
 import 'package:lms_apps/View/widgets/detail_course/detail_course_body.dart';
@@ -55,24 +54,27 @@ class _DetailCourseScreenState extends State<DetailCourseScreen> {
           ),
         ),
       ),
-      floatingActionButton: BuyButton(
-        onPressed: () async {
-          await checkOutProvider.getUnpaidCheckout();
-          await checkOutProvider.deleteDuplicatePaid(
-              checkOutProvider.temp, checkOutProvider.checkOutUnpaid);
-          await checkOutProvider.checkOut(courseId: widget.courseId ?? '');
-          if (context.mounted) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CheckoutScreen(
-                  coursePrice: courseById.coursePrice,
-                ),
-              ),
-            );
-          }
-        },
-      ),
+      floatingActionButton: checkOutProvider.checkCourse
+          ? BuyButton(
+              onPressed: () async {
+                await checkOutProvider.getUnpaidCheckout();
+                await checkOutProvider.deleteDuplicatePaid(
+                    checkOutProvider.temp, checkOutProvider.checkOutUnpaid);
+                await checkOutProvider.checkOut(
+                    courseId: widget.courseId ?? '');
+                if (context.mounted) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CheckoutScreen(
+                        coursePrice: courseById.coursePrice,
+                      ),
+                    ),
+                  );
+                }
+              },
+            )
+          : Text('Sudah Punya'),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }

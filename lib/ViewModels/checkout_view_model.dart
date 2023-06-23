@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:lms_apps/Models/checkout_response.dart';
+import 'package:lms_apps/Models/my_course_response.dart';
+import 'package:lms_apps/Models/unpaid_checkout_response.dart';
 import 'package:lms_apps/Services/checkout_service.dart';
 
 class CheckOutViewModel with ChangeNotifier {
+  bool _checkCourse = false;
+
+  bool get checkCourse => _checkCourse;
   //to save checkoutunpaid for comparison id checkout
   List<CheckOut> _temp = [];
 
@@ -46,8 +50,10 @@ class CheckOutViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-   Future<void> verify({required String courseId, required String paymentMethod}) async {
-    await CheckOutService().checkOutVerify(courseId: courseId, paymentMethod: paymentMethod);
+  Future<void> verify(
+      {required String checkOutId, required String paymentMethod}) async {
+    await CheckOutService()
+        .checkOutVerify(checkOutId: checkOutId, paymentMethod: paymentMethod);
 
     notifyListeners();
   }
@@ -65,5 +71,17 @@ class CheckOutViewModel with ChangeNotifier {
         await deleteCheckOut(courseId: checkOutUnpaid[i].id);
       }
     }
+  }
+
+  Future<void> hadCourse(String courseName, List<Datum> checkOutUnpaid) async {
+    for (int i = 0; i < checkOutUnpaid.length; i++) {
+      if (courseName == checkOutUnpaid[i].course!.name) {
+        _checkCourse = true;
+      } else {
+        _checkCourse = false;
+      }
+    }
+    notifyListeners();
+    print(_checkCourse);
   }
 }
