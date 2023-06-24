@@ -45,7 +45,7 @@ class _TransactionHistoryBodyState extends State<TransactionHistoryBody> {
                           left: 15, right: 15, top: 5, bottom: 15),
                       child: Container(
                         width: double.infinity,
-                        height: 140,
+                        height: 180,
                         decoration: BoxDecoration(
                           border: Border.all(width: 1),
                           borderRadius: BorderRadius.circular(10),
@@ -101,6 +101,9 @@ class _TransactionHistoryBodyState extends State<TransactionHistoryBody> {
                                   ),
                                 ],
                               ),
+                              const SizedBox(height: 20),
+                              Text(
+                                  'Course Name : ${transactionHistory.course?.name}'),
                               const SizedBox(height: 20),
                               Text(
                                 'Payment Method : ${transactionHistory.paymentMethod}',
