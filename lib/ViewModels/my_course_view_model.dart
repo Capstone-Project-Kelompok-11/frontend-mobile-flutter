@@ -30,6 +30,7 @@ class MyCourseViewModel with ChangeNotifier {
 
   void getMyCourseProgress() async {
     _isLoading = true;
+    await Future.delayed(const Duration(milliseconds: 1000));
     final result = await MyCourseOnProgressService().getMyCourse();
 
     if (result.data!.isNotEmpty) {
@@ -54,7 +55,6 @@ class MyCourseViewModel with ChangeNotifier {
         );
       }
       _myNewCourse = _myCourse;
-      await Future.delayed(const Duration(milliseconds: 1000));
     } else {
       _myCourse = [];
     }

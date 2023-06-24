@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lms_apps/Models/checkout_response.dart';
-import 'package:lms_apps/View/screens/checkout_screen.dart';
+
 import 'package:lms_apps/View/widgets/detail_course/detail_course_appbar.dart';
 import 'package:lms_apps/View/widgets/detail_course/detail_course_body.dart';
 import 'package:lms_apps/View/widgets/detail_course/detail_course_button.dart';
@@ -31,8 +30,6 @@ class _DetailCourseScreenState extends State<DetailCourseScreen> {
   Widget build(BuildContext context) {
     final courseById =
         Provider.of<DetailCourseViewModel>(context, listen: true);
-    final checkOutProvider =
-        Provider.of<CheckOutViewModel>(context, listen: false);
 
     return Scaffold(
       body: SafeArea(
@@ -56,22 +53,8 @@ class _DetailCourseScreenState extends State<DetailCourseScreen> {
         ),
       ),
       floatingActionButton: BuyButton(
-        onPressed: () async {
-          await checkOutProvider.getUnpaidCheckout();
-          await checkOutProvider.deleteDuplicatePaid(
-              checkOutProvider.temp, checkOutProvider.checkOutUnpaid);
-          await checkOutProvider.checkOut(courseId: widget.courseId ?? '');
-          if (context.mounted) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CheckoutScreen(
-                  coursePrice: courseById.coursePrice,
-                ),
-              ),
-            );
-          }
-        },
+        courseId: widget.courseId,
+        coursePrice: courseById.coursePrice,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
