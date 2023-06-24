@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:lms_apps/Models/checkout_response.dart';
+import 'package:lms_apps/Models/unpaid_checkout_response.dart';
 import 'package:lms_apps/Services/constant.dart';
 import 'package:lms_apps/utils/shared_pref.dart';
 
@@ -33,11 +33,11 @@ class CheckOutService {
   }
 
   Future<void> checkOutVerify(
-      {required String courseId, required String paymentMethod}) async {
+      {required String checkOutId, required String paymentMethod}) async {
     final token = await SharedPref.getToken();
     try {
       await Dio().post(
-        '${APIConstant.url}/users/checkout/verify?id=$courseId',
+        '${APIConstant.url}/users/checkout/verify?id=$checkOutId',
         data: {
           "payment_method": paymentMethod,
         },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lms_apps/Models/checkout_response.dart';
+
+import 'package:lms_apps/Models/unpaid_checkout_response.dart';
 import 'package:lms_apps/Services/checkout_service.dart';
 
 class CheckOutViewModel with ChangeNotifier {
@@ -46,8 +47,10 @@ class CheckOutViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-   Future<void> verify({required String courseId, required String paymentMethod}) async {
-    await CheckOutService().checkOutVerify(courseId: courseId, paymentMethod: paymentMethod);
+  Future<void> verify(
+      {required String checkOutId, required String paymentMethod}) async {
+    await CheckOutService()
+        .checkOutVerify(checkOutId: checkOutId, paymentMethod: paymentMethod);
 
     notifyListeners();
   }
