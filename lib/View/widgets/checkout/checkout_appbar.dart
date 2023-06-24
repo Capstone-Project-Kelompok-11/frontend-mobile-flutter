@@ -46,7 +46,7 @@ class _CheckoutAppBarState extends State<CheckoutAppBar> {
               padding: const EdgeInsets.only(top: 5),
               child: Center(
                 child: Text(
-                  'Edit Profile',
+                  'Checkout',
                   style: blackTextStyle.copyWith(
                       fontSize: 25, fontWeight: FontWeight.w700),
                 ),
