@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:lms_apps/Models/quisesanswer_request_response.dart';
+
 QuizResponse quizResponseFromJson(String str) =>
     QuizResponse.fromJson(json.decode(str));
 
@@ -40,12 +42,12 @@ class QuizResponse {
       );
 
   Map<String, dynamic> toJson() => {
-        // "id": id,
-        // "logs": logs == null ? [] : List<dynamic>.from(logs!.map((x) => x)),
-        // "status": status,
-        // "message": message,
-        // "error": error,
-        "quizzes": data == null
+        "id": id,
+        "logs": logs == null ? [] : List<dynamic>.from(logs!.map((x) => x)),
+        "status": status,
+        "message": message,
+        "error": error,
+        "data": data == null
             ? []
             : List<dynamic>.from(data!.map((x) => x.toJson())),
       };

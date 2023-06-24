@@ -9,21 +9,23 @@ class QuizScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
-            QuizAppbar(),
-            SizedBox(
+            const QuizAppbar(),
+            const SizedBox(
               height: 29,
             ),
             QuizBody(
-              modulId: '1b26949893aa466daf79409b7bd80c82',
+              modulId: modulid,
             ),
           ],
         ),
       ),
-      floatingActionButton: QuizButton(),
+      floatingActionButton: QuizButton(
+        modulId: modulid,
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }

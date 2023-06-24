@@ -117,64 +117,65 @@ class _QuizBodyState extends State<QuizBody> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    quiz?.selectAnswer(quiz
-                                        ?.quizes[questionIndex]
-                                        .choices?[choicesIndex]);
-                                    quiz?.answerquiz.forEach(
-                                      (element) {
-                                        // if (element.)
-                                        element.choices?.forEach((elementquiz) {
-                                          if (elementquiz.text ==
-                                              quiz
-                                                  ?.quizes[questionIndex]
-                                                  .choices?[choicesIndex]
-                                                  .text) {
-                                            print(
-                                                '${elementquiz.text} +${elementquiz.valid}');
-                                            elementquiz.valid = quiz
-                                                ?.quizes[questionIndex]
-                                                .choices?[choicesIndex]
-                                                .valid;
-                                          }
-                                        });
-                                      },
-                                    );
-                                    // print(quiz?.quizes[questionIndex]
-                                    //     .choices?[choicesIndex].valid);
-                                    // List<bool> validityValues = List.filled(
-                                    //     quiz!.quizes[questionIndex].choices!
-                                    //         .length,
-                                    //     false);
-                                    // setIndex = choicesIndex;
+                                    //   quiz?.selectAnswer(quiz
+                                    //       ?.quizes[questionIndex]
+                                    //       .choices?[choicesIndex]);
+                                    //   quiz?.answerquiz.forEach(
+                                    //     (element) {
+                                    //       // if (element.)
+                                    //       element.choices?.forEach((elementquiz) {
+                                    //         if (elementquiz.text ==
+                                    //             quiz
+                                    //                 ?.quizes[questionIndex]
+                                    //                 .choices?[choicesIndex]
+                                    //                 .text) {
+                                    //           print(
+                                    //               '${elementquiz.text} +${elementquiz.valid}');
+                                    //           elementquiz.valid = quiz
+                                    //               ?.quizes[questionIndex]
+                                    //               .choices![choicesIndex]
+                                    //               .valid;
+                                    //         }
+                                    //       });
+                                    //     },
+                                    //   );
 
-                                    // if (setIndex >= 0 &&
-                                    //     setIndex <
-                                    //         quiz!.quizes[questionIndex].choices!
-                                    //             .length) {
-                                    //   validityValues[setIndex] = true;
-                                    // } else {
-                                    //   validityValues[quiz!.quizes[questionIndex]
-                                    //           .choices!.length -
-                                    //       1] = true;
-                                    // }
+                                    print(quiz?.quizes[questionIndex]
+                                        .choices?[choicesIndex].valid);
+                                    List<bool> validityValues = List.filled(
+                                        quiz!.quizes[questionIndex].choices!
+                                            .length,
+                                        false);
+                                    setIndex = choicesIndex;
 
+                                    if (setIndex >= 0 &&
+                                        setIndex <
+                                            quiz!.quizes[questionIndex].choices!
+                                                .length) {
+                                      validityValues[setIndex] = true;
+                                    } else {
+                                      validityValues[quiz!.quizes[questionIndex]
+                                              .choices!.length -
+                                          1] = true;
+                                    }
+
+                                    for (int i = 0;
+                                        i <
+                                            quiz!.quizes[questionIndex].choices!
+                                                .length;
+                                        i++) {
+                                      quiz!.quizes[questionIndex].choices?[i]
+                                          .valid = validityValues[i];
+                                    }
+
+                                    print(validityValues);
+                                    print(quiz!.quizes[questionIndex].choices);
                                     // for (int i = 0;
-                                    //     i <
-                                    //         quiz!.quizes[questionIndex].choices!
-                                    //             .length;
+                                    //     i < quiz.quizes.length;
                                     //     i++) {
-                                    //   quiz!.quizes[questionIndex].choices?[i]
-                                    //       .valid = validityValues[i];
+                                    //   print(quiz.quizes[questionIndex]
+                                    //       .choices?[i].valid);
                                     // }
-
-                                    // print(validityValues);
-                                    // print(quiz!.quizes[questionIndex].choices);
-                                    // // for (int i = 0;
-                                    // //     i < quiz.quizes.length;
-                                    // //     i++) {
-                                    // //   print(quiz.quizes[questionIndex]
-                                    // //       .choices?[i].valid);
-                                    // // }
                                     setState(() {});
                                   },
                                   child: quiz!.quizes[questionIndex]
@@ -210,21 +211,21 @@ class _QuizBodyState extends State<QuizBody> {
                   );
                 },
               ),
-              IconButton(
-                onPressed: () async {
-                  // quiz?.answerquiz.first.choices?.first.text;
-                  print(
-                      '${quiz?.answerquiz.first.choices?.first.text}) + ${quiz?.answerquiz.first.choices?.first.valid}');
-                  await QuizService().postQuiz(
-                      widget.modulId, QuizResponse(data: quiz?.answerquiz));
-                  // QuizzesAnswerRequest? requestanswer;
-                  // requestanswer!.quizzes = quiz?.answerquiz ?? [];
-                  // quiz?.answerquiz.forEach((element) {
-                  //   print(element.);
-                  // });
-                },
-                icon: const Icon(Icons.abc),
-              )
+              // IconButton(
+              //   onPressed: () async {
+              //     // quiz?.answerquiz.first.choices?.first.text;
+              //     print(
+              //         '${quiz?.answerquiz.first.choices?.first.text}) + ${quiz?.answerquiz.first.choices?.first.valid}');
+              //     await QuizService().postQuiz(
+              //         widget.modulId, QuizResponse(data: quiz?.answerquiz));
+              //     // QuizzesAnswerRequest? requestanswer;
+              //     // requestanswer!.quizzes = quiz?.answerquiz ?? [];
+              //     // quiz?.answerquiz.forEach((element) {
+              //     //   print(element.);
+              //     // });
+              //   },
+              //   icon: const Icon(Icons.abc),
+              // )
             ],
           )
         ],
