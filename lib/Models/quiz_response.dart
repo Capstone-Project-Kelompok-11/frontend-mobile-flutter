@@ -40,12 +40,12 @@ class QuizResponse {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "logs": logs == null ? [] : List<dynamic>.from(logs!.map((x) => x)),
-        "status": status,
-        "message": message,
-        "error": error,
-        "data": data == null
+        // "id": id,
+        // "logs": logs == null ? [] : List<dynamic>.from(logs!.map((x) => x)),
+        // "status": status,
+        // "message": message,
+        // "error": error,
+        "quizzes": data == null
             ? []
             : List<dynamic>.from(data!.map((x) => x.toJson())),
       };

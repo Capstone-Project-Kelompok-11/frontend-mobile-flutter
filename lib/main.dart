@@ -77,6 +77,9 @@ void main() {
         ChangeNotifierProvider<CheckOutViewModel>(
           create: (_) => CheckOutViewModel(),
         ),
+        ChangeNotifierProvider<QuizViewModel>(
+          create: (_) => QuizViewModel(),
+        ),
       ],
       child: const MyApp(),
     ),

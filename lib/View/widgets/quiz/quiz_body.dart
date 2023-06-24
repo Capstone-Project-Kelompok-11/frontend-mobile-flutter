@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:lms_apps/Services/get_quiz_service.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:lms_apps/ViewModels/quiz_view_model.dart';
 import 'package:provider/provider.dart';
 
+import '../../../Models/quisesanswer_request_response.dart';
 import '../../../Models/quiz_response.dart';
 
 class QuizBody extends StatefulWidget {
@@ -17,14 +19,15 @@ class _QuizBodyState extends State<QuizBody> {
   int setIndex = 0;
   @override
   void initState() {
-    Provider.of<QuizViewModel>(context, listen: false)
-        .getQuizes(widget.modulId);
+    quiz = Provider.of<QuizViewModel>(context, listen: false);
+    quiz?.getQuizes(widget.modulId);
     super.initState();
   }
 
+  QuizViewModel? quiz;
   @override
   Widget build(BuildContext context) {
-    final quiz = Provider.of<QuizViewModel>(context);
+    // final quiz = Provider.of<QuizViewModel>(context);
     // // List<Quiz> quiz = [
     // //   Quiz(question: 'Jam berapa matahari terbit?', choices: [
     // //     Choice(text: 'jam 4', valid: false),
@@ -92,13 +95,13 @@ class _QuizBodyState extends State<QuizBody> {
               ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: quiz.quizes.length,
+                itemCount: quiz?.quizes.length,
                 itemBuilder: (context, questionIndex) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        quiz.quizes[questionIndex].question ?? '',
+                        quiz?.quizes[questionIndex].question ?? '',
                         style: blackTextStyle.copyWith(
                             fontWeight: bold, fontSize: 14.4),
                       ),
@@ -106,7 +109,7 @@ class _QuizBodyState extends State<QuizBody> {
                       ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: quiz.quizes[questionIndex].choices?.length,
+                        itemCount: quiz?.quizes[questionIndex].choices?.length,
                         itemBuilder: (context, choicesIndex) {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 16),
@@ -114,43 +117,67 @@ class _QuizBodyState extends State<QuizBody> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    List<bool> validityValues = List.filled(
-                                        quiz.quizes[questionIndex].choices!
-                                            .length,
-                                        false);
-                                    setIndex = choicesIndex;
+                                    quiz?.selectAnswer(quiz
+                                        ?.quizes[questionIndex]
+                                        .choices?[choicesIndex]);
+                                    quiz?.answerquiz.forEach(
+                                      (element) {
+                                        // if (element.)
+                                        element.choices?.forEach((elementquiz) {
+                                          if (elementquiz.text ==
+                                              quiz
+                                                  ?.quizes[questionIndex]
+                                                  .choices?[choicesIndex]
+                                                  .text) {
+                                            print(
+                                                '${elementquiz.text} +${elementquiz.valid}');
+                                            elementquiz.valid = quiz
+                                                ?.quizes[questionIndex]
+                                                .choices?[choicesIndex]
+                                                .valid;
+                                          }
+                                        });
+                                      },
+                                    );
+                                    // print(quiz?.quizes[questionIndex]
+                                    //     .choices?[choicesIndex].valid);
+                                    // List<bool> validityValues = List.filled(
+                                    //     quiz!.quizes[questionIndex].choices!
+                                    //         .length,
+                                    //     false);
+                                    // setIndex = choicesIndex;
 
-                                    if (setIndex >= 0 &&
-                                        setIndex <
-                                            quiz.quizes[questionIndex].choices!
-                                                .length) {
-                                      validityValues[setIndex] = true;
-                                    } else {
-                                      validityValues[quiz.quizes[questionIndex]
-                                              .choices!.length -
-                                          1] = true;
-                                    }
-
-                                    for (int i = 0;
-                                        i <
-                                            quiz.quizes[questionIndex].choices!
-                                                .length;
-                                        i++) {
-                                      quiz.quizes[questionIndex].choices?[i]
-                                          .valid = validityValues[i];
-                                    }
-
-                                    print(validityValues);
-                                    print(quiz.quizes[questionIndex].choices);
-                                    // for (int i = 0;
-                                    //     i < quiz.quizes.length;
-                                    //     i++) {
-                                    //   print(quiz.quizes[questionIndex]
-                                    //       .choices?[i].valid);
+                                    // if (setIndex >= 0 &&
+                                    //     setIndex <
+                                    //         quiz!.quizes[questionIndex].choices!
+                                    //             .length) {
+                                    //   validityValues[setIndex] = true;
+                                    // } else {
+                                    //   validityValues[quiz!.quizes[questionIndex]
+                                    //           .choices!.length -
+                                    //       1] = true;
                                     // }
+
+                                    // for (int i = 0;
+                                    //     i <
+                                    //         quiz!.quizes[questionIndex].choices!
+                                    //             .length;
+                                    //     i++) {
+                                    //   quiz!.quizes[questionIndex].choices?[i]
+                                    //       .valid = validityValues[i];
+                                    // }
+
+                                    // print(validityValues);
+                                    // print(quiz!.quizes[questionIndex].choices);
+                                    // // for (int i = 0;
+                                    // //     i < quiz.quizes.length;
+                                    // //     i++) {
+                                    // //   print(quiz.quizes[questionIndex]
+                                    // //       .choices?[i].valid);
+                                    // // }
                                     setState(() {});
                                   },
-                                  child: quiz.quizes[questionIndex]
+                                  child: quiz!.quizes[questionIndex]
                                               .choices?[choicesIndex].valid ==
                                           true
                                       ? Image.asset(
@@ -166,7 +193,7 @@ class _QuizBodyState extends State<QuizBody> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    quiz.quizes[questionIndex]
+                                    quiz!.quizes[questionIndex]
                                             .choices?[choicesIndex].text ??
                                         '',
                                     style: blackTextStyle.copyWith(
@@ -182,6 +209,21 @@ class _QuizBodyState extends State<QuizBody> {
                     ],
                   );
                 },
+              ),
+              IconButton(
+                onPressed: () async {
+                  // quiz?.answerquiz.first.choices?.first.text;
+                  print(
+                      '${quiz?.answerquiz.first.choices?.first.text}) + ${quiz?.answerquiz.first.choices?.first.valid}');
+                  await QuizService().postQuiz(
+                      widget.modulId, QuizResponse(data: quiz?.answerquiz));
+                  // QuizzesAnswerRequest? requestanswer;
+                  // requestanswer!.quizzes = quiz?.answerquiz ?? [];
+                  // quiz?.answerquiz.forEach((element) {
+                  //   print(element.);
+                  // });
+                },
+                icon: const Icon(Icons.abc),
               )
             ],
           )
