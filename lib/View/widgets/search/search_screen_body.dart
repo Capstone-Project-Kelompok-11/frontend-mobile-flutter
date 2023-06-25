@@ -60,7 +60,7 @@ class _SearchBodyState extends State<SearchBody> {
               itemBuilder: (context, searchIndex) {
                 return InkWell(
                   onTap: () async {
-                    await Navigator.push(
+                    await Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => CategoryCourseScreen(
