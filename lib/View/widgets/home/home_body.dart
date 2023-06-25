@@ -445,25 +445,26 @@ class _HomeBodyState extends State<HomeBody> {
 
                                           //check if thumbnail is not empty
                                           child: myCourses!
-                                                      .thumbnail!.isNotEmpty ||
+                                                      .thumbnail!.isEmpty ||
                                                   myCourses.thumbnail == ''
-                                              ? ClipRRect(
+                                              ? Center(
+                                                  child: Text(
+                                                    'Image Not Available',
+                                                    style:
+                                                        blackTextStyle.copyWith(
+                                                      fontSize: 10.0,
+                                                      fontWeight: bold
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                )
+                                              : ClipRRect(
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           10.0),
                                                   child: Image.network(
                                                       myCourses.thumbnail ?? '',
                                                       fit: BoxFit.cover),
-                                                )
-                                              : Center(
-                                                  child: Text(
-                                                    'Image Not Available',
-                                                    style:
-                                                        blackTextStyle.copyWith(
-                                                      fontSize: 10.0,
-                                                    ),
-                                                    textAlign: TextAlign.center,
-                                                  ),
                                                 ),
                                         ),
                                         const SizedBox(width: 16.0),
