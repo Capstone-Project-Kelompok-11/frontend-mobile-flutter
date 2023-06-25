@@ -71,7 +71,9 @@ class _CategoryCourseBodyState extends State<CategoryCourseBody> {
                     );
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(right: 16.0),
+                    margin: index < courseProvider.categories.length - 1
+                        ? const EdgeInsets.only(right: 16.0)
+                        : null,
                     padding: const EdgeInsets.symmetric(
                       vertical: 8.0,
                       horizontal: 12.0,
@@ -117,9 +119,7 @@ class _CategoryCourseBodyState extends State<CategoryCourseBody> {
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               scrollDirection: Axis.vertical,
-                              itemCount: courseProvider.pageLoading
-                                  ? courseProvider.courses.length + 1
-                                  : courseProvider.courses.length,
+                              itemCount: courseProvider.courses.length,
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
@@ -128,6 +128,8 @@ class _CategoryCourseBodyState extends State<CategoryCourseBody> {
                                 mainAxisExtent: 180.0,
                               ),
                               itemBuilder: (_, index) {
+                                final publicCourses =
+                                    courseProvider.courses[index];
                                 if (index < courseProvider.courses.length) {
                                   return Material(
                                     elevation: 2.0,
@@ -141,8 +143,7 @@ class _CategoryCourseBodyState extends State<CategoryCourseBody> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 DetailCourseScreen(
-                                                    courseId: courseProvider
-                                                        .courses[index].id),
+                                                    courseId: publicCourses.id),
                                           ),
                                         );
                                       },
@@ -160,17 +161,12 @@ class _CategoryCourseBodyState extends State<CategoryCourseBody> {
                                               child: ClipRRect(
                                                 borderRadius:
                                                     BorderRadius.circular(10.0),
-                                                child: courseProvider
-                                                        .courses[index]
-                                                        .thumbnail
-                                                        .isNotEmpty
-                                                    ? Image.network(
-                                                        courseProvider
-                                                            .courses[index]
-                                                            .thumbnail,
-                                                        fit: BoxFit.cover,
-                                                      )
-                                                    : Container(
+                                                child: publicCourses.thumbnail
+                                                            .isEmpty ||
+                                                        publicCourses
+                                                                .thumbnail ==
+                                                            ''
+                                                    ? Container(
                                                         color: Colors.grey,
                                                         child: Center(
                                                           child: Text(
@@ -185,6 +181,10 @@ class _CategoryCourseBodyState extends State<CategoryCourseBody> {
                                                                         regular),
                                                           ),
                                                         ),
+                                                      )
+                                                    : Image.network(
+                                                        publicCourses.thumbnail,
+                                                        fit: BoxFit.cover,
                                                       ),
                                               ),
                                             ),
@@ -199,8 +199,7 @@ class _CategoryCourseBodyState extends State<CategoryCourseBody> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      courseProvider
-                                                          .courses[index].name,
+                                                      publicCourses.name,
                                                       style: blackTextStyle
                                                           .copyWith(
                                                               fontWeight: bold,
@@ -215,9 +214,7 @@ class _CategoryCourseBodyState extends State<CategoryCourseBody> {
                                                         const SizedBox(
                                                             width: 8.0),
                                                         Text(
-                                                            courseProvider
-                                                                .courses[index]
-                                                                .rating
+                                                            publicCourses.rating
                                                                 .toString(),
                                                             style:
                                                                 blackTextStyle
@@ -226,11 +223,10 @@ class _CategoryCourseBodyState extends State<CategoryCourseBody> {
                                                             )),
                                                         const Spacer(),
                                                         Text(
-                                                            Utility.rupiah.format(
-                                                                courseProvider
-                                                                    .courses[
-                                                                        index]
-                                                                    .price),
+                                                            Utility.rupiah
+                                                                .format(
+                                                                    publicCourses
+                                                                        .price),
                                                             style: blueTextStyle
                                                                 .copyWith(
                                                                     fontWeight:
@@ -248,8 +244,9 @@ class _CategoryCourseBodyState extends State<CategoryCourseBody> {
                                       ),
                                     ),
                                   );
+                                } else {
+                                  return Text('test');
                                 }
-                                return null;
                               }),
                           const SizedBox(height: 10.0),
                           if (courseProvider.pageLoading) ...[
@@ -274,7 +271,7 @@ class _CategoryCourseBodyState extends State<CategoryCourseBody> {
                       padding: EdgeInsets.only(
                           top: MediaQuery.of(context).size.height * 0.28),
                       child: Text(
-                        'Course Tidak Tersedia',
+                        'No Available Courses',
                         style: blackTextStyle.copyWith(
                             fontSize: 16.0, fontWeight: bold),
                       ),
