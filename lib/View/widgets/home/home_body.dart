@@ -388,21 +388,24 @@ class _HomeBodyState extends State<HomeBody> {
               const SizedBox(height: 10.0),
 
               //Show My Course
-              myCourseProvider.myCourse.isEmpty
-                  ? SizedBox(
+
+              myCourseProvider.isLoading
+                  ? const SizedBox(
                       height: 100.0,
-                      child: Center(
-                        child: Text(
-                          'No Enrolled Course',
-                          style: blackTextStyle.copyWith(
-                            fontSize: 16.0,
-                            fontWeight: bold,
+                      child: Center(child: CircularProgressIndicator()))
+                  : myCourseProvider.myCourse.isEmpty
+                      ? SizedBox(
+                          height: 100.0,
+                          child: Center(
+                            child: Text(
+                              'No Enrolled Course',
+                              style: blackTextStyle.copyWith(
+                                fontSize: 16.0,
+                                fontWeight: bold,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    )
-                  : myCourseProvider.isLoading
-                      ? const CircularProgressIndicator()
+                        )
                       : ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
