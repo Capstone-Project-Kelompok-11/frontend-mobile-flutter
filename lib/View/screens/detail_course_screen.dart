@@ -28,14 +28,14 @@ class _DetailCourseScreenState extends State<DetailCourseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final courseById =
+    final courseProvider =
         Provider.of<DetailCourseViewModel>(context, listen: true);
 
     return Scaffold(
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {
-            courseById.refreshDetail(courseId: widget.courseId);
+            courseProvider.refreshDetail(courseId: widget.courseId);
           },
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
@@ -52,10 +52,12 @@ class _DetailCourseScreenState extends State<DetailCourseScreen> {
           ),
         ),
       ),
-      floatingActionButton: BuyButton(
-        courseId: widget.courseId,
-        coursePrice: courseById.coursePrice,
-      ),
+      floatingActionButton: courseProvider.isLoading
+          ? Container()
+          : BuyButton(
+              courseId: widget.courseId,
+              coursePrice: courseProvider.coursePrice,
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }

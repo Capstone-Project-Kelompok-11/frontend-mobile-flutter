@@ -56,9 +56,35 @@ class DetailCourseViewModel with ChangeNotifier {
 
   String get courseThumbnail => _courseThumbnail;
 
+  //get course id
   String _courseId = '';
 
   String get courseId => _courseId;
+
+  //get rating
+  int _reviewRating1 = 0;
+
+  int get reviewRating1 => _reviewRating1;
+
+  int _reviewRating2 = 0;
+
+  int get reviewRating2 => _reviewRating2;
+
+  int _reviewRating3 = 0;
+
+  int get reviewRating3 => _reviewRating3;
+
+  int _reviewRating4 = 0;
+
+  int get reviewRating4 => _reviewRating4;
+
+  int _reviewRating5 = 0;
+
+  int get reviewRating5 => _reviewRating5;
+
+  int _reviewRatingN = 0;
+
+  int get reviewRatingN => _reviewRatingN;
 
   void getCourseById({String? courseId}) async {
     _isLoading = true;
@@ -75,11 +101,17 @@ class DetailCourseViewModel with ChangeNotifier {
     _courseLevel = detailCourseResponse.data?.level ?? '';
     _courseThumbnail = detailCourseResponse.data?.thumbnail ?? '';
     _courseId = detailCourseResponse.data?.id ?? '';
+    _reviewRating1 = detailCourseResponse.data?.rating1 ?? 0;
+    _reviewRating2 = detailCourseResponse.data?.rating2 ?? 0;
+    _reviewRating3 = detailCourseResponse.data?.rating3 ?? 0;
+    _reviewRating4 = detailCourseResponse.data?.rating4 ?? 0;
+    _reviewRating5 = detailCourseResponse.data?.rating5 ?? 0;
+    _reviewRatingN = detailCourseResponse.data?.ratingN ?? 0;
     _isLoading = false;
 
     notifyListeners();
   }
-
+  
   void refreshDetail({String? courseId}) {
     getCourseById(courseId: courseId);
     notifyListeners();
