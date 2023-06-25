@@ -68,8 +68,9 @@ class _HomeBodyState extends State<HomeBody> {
                         CarouselSlider.builder(
                           itemCount: bannerProvider.banners.length,
                           itemBuilder: (context, itemIndex, _) {
+                            final banners = bannerProvider.banners[itemIndex];
                             //check if banner images is empty
-                            return bannerProvider.banners[itemIndex].src.isEmpty
+                            return banners.src.isEmpty || banners.src == ''
                                 ? Container(
                                     width: 260.0,
                                     height: 100.0,
@@ -95,7 +96,7 @@ class _HomeBodyState extends State<HomeBody> {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(10.0),
                                       child: Image.network(
-                                        bannerProvider.banners[itemIndex].src,
+                                        banners.src,
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -129,7 +130,7 @@ class _HomeBodyState extends State<HomeBody> {
                     borderRadius: BorderRadius.circular(8),
                     color: bannerProvider.bannerIndex == entry.key
                         ? blueColor
-                        : Colors.grey,
+                        : const Color(0xFFD9D9D9),
                   ),
                 ),
               );
@@ -260,7 +261,9 @@ class _HomeBodyState extends State<HomeBody> {
                                         child: Column(
                                           children: [
                                             //check if thumbnail is empty
-                                            popularCourses.thumbnail.isEmpty
+                                            popularCourses.thumbnail.isEmpty ||
+                                                    popularCourses.thumbnail ==
+                                                        ''
                                                 ? Container(
                                                     height: 110.0,
                                                     decoration: BoxDecoration(
@@ -442,7 +445,8 @@ class _HomeBodyState extends State<HomeBody> {
 
                                           //check if thumbnail is not empty
                                           child: myCourses!
-                                                  .thumbnail!.isNotEmpty
+                                                      .thumbnail!.isNotEmpty ||
+                                                  myCourses.thumbnail == ''
                                               ? ClipRRect(
                                                   borderRadius:
                                                       BorderRadius.circular(
