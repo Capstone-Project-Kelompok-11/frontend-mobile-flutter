@@ -13,7 +13,6 @@ class PopularCourseViewModel with ChangeNotifier {
 
   void getPopularCourse() async {
     _isLoading = true;
-    await Future.delayed(const Duration(seconds: 3));
     final popularCourseResponse =
         await PopularCourseService().getPopularCourse();
     _popularCourses = popularCourseResponse.data;

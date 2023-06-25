@@ -33,7 +33,7 @@ class CheckoutButton extends StatelessWidget {
           ),
           onPressed: () async {
             await checkOutProvider.verify(
-                courseId: checkOutProvider.checkOutUnpaid[0].course.id,
+                checkOutId: checkOutProvider.checkOutUnpaid[0].id,
                 paymentMethod: checkOutProvider
                             .paymentMethod[checkOutProvider.selectedPayment]
                         ['payment'] ??

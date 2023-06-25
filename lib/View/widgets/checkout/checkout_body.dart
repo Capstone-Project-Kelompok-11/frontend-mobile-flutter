@@ -15,6 +15,7 @@ class CheckoutBody extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 30.0,
+        vertical: 30.0,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

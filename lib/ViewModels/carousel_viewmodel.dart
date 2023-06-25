@@ -2,42 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:lms_apps/Models/banner_response.dart';
 import 'package:lms_apps/Services/carousel_service.dart';
 
-
 class CarouselViewModel with ChangeNotifier {
+  bool _isLoading = false;
+
+  bool get isLoading => _isLoading;
   List<BannerImage> _banners = [];
 
   List<BannerImage> get banners => _banners;
 
-  List<Widget> carouselBoxes = [
-    Container(
-      width: 260,
-      decoration: BoxDecoration(
-        color: Colors.grey,
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-    ),
-    Container(
-        width: 260,
-        decoration: BoxDecoration(
-          color: Colors.grey,
-          borderRadius: BorderRadius.circular(10.0),
-        )),
-    Container(
-        width: 260,
-        decoration: BoxDecoration(
-          color: Colors.grey,
-          borderRadius: BorderRadius.circular(10.0),
-        )),
-    Container(
-        width: 260,
-        decoration: BoxDecoration(
-          color: Colors.grey,
-          borderRadius: BorderRadius.circular(10.0),
-        )),
-  ];
+  int _bannerIndex = 0;
+
+  int get bannerIndex => _bannerIndex;
+
+  set setBannerIndex(int index) {
+    _bannerIndex = index;
+    notifyListeners();
+  }
+
   void getBanner() async {
+    _isLoading = true;
     final response = await CarouselService().getBanner();
     _banners = response.data;
-    print(_banners[0].src);
+    _isLoading = false;
+    notifyListeners();
   }
 }

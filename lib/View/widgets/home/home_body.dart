@@ -4,6 +4,8 @@ import 'package:lms_apps/View/screens/category_course_screen.dart';
 import 'package:lms_apps/View/screens/detail_course_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:lms_apps/ViewModels/carousel_viewmodel.dart';
+import 'package:lms_apps/ViewModels/category_course_view_model.dart';
+import 'package:lms_apps/ViewModels/my_course_view_model.dart';
 import 'package:lms_apps/ViewModels/popular_course_view_model.dart';
 import 'package:lms_apps/utils/utility.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +19,7 @@ class HomeBody extends StatefulWidget {
 }
 
 class _HomeBodyState extends State<HomeBody> {
+  CarouselController buttonCarouselController = CarouselController();
   @override
   void initState() {
     super.initState();
@@ -24,65 +27,114 @@ class _HomeBodyState extends State<HomeBody> {
     Provider.of<PopularCourseViewModel>(context, listen: false)
         .getPopularCourse();
     Provider.of<CarouselViewModel>(context, listen: false).getBanner();
-  }
 
-  final CarouselController _controller = CarouselController();
-  int setIndex = 0;
+    Provider.of<MyCourseViewModel>(context, listen: false)
+        .getMyCourseProgress();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final popularCourse =
+    final popularCourseProvider =
         Provider.of<PopularCourseViewModel>(context, listen: true);
-    final banner = Provider.of<CarouselViewModel>(context, listen: true);
+    final bannerProvider =
+        Provider.of<CarouselViewModel>(context, listen: true);
+    final categoriesProvider =
+        Provider.of<CategoryCourseViewModel>(context, listen: true);
+    final myCourseProvider =
+        Provider.of<MyCourseViewModel>(context, listen: true);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30.0),
       child: Column(
         children: [
           //Carousel Slider
-          Column(
-            children: [
-              CarouselSlider.builder(
-                carouselController: _controller,
-                itemCount: banner.banners.length,
-                itemBuilder: (context, itemIndex, _) {
-                  return Container(
-                    child: Image.network(banner.banners[itemIndex].src),
-                  );
-                },
-                options: CarouselOptions(
-                  height: 100.0,
-                  clipBehavior: Clip.none,
-                  autoPlay: true,
-                ),
-              ),
-            ],
-          ),
+          bannerProvider.isLoading
+              ? const CircularProgressIndicator()
+              : bannerProvider.banners.isEmpty
+                  ? SizedBox(
+                      height: 100.0,
+                      child: Center(
+                        child: Text(
+                          'Banners Not Available',
+                          style: blackTextStyle.copyWith(
+                            fontSize: 16.0,
+                            fontWeight: bold,
+                          ),
+                        ),
+                      ),
+                    )
+                  : Column(
+                      children: [
+                        CarouselSlider.builder(
+                          itemCount: bannerProvider.banners.length,
+                          itemBuilder: (context, itemIndex, _) {
+                            //check if banner images is empty
+                            return bannerProvider.banners[itemIndex].src.isEmpty
+                                ? Container(
+                                    width: 260.0,
+                                    height: 100.0,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(
+                                        10.0,
+                                      ),
+                                      color: Colors.grey,
+                                    ),
+                                    child: Center(
+                                        child: Text('Image Not Available',
+                                            style: blackTextStyle.copyWith(
+                                                fontSize: 16.0,
+                                                fontWeight: bold))))
+                                : Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(
+                                        10.0,
+                                      ),
+                                    ),
+                                    width: 260.0,
+                                    height: 100.0,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child: Image.network(
+                                        bannerProvider.banners[itemIndex].src,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  );
+                          },
+                          options: CarouselOptions(
+                              height: 100.0,
+                              clipBehavior: Clip.none,
+                              autoPlay: true,
+                              onPageChanged: (index, _) {
+                                bannerProvider.setBannerIndex = index;
+                              }),
+                        ),
+                      ],
+                    ),
           const SizedBox(height: 8.0),
 
-          //Carousel Indicator
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: carouselBoxes.asMap().entries.map((entry) {
-          //     return GestureDetector(
-          //       onTap: () => _controller.animateToPage(entry.key),
-          //       child: Container(
-          //         width: 15.0,
-          //         height: 15.0,
-          //         margin: const EdgeInsets.symmetric(
-          //           horizontal: 4.0,
-          //         ),
-          //         decoration: BoxDecoration(
-          //           borderRadius: BorderRadius.circular(8),
-          //           color: (Theme.of(context).brightness == Brightness.light
-          //                   ? Colors.black
-          //                   : Colors.black)
-          //               .withOpacity(setIndex == entry.key ? 0.9 : 0.4),
-          //         ),
-          //       ),
-          //     );
-          //   }).toList(),
-          // ),
+          // CarouselIndicator
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: bannerProvider.banners.asMap().entries.map((entry) {
+              return GestureDetector(
+                onTap: () {},
+                child: Container(
+                  width: 15.0,
+                  height: 15.0,
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 4.0,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: bannerProvider.bannerIndex == entry.key
+                        ? blueColor
+                        : Colors.grey,
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
 
           const SizedBox(height: 16.0),
 
@@ -93,11 +145,13 @@ class _HomeBodyState extends State<HomeBody> {
               clipBehavior: Clip.none,
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
-              itemCount: 5,
+              itemCount: categoriesProvider.categoryList.length,
               itemBuilder: (context, index) {
                 return Container(
                   padding: const EdgeInsets.all(14.0),
-                  margin: const EdgeInsets.only(right: 16.0),
+                  margin: index < categoriesProvider.categoryList.length - 1
+                      ? const EdgeInsets.only(right: 16.0)
+                      : null,
                   width: 80.0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
@@ -108,15 +162,14 @@ class _HomeBodyState extends State<HomeBody> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        width: 46.0,
-                        height: 46.0,
-                        decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
+                      Image.asset(categoriesProvider.categoryList[index]
+                              ['image'] ??
+                          ''),
+                      FittedBox(
+                        child: Text(categoriesProvider.categoryList[index]
+                                ['category'] ??
+                            ''),
                       ),
-                      const Text('Test')
                     ],
                   ),
                 );
@@ -141,6 +194,7 @@ class _HomeBodyState extends State<HomeBody> {
                   ),
                   GestureDetector(
                     onTap: () {
+                      //navigate to Category Course Screen without search parameter
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -157,39 +211,46 @@ class _HomeBodyState extends State<HomeBody> {
                 ],
               ),
               const SizedBox(height: 10.0),
-              popularCourse.isLoading
+              popularCourseProvider.isLoading
                   ? const SizedBox(
                       height: 180.0,
                       child: Center(
                         child: CircularProgressIndicator(),
                       ),
                     )
-                  : GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const DetailCourseScreen(),
-                          ),
-                        );
-                      },
-                      child: SizedBox(
-                        height: 180.0,
-                        child: popularCourse.popularCourses.isNotEmpty
-                            ? ListView.builder(
-                                shrinkWrap: true,
-                                clipBehavior: Clip.none,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: popularCourse.popularCourses.length,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(right: 16.0),
-                                    child: Material(
-                                      elevation: 2.0,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                      ),
+                  : SizedBox(
+                      height: 180.0,
+
+                      //check if popular couse is empty
+                      child: popularCourseProvider.popularCourses.isNotEmpty
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              clipBehavior: Clip.none,
+                              scrollDirection: Axis.horizontal,
+                              itemCount:
+                                  popularCourseProvider.popularCourses.length,
+                              itemBuilder: (context, index) {
+                                final popularCourses =
+                                    popularCourseProvider.popularCourses[index];
+                                return Padding(
+                                  padding: const EdgeInsets.only(right: 16.0),
+                                  child: Material(
+                                    elevation: 2.0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                DetailCourseScreen(
+                                                    courseId:
+                                                        popularCourses.id),
+                                          ),
+                                        );
+                                      },
                                       child: Container(
                                         width: 140.0,
                                         decoration: BoxDecoration(
@@ -198,20 +259,41 @@ class _HomeBodyState extends State<HomeBody> {
                                         ),
                                         child: Column(
                                           children: [
-                                            SizedBox(
-                                              height: 110.0,
-                                              width: double.infinity,
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(10.0),
-                                                child: Image.network(
-                                                  popularCourse
-                                                      .popularCourses[index]
-                                                      .thumbnail,
-                                                  fit: BoxFit.fill,
-                                                ),
-                                              ),
-                                            ),
+                                            //check if thumbnail is empty
+                                            popularCourses.thumbnail.isEmpty
+                                                ? Container(
+                                                    height: 110.0,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10.0),
+                                                        color: Colors.grey),
+                                                    child: Center(
+                                                      child: Text(
+                                                        'Image Not Available',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: blackTextStyle
+                                                            .copyWith(
+                                                          fontWeight: bold,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                : SizedBox(
+                                                    height: 110.0,
+                                                    width: double.infinity,
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                      child: Image.network(
+                                                        popularCourses
+                                                            .thumbnail,
+                                                        fit: BoxFit.fill,
+                                                      ),
+                                                    ),
+                                                  ),
                                             const SizedBox(height: 8.0),
                                             Padding(
                                               padding:
@@ -222,9 +304,12 @@ class _HomeBodyState extends State<HomeBody> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    Text(popularCourse
-                                                        .popularCourses[index]
-                                                        .name),
+                                                    Text(popularCourses.name,
+                                                        style: blackTextStyle
+                                                            .copyWith(
+                                                          fontSize: 12.0,
+                                                          fontWeight: bold,
+                                                        )),
                                                     const SizedBox(
                                                         height: 16.0),
                                                     Row(children: [
@@ -232,19 +317,20 @@ class _HomeBodyState extends State<HomeBody> {
                                                           'assets/icon/ic_star.png'),
                                                       const SizedBox(
                                                           width: 8.0),
-                                                      Text(popularCourse
-                                                          .popularCourses[index]
-                                                          .rating
-                                                          .toString()),
+                                                      Text(
+                                                        popularCourses.rating
+                                                            .toString(),
+                                                        style: blackTextStyle
+                                                            .copyWith(
+                                                                fontSize: 10.0),
+                                                      ),
                                                       const Spacer(),
                                                       SizedBox(
                                                         width: 60.0,
                                                         child: FittedBox(
                                                           child: Text(
                                                             Utility.rupiah.format(
-                                                                popularCourse
-                                                                    .popularCourses[
-                                                                        index]
+                                                                popularCourses
                                                                     .price),
                                                             style: TextStyle(
                                                               color: blueColor,
@@ -261,11 +347,19 @@ class _HomeBodyState extends State<HomeBody> {
                                         ),
                                       ),
                                     ),
-                                  );
-                                },
-                              )
-                            : const Center(child: Text('No Popular Courses')),
-                      ),
+                                  ),
+                                );
+                              },
+                            )
+                          : Center(
+                              child: Text(
+                                'Course Not Available',
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 16.0,
+                                  fontWeight: bold,
+                                ),
+                              ),
+                            ),
                     ),
             ],
           ),
@@ -292,75 +386,139 @@ class _HomeBodyState extends State<HomeBody> {
                 ],
               ),
               const SizedBox(height: 10.0),
-              ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: const EdgeInsets.only(bottom: 32.0),
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 0.3),
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 80.0,
-                          height: 80.0,
-                          decoration: BoxDecoration(
-                            color: Colors.grey,
-                            borderRadius: BorderRadius.circular(10.0),
+
+              //Show My Course
+              myCourseProvider.myCourse.isEmpty
+                  ? SizedBox(
+                      height: 100.0,
+                      child: Center(
+                        child: Text(
+                          'No Enrolled Course',
+                          style: blackTextStyle.copyWith(
+                            fontSize: 16.0,
+                            fontWeight: bold,
                           ),
                         ),
-                        const SizedBox(width: 16.0),
-                        SizedBox(
-                          height: 80.0,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              const Text(
-                                'Test',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 12.0,
-                                ),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  const Text(
-                                    '4 / 5 Lessons',
-                                    style: TextStyle(
-                                      fontSize: 10.0,
+                      ),
+                    )
+                  : myCourseProvider.isLoading
+                      ? const CircularProgressIndicator()
+                      : ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: myCourseProvider.myCourse.length,
+                          itemBuilder: (context, index) {
+                            final module = myCourseProvider
+                                .myCourse[index].lessonLength?.length;
+                            final moduleComplete = myCourseProvider
+                                .myCourse[index].completeModule?.length;
+
+                            final myCourses =
+                                myCourseProvider.myCourse[index].course;
+                            /*check if module == module complete then return empty container
+                                (when module is completed it won't show)*/
+                            return module == moduleComplete
+                                ? Container()
+                                : Container(
+                                    margin: const EdgeInsets.only(bottom: 32.0),
+                                    padding: const EdgeInsets.all(16.0),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(width: 0.3),
+                                      borderRadius: BorderRadius.circular(10.0),
                                     ),
-                                  ),
-                                  const SizedBox(height: 8.0),
-                                  SimpleAnimationProgressBar(
-                                    height: 8,
-                                    width: 200,
-                                    backgroundColor: const Color(0x666EA8FE),
-                                    foregrondColor: blueColor,
-                                    ratio: 4 / 5,
-                                    direction: Axis.horizontal,
-                                    curve: Curves.fastLinearToSlowEaseIn,
-                                    duration: const Duration(seconds: 3),
-                                    borderRadius: BorderRadius.circular(10),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width: 80.0,
+                                          height: 80.0,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey,
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+
+                                          //check if thumbnail is not empty
+                                          child: myCourses!
+                                                  .thumbnail!.isNotEmpty
+                                              ? ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                  child: Image.network(
+                                                      myCourses.thumbnail ?? '',
+                                                      fit: BoxFit.cover),
+                                                )
+                                              : Center(
+                                                  child: Text(
+                                                    'Image Not Available',
+                                                    style:
+                                                        blackTextStyle.copyWith(
+                                                      fontSize: 10.0,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                        ),
+                                        const SizedBox(width: 16.0),
+                                        SizedBox(
+                                          height: 80.0,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Text(
+                                                myCourses.name ?? '',
+                                                style: blackTextStyle.copyWith(
+                                                    fontSize: 12.0,
+                                                    fontWeight: bold),
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
+                                                  Text(
+                                                    '$moduleComplete / $module',
+                                                    style: const TextStyle(
+                                                      fontSize: 10.0,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 8.0),
+                                                  SimpleAnimationProgressBar(
+                                                    height: 8,
+                                                    width: 200,
+                                                    backgroundColor:
+                                                        const Color(0x666EA8FE),
+                                                    foregrondColor: blueColor,
+                                                    ratio: module == 0 &&
+                                                            moduleComplete == 0
+                                                        ? 0
+                                                        : ((moduleComplete ??
+                                                                0) /
+                                                            (module ?? 0)),
+                                                    direction: Axis.horizontal,
+                                                    curve: Curves
+                                                        .fastLinearToSlowEaseIn,
+                                                    duration: const Duration(
+                                                        seconds: 3),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                          },
                         ),
-                      ],
-                    ),
-                  );
-                },
-              ),
             ],
           )
         ],

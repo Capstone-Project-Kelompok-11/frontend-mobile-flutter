@@ -5,8 +5,6 @@ import 'package:lms_apps/View/widgets/search/search_screen_appbar.dart';
 import 'package:lms_apps/ViewModels/edit_profile_view_model.dart';
 import 'package:provider/provider.dart';
 
-
-
 class HomeAppBar extends StatefulWidget {
   const HomeAppBar({super.key});
 
@@ -24,7 +22,8 @@ class _HomeAppBarState extends State<HomeAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    final userInfo = Provider.of<EditProfileViewModel>(context, listen: true);
+    final userInfoProvider =
+        Provider.of<EditProfileViewModel>(context, listen: true);
     return Padding(
       padding: const EdgeInsets.only(top: 44.0),
       child: Column(
@@ -34,16 +33,28 @@ class _HomeAppBarState extends State<HomeAppBar> {
             padding: const EdgeInsets.symmetric(horizontal: 36.0),
             child: Row(
               children: [
-                userInfo.imagePath != null
-                    ? CircleAvatar(
-                        backgroundImage: NetworkImage('${userInfo.imagePath}'))
-                    : CircleAvatar(
-                        backgroundColor: blueColor,
-                        child: Icon(Icons.question_mark, color: whiteColor),
-                      ),
+                userInfoProvider.isLoading
+                    ? const CircleAvatar(
+                        backgroundColor: Colors.grey,
+                        child: SizedBox(
+                          height: 10.0,
+                          width: 10.0,
+                          child: CircularProgressIndicator(),
+                        ),
+                      )
+                    : userInfoProvider.imagePath == null
+                        ? CircleAvatar(
+                            backgroundColor: Colors.grey,
+                            child: Icon(Icons.question_mark, color: whiteColor),
+                          )
+                        : CircleAvatar(
+                            backgroundColor: Colors.transparent,
+                            backgroundImage:
+                                NetworkImage('${userInfoProvider.imagePath}'),
+                          ),
                 const SizedBox(width: 10),
                 Text(
-                  'Welcome, ${userInfo.name ?? 'Guest'}',
+                  'Welcome, ${userInfoProvider.name ?? 'Guest'}',
                   style: const TextStyle(
                       fontSize: 14, fontWeight: FontWeight.w700),
                 ),
@@ -71,9 +82,6 @@ class _HomeAppBarState extends State<HomeAppBar> {
               readOnly: true,
               prefixIcon: Image.asset(
                 'assets/icon/ic_search.png',
-              ),
-              suffixIcon: Image.asset(
-                'assets/icon/ic_filter.png',
               ),
               onTap: () {
                 Navigator.push(
