@@ -10,14 +10,6 @@ class SearchAppbar extends StatefulWidget {
 }
 
 class _SearchAppbarState extends State<SearchAppbar> {
-  final TextEditingController searchController = TextEditingController();
-
-  @override
-  void dispose() {
-    super.dispose();
-    searchController.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     final searchProvider = Provider.of<SearchViewModel>(context);
@@ -37,15 +29,13 @@ class _SearchAppbarState extends State<SearchAppbar> {
           const SizedBox(width: 16.0),
           Expanded(
             child: CustomSearchBar(
-              controller: searchController,
+              autoFocus: true,
               onChanged: (value) {
                 // print(searchProvider.value);
                 searchProvider.setValue = value;
               },
-              onTap: () {},
               onFieldSubmitted: (value) {
                 searchProvider.checkValue(search: value, context: context);
-                searchController.clear();
               },
               prefixIcon: Image.asset(
                 'assets/icon/ic_search.png',
@@ -53,7 +43,6 @@ class _SearchAppbarState extends State<SearchAppbar> {
               suffixIcon: GestureDetector(
                 onTap: () {
                   searchProvider.clearValue();
-                  searchController.clear();
                 },
                 child: Image.asset(
                   'assets/icon/ic_stroke.png',
@@ -76,6 +65,7 @@ class CustomSearchBar extends StatelessWidget {
   final Widget? suffixIcon;
   final Function(String)? onFieldSubmitted;
   final TextEditingController? controller;
+  final bool? autoFocus;
   const CustomSearchBar({
     super.key,
     this.readOnly,
@@ -85,7 +75,7 @@ class CustomSearchBar extends StatelessWidget {
     this.onChanged,
     this.onFieldSubmitted,
     this.controller,
-    this.initialValue,
+    this.initialValue, this.autoFocus,
   });
 
   @override
@@ -93,6 +83,7 @@ class CustomSearchBar extends StatelessWidget {
     return SizedBox(
       height: 36.0,
       child: TextFormField(
+        autofocus: true,
         initialValue: initialValue,
         controller: controller,
         onFieldSubmitted: onFieldSubmitted,

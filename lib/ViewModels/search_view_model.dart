@@ -58,14 +58,14 @@ class SearchViewModel with ChangeNotifier {
       addSearch(
         search: search,
       );
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => CategoryCourseScreen(search: search),
         ),
       );
       getSearchHistory(search: search);
-      setValue = '';
+      _value = '';
     }
   }
 }
