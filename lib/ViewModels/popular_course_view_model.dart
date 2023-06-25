@@ -9,11 +9,10 @@ class PopularCourseViewModel with ChangeNotifier {
 
   List<PopularCourse> _popularCourses = [];
 
-  List get popularCourses => _popularCourses;
+  List<PopularCourse> get popularCourses => _popularCourses;
 
   void getPopularCourse() async {
     _isLoading = true;
-    await Future.delayed(const Duration(seconds: 3));
     final popularCourseResponse =
         await PopularCourseService().getPopularCourse();
     _popularCourses = popularCourseResponse.data;

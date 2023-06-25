@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lms_apps/ViewModels/carousel_viewmodel.dart';
 import 'package:lms_apps/ViewModels/category_course_view_model.dart';
 import 'package:lms_apps/ViewModels/checkout_view_model.dart';
 import 'package:lms_apps/ViewModels/detail_course_view_model.dart';
@@ -76,6 +77,9 @@ void main() {
         ),
         ChangeNotifierProvider<CheckOutViewModel>(
           create: (_) => CheckOutViewModel(),
+        ),
+        ChangeNotifierProvider<CarouselViewModel>(
+          create: (_) => CarouselViewModel(),
         ),
         ChangeNotifierProvider<QuizViewModel>(
           create: (_) => QuizViewModel(),

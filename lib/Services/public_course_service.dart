@@ -11,7 +11,7 @@ class PublicCourseService {
     try {
       final response = await Dio().get(
           '${APIConstant.url}/public/courses?page=$page&size=$size&search=$search&category=$category');
-      // print(response.data);
+      print(response.data);
       return PublicCourseResponse.fromJson(response.data);
     } on DioError catch (e) {
       throw Exception('Failed Get Data $e');
