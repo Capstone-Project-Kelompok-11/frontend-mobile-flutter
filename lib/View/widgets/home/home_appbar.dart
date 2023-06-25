@@ -42,13 +42,13 @@ class _HomeAppBarState extends State<HomeAppBar> {
                           child: CircularProgressIndicator(),
                         ),
                       )
-                    : userInfoProvider.imagePath == null
+                    : userInfoProvider.imagePath == null ||
+                            userInfoProvider.imagePath == ''
                         ? CircleAvatar(
                             backgroundColor: Colors.grey,
                             child: Icon(Icons.question_mark, color: whiteColor),
                           )
                         : CircleAvatar(
-                            backgroundColor: Colors.transparent,
                             backgroundImage:
                                 NetworkImage('${userInfoProvider.imagePath}'),
                           ),
