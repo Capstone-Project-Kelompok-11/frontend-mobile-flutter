@@ -4,28 +4,52 @@
 
 import 'dart:convert';
 
+import 'package:lms_apps/Models/quisesanswer_request_response.dart';
+
 QuizResponse quizResponseFromJson(String str) =>
     QuizResponse.fromJson(json.decode(str));
 
 String quizResponseToJson(QuizResponse data) => json.encode(data.toJson());
 
 class QuizResponse {
-  List<Quiz>? quizzes;
+  int? id;
+  List<dynamic>? logs;
+  String? status;
+  String? message;
+  bool? error;
+  List<Quiz>? data;
 
   QuizResponse({
-    this.quizzes,
+    this.id,
+    this.logs,
+    this.status,
+    this.message,
+    this.error,
+    this.data,
   });
 
   factory QuizResponse.fromJson(Map<String, dynamic> json) => QuizResponse(
-        quizzes: json["quizzes"] == null
+        id: json["id"],
+        logs: json["logs"] == null
             ? []
-            : List<Quiz>.from(json["quizzes"]!.map((x) => Quiz.fromJson(x))),
+            : List<dynamic>.from(json["logs"]!.map((x) => x)),
+        status: json["status"],
+        message: json["message"],
+        error: json["error"],
+        data: json["data"] == null
+            ? []
+            : List<Quiz>.from(json["data"]!.map((x) => Quiz.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "quizzes": quizzes == null
+        "id": id,
+        "logs": logs == null ? [] : List<dynamic>.from(logs!.map((x) => x)),
+        "status": status,
+        "message": message,
+        "error": error,
+        "data": data == null
             ? []
-            : List<dynamic>.from(quizzes!.map((x) => x.toJson())),
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 

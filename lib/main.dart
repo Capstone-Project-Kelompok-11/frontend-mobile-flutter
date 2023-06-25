@@ -14,6 +14,7 @@ import 'package:lms_apps/ViewModels/my_course_view_model.dart';
 import 'package:lms_apps/ViewModels/otp_view_model.dart';
 import 'package:lms_apps/ViewModels/popular_course_view_model.dart';
 import 'package:lms_apps/ViewModels/profile_view_model.dart';
+import 'package:lms_apps/ViewModels/quiz_view_model.dart';
 import 'package:lms_apps/ViewModels/register_view_model.dart';
 import 'package:lms_apps/ViewModels/search_view_model.dart';
 import 'package:lms_apps/ViewModels/transaction_history_view_model.dart';
@@ -79,6 +80,9 @@ void main() {
         ),
         ChangeNotifierProvider<CarouselViewModel>(
           create: (_) => CarouselViewModel(),
+        ),
+        ChangeNotifierProvider<QuizViewModel>(
+          create: (_) => QuizViewModel(),
         ),
       ],
       child: const MyApp(),

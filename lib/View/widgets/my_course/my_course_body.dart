@@ -19,126 +19,103 @@ class MyCourseBody extends StatefulWidget {
 
 class _MyCourseBodyState extends State<MyCourseBody> {
   @override
-  void initState() {
-    final myCourseViewModel =
-        Provider.of<MyCourseViewModel>(context, listen: false);
-    myCourseViewModel.getMyCourseProgress();
-    // myCourseViewModel.getMyCourseProgressByID();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final myCourseViewModel = Provider.of<MyCourseViewModel>(context);
     return TabBarView(
       children: [
-        myCourseViewModel.isLoading
-            ? Container(
-                width: 50,
-                height: 50,
-                padding: const EdgeInsets.only(top: 10),
-                child: const CircularProgressIndicator(strokeWidth: 1),
-              )
-            : ListView.builder(
-                shrinkWrap: true,
-                itemCount: myCourseViewModel.myCourse.length,
-                itemBuilder: (context, index) {
-                  var myCourse = myCourseViewModel.myCourse[index];
-                  var module = myCourse.lessonLength?.length;
-                  var moduleComplete = myCourse.completeModule?.length;
-                  return moduleComplete == module
-                      ? Container()
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 31,
-                            vertical: 15,
-                          ),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => LessonsScreen(
-                                    courseId: myCourse.course!.id!,
-                                    listModules: myCourse.lessonLength,
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              height: 98,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: 74,
-                                    height: 74,
-                                    margin: const EdgeInsets.all(13),
-                                    child: myCourse.course?.thumbnail != ''
-                                        ? Image.network(
-                                            '${myCourse.course?.thumbnail}',
-                                          )
-                                        : Image.asset(
-                                            'assets/images/img_basic_microsoft_word.png',
-                                          ),
-                                  ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text('${myCourse.course?.name}'),
-                                      const SizedBox(height: 11),
-                                      Text(
-                                          '${moduleComplete ?? 0} / ${module ?? 5} Lesson'),
-                                      const SizedBox(height: 11),
-                                      moduleComplete == 0 && module == 0
-                                          ? SimpleAnimationProgressBar(
-                                              height: 10,
-                                              width: 200,
-                                              backgroundColor:
-                                                  const Color(0x666EA8FE),
-                                              foregrondColor: Colors.blue,
-                                              ratio: 0,
-                                              direction: Axis.horizontal,
-                                              curve:
-                                                  Curves.fastLinearToSlowEaseIn,
-                                              duration:
-                                                  const Duration(seconds: 3),
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            )
-                                          : SimpleAnimationProgressBar(
-                                              height: 10,
-                                              width: 200,
-                                              backgroundColor:
-                                                  const Color(0x666EA8FE),
-                                              foregrondColor: Colors.blue,
-                                              ratio: (moduleComplete ?? 0) /
-                                                  (module ?? 5),
-                                              direction: Axis.horizontal,
-                                              curve:
-                                                  Curves.fastLinearToSlowEaseIn,
-                                              duration:
-                                                  const Duration(seconds: 3),
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: myCourseViewModel.myCourse.length,
+          itemBuilder: (context, index) {
+            var myCourse = myCourseViewModel.myCourse[index];
+            var module = myCourse.lessonLength?.length;
+            var moduleComplete = myCourse.completeModule?.length;
+            return moduleComplete == module
+                ? Container()
+                : Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 31,
+                      vertical: 15,
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LessonsScreen(
+                              courseId: myCourse.course!.id!,
+                              listModules: myCourse.lessonLength,
                             ),
                           ),
                         );
-                },
-              ),
+                      },
+                      child: Container(
+                        height: 98,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Colors.grey,
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 74,
+                              height: 74,
+                              margin: const EdgeInsets.all(13),
+                              child: myCourse.course?.thumbnail != ''
+                                  ? Image.network(
+                                      '${myCourse.course?.thumbnail}',
+                                    )
+                                  : Image.asset(
+                                      'assets/images/img_basic_microsoft_word.png',
+                                    ),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('${myCourse.course?.name}'),
+                                const SizedBox(height: 11),
+                                Text(
+                                    '${moduleComplete ?? 0} / ${module ?? 5} Lesson'),
+                                const SizedBox(height: 11),
+                                moduleComplete == 0 && module == 0
+                                    ? SimpleAnimationProgressBar(
+                                        height: 10,
+                                        width: 200,
+                                        backgroundColor:
+                                            const Color(0x666EA8FE),
+                                        foregrondColor: Colors.blue,
+                                        ratio: 0,
+                                        direction: Axis.horizontal,
+                                        curve: Curves.fastLinearToSlowEaseIn,
+                                        duration: const Duration(seconds: 3),
+                                        borderRadius: BorderRadius.circular(10),
+                                      )
+                                    : SimpleAnimationProgressBar(
+                                        height: 10,
+                                        width: 200,
+                                        backgroundColor:
+                                            const Color(0x666EA8FE),
+                                        foregrondColor: Colors.blue,
+                                        ratio: (moduleComplete ?? 0) /
+                                            (module ?? 5),
+                                        direction: Axis.horizontal,
+                                        curve: Curves.fastLinearToSlowEaseIn,
+                                        duration: const Duration(seconds: 3),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+          },
+        ),
         myCourseViewModel.isLoading
             ? const Padding(
                 padding: EdgeInsets.only(top: 10),
