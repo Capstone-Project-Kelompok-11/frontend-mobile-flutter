@@ -16,6 +16,7 @@ import 'package:lms_apps/ViewModels/popular_course_view_model.dart';
 import 'package:lms_apps/ViewModels/profile_view_model.dart';
 import 'package:lms_apps/ViewModels/quiz_view_model.dart';
 import 'package:lms_apps/ViewModels/register_view_model.dart';
+import 'package:lms_apps/ViewModels/review_viewmodel.dart';
 import 'package:lms_apps/ViewModels/search_view_model.dart';
 import 'package:lms_apps/ViewModels/transaction_history_view_model.dart';
 import 'package:provider/provider.dart';
@@ -84,7 +85,9 @@ void main() {
         ChangeNotifierProvider<QuizViewModel>(
           create: (_) => QuizViewModel(),
         ),
-      ],
+      ChangeNotifierProvider<ReviewViewModel>(
+          create: (_) => ReviewViewModel(),
+        ), ],
       child: const MyApp(),
     ),
   );

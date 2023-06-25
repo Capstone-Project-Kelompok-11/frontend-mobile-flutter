@@ -215,7 +215,7 @@ class _CategoryCourseBodyState extends State<CategoryCourseBody> {
                                                             width: 8.0),
                                                         Text(
                                                             publicCourses.rating
-                                                                .toString(),
+                                                                .toDouble().toString(),
                                                             style:
                                                                 blackTextStyle
                                                                     .copyWith(

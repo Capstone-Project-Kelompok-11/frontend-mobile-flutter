@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:lms_apps/View/screens/category_course_screen.dart';
 import 'package:lms_apps/View/screens/detail_course_screen.dart';
+import 'package:lms_apps/View/screens/lessons_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:lms_apps/ViewModels/carousel_viewmodel.dart';
 import 'package:lms_apps/ViewModels/category_course_view_model.dart';
@@ -322,6 +323,7 @@ class _HomeBodyState extends State<HomeBody> {
                                                           width: 8.0),
                                                       Text(
                                                         popularCourses.rating
+                                                            .toDouble()
                                                             .toString(),
                                                         style: blackTextStyle
                                                             .copyWith(
@@ -421,108 +423,129 @@ class _HomeBodyState extends State<HomeBody> {
 
                             final myCourses =
                                 myCourseProvider.myCourse[index].course;
+                            final modules = myCourseProvider.myCourse[index].lessonLength;
                             /*check if module == module complete then return empty container
                                 (when module is completed it won't show)*/
                             return module == moduleComplete
                                 ? Container()
-                                : Container(
-                                    margin: const EdgeInsets.only(bottom: 32.0),
-                                    padding: const EdgeInsets.all(16.0),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(width: 0.3),
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          width: 80.0,
-                                          height: 80.0,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey,
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
+                                : GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => LessonsScreen(
+                                            courseId: myCourses.id ?? '',
+                                            listModules: modules,
                                           ),
-
-                                          //check if thumbnail is not empty
-                                          child: myCourses!
-                                                      .thumbnail!.isEmpty ||
-                                                  myCourses.thumbnail == ''
-                                              ? Center(
-                                                  child: Text(
-                                                    'Image Not Available',
-                                                    style:
-                                                        blackTextStyle.copyWith(
-                                                      fontSize: 10.0,
-                                                      fontWeight: bold
-                                                    ),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                )
-                                              : ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                  child: Image.network(
-                                                      myCourses.thumbnail ?? '',
-                                                      fit: BoxFit.cover),
-                                                ),
                                         ),
-                                        const SizedBox(width: 16.0),
-                                        SizedBox(
-                                          height: 80.0,
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Text(
-                                                myCourses.name ?? '',
-                                                style: blackTextStyle.copyWith(
-                                                    fontSize: 12.0,
-                                                    fontWeight: bold),
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  Text(
-                                                    '$moduleComplete / $module',
-                                                    style: const TextStyle(
-                                                      fontSize: 10.0,
+                                      );
+                                    },
+                                    child: Container(
+                                      margin:
+                                          const EdgeInsets.only(bottom: 32.0),
+                                      padding: const EdgeInsets.all(16.0),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(width: 0.3),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width: 80.0,
+                                            height: 80.0,
+                                            decoration: BoxDecoration(
+                                              color: Colors.grey,
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                            ),
+
+                                            //check if thumbnail is not empty
+                                            child: myCourses!
+                                                        .thumbnail!.isEmpty ||
+                                                    myCourses.thumbnail == ''
+                                                ? Center(
+                                                    child: Text(
+                                                      'Image Not Available',
+                                                      style: blackTextStyle
+                                                          .copyWith(
+                                                              fontSize: 10.0,
+                                                              fontWeight: bold),
+                                                      textAlign:
+                                                          TextAlign.center,
                                                     ),
-                                                  ),
-                                                  const SizedBox(height: 8.0),
-                                                  SimpleAnimationProgressBar(
-                                                    height: 8,
-                                                    width: 200,
-                                                    backgroundColor:
-                                                        const Color(0x666EA8FE),
-                                                    foregrondColor: blueColor,
-                                                    ratio: module == 0 &&
-                                                            moduleComplete == 0
-                                                        ? 0
-                                                        : ((moduleComplete ??
-                                                                0) /
-                                                            (module ?? 0)),
-                                                    direction: Axis.horizontal,
-                                                    curve: Curves
-                                                        .fastLinearToSlowEaseIn,
-                                                    duration: const Duration(
-                                                        seconds: 3),
+                                                  )
+                                                : ClipRRect(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            10),
-                                                  )
-                                                ],
-                                              ),
-                                            ],
+                                                            10.0),
+                                                    child: Image.network(
+                                                        myCourses.thumbnail ??
+                                                            '',
+                                                        fit: BoxFit.cover),
+                                                  ),
                                           ),
-                                        ),
-                                      ],
+                                          const SizedBox(width: 16.0),
+                                          SizedBox(
+                                            height: 80.0,
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Text(
+                                                  myCourses.name ?? '',
+                                                  style:
+                                                      blackTextStyle.copyWith(
+                                                          fontSize: 12.0,
+                                                          fontWeight: bold),
+                                                ),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    Text(
+                                                      '$moduleComplete / $module',
+                                                      style: const TextStyle(
+                                                        fontSize: 10.0,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 8.0),
+                                                    SimpleAnimationProgressBar(
+                                                      height: 8,
+                                                      width: 200,
+                                                      backgroundColor:
+                                                          const Color(
+                                                              0x666EA8FE),
+                                                      foregrondColor: blueColor,
+                                                      ratio: module == 0 &&
+                                                              moduleComplete ==
+                                                                  0
+                                                          ? 0
+                                                          : ((moduleComplete ??
+                                                                  0) /
+                                                              (module ?? 0)),
+                                                      direction:
+                                                          Axis.horizontal,
+                                                      curve: Curves
+                                                          .fastLinearToSlowEaseIn,
+                                                      duration: const Duration(
+                                                          seconds: 3),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                    )
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   );
                           },
