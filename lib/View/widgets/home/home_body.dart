@@ -68,8 +68,9 @@ class _HomeBodyState extends State<HomeBody> {
                         CarouselSlider.builder(
                           itemCount: bannerProvider.banners.length,
                           itemBuilder: (context, itemIndex, _) {
+                            final banners = bannerProvider.banners[itemIndex];
                             //check if banner images is empty
-                            return bannerProvider.banners[itemIndex].src.isEmpty
+                            return banners.src.isEmpty || banners.src == ''
                                 ? Container(
                                     width: 260.0,
                                     height: 100.0,
@@ -95,7 +96,7 @@ class _HomeBodyState extends State<HomeBody> {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(10.0),
                                       child: Image.network(
-                                        bannerProvider.banners[itemIndex].src,
+                                        banners.src,
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -129,7 +130,7 @@ class _HomeBodyState extends State<HomeBody> {
                     borderRadius: BorderRadius.circular(8),
                     color: bannerProvider.bannerIndex == entry.key
                         ? blueColor
-                        : Colors.grey,
+                        : const Color(0xFFD9D9D9),
                   ),
                 ),
               );
@@ -260,7 +261,9 @@ class _HomeBodyState extends State<HomeBody> {
                                         child: Column(
                                           children: [
                                             //check if thumbnail is empty
-                                            popularCourses.thumbnail.isEmpty
+                                            popularCourses.thumbnail.isEmpty ||
+                                                    popularCourses.thumbnail ==
+                                                        ''
                                                 ? Container(
                                                     height: 110.0,
                                                     decoration: BoxDecoration(
@@ -388,21 +391,24 @@ class _HomeBodyState extends State<HomeBody> {
               const SizedBox(height: 10.0),
 
               //Show My Course
-              myCourseProvider.myCourse.isEmpty
-                  ? SizedBox(
+
+              myCourseProvider.isLoading
+                  ? const SizedBox(
                       height: 100.0,
-                      child: Center(
-                        child: Text(
-                          'No Enrolled Course',
-                          style: blackTextStyle.copyWith(
-                            fontSize: 16.0,
-                            fontWeight: bold,
+                      child: Center(child: CircularProgressIndicator()))
+                  : myCourseProvider.myCourse.isEmpty
+                      ? SizedBox(
+                          height: 100.0,
+                          child: Center(
+                            child: Text(
+                              'No Enrolled Course',
+                              style: blackTextStyle.copyWith(
+                                fontSize: 16.0,
+                                fontWeight: bold,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    )
-                  : myCourseProvider.isLoading
-                      ? const CircularProgressIndicator()
+                        )
                       : ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
@@ -439,24 +445,26 @@ class _HomeBodyState extends State<HomeBody> {
 
                                           //check if thumbnail is not empty
                                           child: myCourses!
-                                                  .thumbnail!.isNotEmpty
-                                              ? ClipRRect(
+                                                      .thumbnail!.isEmpty ||
+                                                  myCourses.thumbnail == ''
+                                              ? Center(
+                                                  child: Text(
+                                                    'Image Not Available',
+                                                    style:
+                                                        blackTextStyle.copyWith(
+                                                      fontSize: 10.0,
+                                                      fontWeight: bold
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                )
+                                              : ClipRRect(
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           10.0),
                                                   child: Image.network(
                                                       myCourses.thumbnail ?? '',
                                                       fit: BoxFit.cover),
-                                                )
-                                              : Center(
-                                                  child: Text(
-                                                    'Image Not Available',
-                                                    style:
-                                                        blackTextStyle.copyWith(
-                                                      fontSize: 10.0,
-                                                    ),
-                                                    textAlign: TextAlign.center,
-                                                  ),
                                                 ),
                                         ),
                                         const SizedBox(width: 16.0),
