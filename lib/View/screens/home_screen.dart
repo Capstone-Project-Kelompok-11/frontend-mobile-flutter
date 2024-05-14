@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             bottomNavBarWidget(
               image: 'assets/icon/ic_history.png',
-              label: 'History',
+              label: 'Chat',
               color: _selectedIndex != 2 ? Colors.grey : Colors.blue,
             ),
             bottomNavBarWidget(

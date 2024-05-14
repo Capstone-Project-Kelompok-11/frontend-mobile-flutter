@@ -5,13 +5,13 @@ import 'package:lms_apps/Services/public_course_service.dart';
 
 class CategoryCourseViewModel with ChangeNotifier {
   final List<Map<String, String>> _categoryList = [
-    {'category': 'Design', 'image': 'assets/images/design_image.png'},
-    {'category': 'Business', 'image': 'assets/images/business_image.png'},
-    {'category': 'Technology', 'image': 'assets/images/technology_image.png'},
-    {'category': 'Software', 'image': 'assets/images/software_image.png'},
+    {'category': 'TI', 'image': 'assets/images/ti.png'},
+    {'category': 'SI', 'image': 'assets/images/si.png'},
+    {'category': 'MI', 'image': 'assets/images/mi.png'},
+    {'category': 'DKV', 'image': 'assets/images/dkv.png'},
   ];
 
-  List<Map<String,String>> get categoryList => _categoryList;
+  List<Map<String, String>> get categoryList => _categoryList;
 
   //check is public course data is empty
   bool _isDataEmpty = false;
