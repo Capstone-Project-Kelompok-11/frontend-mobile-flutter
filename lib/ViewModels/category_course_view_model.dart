@@ -1,14 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:lms_apps/Models/public_course_response.dart';
 import 'package:lms_apps/Services/categories_service.dart';
 import 'package:lms_apps/Services/public_course_service.dart';
 
 class CategoryCourseViewModel with ChangeNotifier {
   final List<Map<String, String>> _categoryList = [
-    {'category': 'TI', 'image': 'assets/images/ti.png'},
-    {'category': 'SI', 'image': 'assets/images/si.png'},
-    {'category': 'MI', 'image': 'assets/images/mi.png'},
-    {'category': 'DKV', 'image': 'assets/images/dkv.png'},
+    {
+      'category': 'TI',
+      'image': 'assets/images/ti.png',
+      'description':
+          'Teknik Informatika adalah jurusan yang condong membahas dan mengulas berbagai teknologi komputer. Maksudnya bagaimana? Ya, mulai dari prinsip-prinsip ilmu komputer, analisa matematis, evaluasi sistem operasi, hingga software development atau pengembangan perangkat lunak.'
+    },
+    {
+      'category': 'SI',
+      'image': 'assets/images/si.png',
+      'description':
+          'Sistem informasi adalah suatu sistem di dalam suatu organisasi yang mempertemukan kebutuhan pengolahan transaksi harian, mendukung operasi, bersifat manajerial dan kegiatan strategi dari suatu organisasi dan menyediakan pihak luar tertentu dengan laporan-laporan yang diperlukan.'
+    },
+    {
+      'category': 'MI',
+      'image': 'assets/images/mi.png',
+      'description':
+          'Manajemen Informatika adalah ilmu yang mempelajari teori-teori dalam teknologi informasi serta penggunaannya dalam membuat bisnis perusahaan menjadi lebih mudah.'
+    },
+    {
+      'category': 'DKV',
+      'image': 'assets/images/dkv.png',
+      'description':
+          'Jurusan Desain Komunikasi Visual (DKV) adalah studi yang mempelajari ilmu tentang penyampaian pesan dengan menggunakan elemen desain grafis, seperti huruf, warna, gambar, dan lay out.'
+    },
   ];
 
   List<Map<String, String>> get categoryList => _categoryList;
@@ -31,6 +52,8 @@ class CategoryCourseViewModel with ChangeNotifier {
   List<String> _categories = [];
 
   List<String> get categories => _categories;
+
+  // List<String> get
 
 //to tell the _categoryIndex
   int _categoryIndex = 0;

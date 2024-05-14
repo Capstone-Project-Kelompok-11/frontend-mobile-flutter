@@ -27,7 +27,7 @@ class _SplashScreen extends State<SplashScreen> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.8,
               child: Image.asset(
-                'assets/images/image1.png',
+                'assets/images/stiki.png',
                 width: 360,
                 height: 156.17,
               ),

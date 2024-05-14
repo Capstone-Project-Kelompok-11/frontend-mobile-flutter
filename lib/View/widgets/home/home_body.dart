@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lms_apps/View/screens/category_course_screen.dart';
 import 'package:lms_apps/View/screens/detail_course_screen.dart';
@@ -11,6 +12,8 @@ import 'package:lms_apps/ViewModels/popular_course_view_model.dart';
 import 'package:lms_apps/utils/utility.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
+
+import '../../../ViewModels/edit_profile_view_model.dart';
 
 class HomeBody extends StatefulWidget {
   const HomeBody({super.key});
@@ -35,6 +38,8 @@ class _HomeBodyState extends State<HomeBody> {
 
   @override
   Widget build(BuildContext context) {
+    final userInfoProvider =
+        Provider.of<EditProfileViewModel>(context, listen: true);
     final popularCourseProvider =
         Provider.of<PopularCourseViewModel>(context, listen: true);
     final bannerProvider =
@@ -144,39 +149,72 @@ class _HomeBodyState extends State<HomeBody> {
           SizedBox(
             height: 100.0,
             child: ListView.builder(
-              clipBehavior: Clip.none,
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              itemCount: categoriesProvider.categoryList.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  padding: const EdgeInsets.all(14.0),
-                  margin: index < categoriesProvider.categoryList.length - 1
-                      ? const EdgeInsets.only(right: 16.0)
-                      : null,
-                  width: 80.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    border: Border.all(
-                      width: 0.7,
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Image.asset(categoriesProvider.categoryList[index]
-                              ['image'] ??
-                          ''),
-                      FittedBox(
-                        child: Text(categoriesProvider.categoryList[index]
-                                ['category'] ??
-                            ''),
+                clipBehavior: Clip.none,
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemCount: categoriesProvider.categoryList.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      showDialog<void>(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text(
+                                'Selamat Datang, ${userInfoProvider.name ?? 'Guest'}'),
+                            content: Text(categoriesProvider.categoryList[index]
+                                    ['description'] ??
+                                ''),
+                            actions: <Widget>[
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  textStyle:
+                                      Theme.of(context).textTheme.labelLarge,
+                                ),
+                                child: const Text('OK'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                          // var snackBar = SnackBar(
+                          //   content: Text(categoriesProvider.categoryList[index]
+                          //           ['description'] ??
+                          //       ''),
+                          // );
+                          // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        },
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(14.0),
+                      margin: index < categoriesProvider.categoryList.length - 1
+                          ? const EdgeInsets.only(right: 16.0)
+                          : null,
+                      width: 80.0,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        border: Border.all(
+                          width: 0.7,
+                        ),
                       ),
-                    ],
-                  ),
-                );
-              },
-            ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Image.asset(categoriesProvider.categoryList[index]
+                                  ['image'] ??
+                              ''),
+                          FittedBox(
+                            child: Text(categoriesProvider.categoryList[index]
+                                    ['category'] ??
+                                ''),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }),
           ),
           const SizedBox(height: 16.0),
 
@@ -423,7 +461,8 @@ class _HomeBodyState extends State<HomeBody> {
 
                             final myCourses =
                                 myCourseProvider.myCourse[index].course;
-                            final modules = myCourseProvider.myCourse[index].lessonLength;
+                            final modules =
+                                myCourseProvider.myCourse[index].lessonLength;
                             /*check if module == module complete then return empty container
                                 (when module is completed it won't show)*/
                             return module == moduleComplete

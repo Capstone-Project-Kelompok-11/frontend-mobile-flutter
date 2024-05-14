@@ -37,7 +37,7 @@ class _TransactionHistoryAppBarState extends State<TransactionHistoryAppBar> {
                   )),
               Center(
                 child: Text(
-                  'Transaction History',
+                  'Chat',
                   style: blackTextStyle.copyWith(
                       fontSize: 25, fontWeight: semiBold),
                 ),

@@ -26,8 +26,8 @@ List<UnbordingContent> contents = [
       image: Image.asset('assets/images/image4.png'),
       discription: 'Get access to unlimited educational resources'),
   UnbordingContent(
-      title: ' AcadeMade',
+      title: ' STIKI MALANG',
       image: Image.asset('assets/images/image5.png'),
       discription:
-          'Find the best courses & upgrade your skills, start learn now with'),
+          'Find the best teacher & upgrade your skills, start learn now with'),
 ];
