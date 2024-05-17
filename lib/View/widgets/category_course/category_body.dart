@@ -215,7 +215,8 @@ class _CategoryCourseBodyState extends State<CategoryCourseBody> {
                                                             width: 8.0),
                                                         Text(
                                                             publicCourses.rating
-                                                                .toDouble().toString(),
+                                                                .toDouble()
+                                                                .toString(),
                                                             style:
                                                                 blackTextStyle
                                                                     .copyWith(
@@ -245,7 +246,7 @@ class _CategoryCourseBodyState extends State<CategoryCourseBody> {
                                     ),
                                   );
                                 } else {
-                                  return Text('test');
+                                  return const Text('test');
                                 }
                               }),
                           const SizedBox(height: 10.0),

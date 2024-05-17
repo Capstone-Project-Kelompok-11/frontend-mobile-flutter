@@ -3,6 +3,8 @@ import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:lms_apps/ViewModels/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
+import '../../../Services/constant.dart';
+
 class ProfileAppBar extends StatefulWidget {
   const ProfileAppBar({super.key});
 
@@ -45,7 +47,7 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
                   )
                 : profileViewModel.imagePath != ''
                     ? Image.network(
-                        '${profileViewModel.imagePath}',
+                        '${APIConstant.url}/${profileViewModel.imagePath}',
                         fit: BoxFit.cover,
                         height: 180,
                         width: 180,

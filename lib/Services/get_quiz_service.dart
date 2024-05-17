@@ -11,9 +11,9 @@ import '../Models/quisesanswer_request_response.dart';
 class QuizService {
   Future<QuizResponse> getQuiz(String moduleId) async {
     final token = await SharedPref.getToken();
-
+    print(' halo , ${APIConstant.url}/users/quiz?id=${moduleId}');
     final response = await Dio().get(
-      '${APIConstant.url}/users/quiz?id=fd32a28c55c240ee9825d2060b01927c',
+      '${APIConstant.url}/users/quiz?id=${moduleId}',
       options: Options(
         headers: APIConstant.auth('$token'),
       ),
@@ -29,7 +29,7 @@ class QuizService {
       final token = await SharedPref.getToken();
 
       final response = await Dio().post(
-        '${APIConstant.url}/users/quiz?id=fd32a28c55c240ee9825d2060b01927c',
+        '${APIConstant.url}/users/quiz?id=${moduleId}',
         // data: quizResponseToJson(quizanswer),
         data: jsonData,
         options: Options(

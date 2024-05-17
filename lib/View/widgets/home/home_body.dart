@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:lms_apps/Services/constant.dart';
 import 'package:lms_apps/View/screens/category_course_screen.dart';
 import 'package:lms_apps/View/screens/detail_course_screen.dart';
 import 'package:lms_apps/View/screens/lessons_screen.dart';
@@ -102,7 +103,7 @@ class _HomeBodyState extends State<HomeBody> {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(10.0),
                                       child: Image.network(
-                                        banners.src,
+                                        "${APIConstant.url}/${banners.src}",
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -330,8 +331,8 @@ class _HomeBodyState extends State<HomeBody> {
                                                           BorderRadius.circular(
                                                               10.0),
                                                       child: Image.network(
-                                                        popularCourses
-                                                            .thumbnail,
+                                                        // aku gak ngubah bagian ini
+                                                        "${APIConstant.url}/${popularCourses.thumbnail}",
                                                         fit: BoxFit.fill,
                                                       ),
                                                     ),
@@ -519,8 +520,10 @@ class _HomeBodyState extends State<HomeBody> {
                                                         BorderRadius.circular(
                                                             10.0),
                                                     child: Image.network(
-                                                        myCourses.thumbnail ??
-                                                            '',
+                                                        myCourses.thumbnail !=
+                                                                ''
+                                                            ? "${APIConstant.url}/${myCourses.thumbnail}"
+                                                            : '',
                                                         fit: BoxFit.cover),
                                                   ),
                                           ),

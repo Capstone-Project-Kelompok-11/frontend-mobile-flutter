@@ -4,6 +4,7 @@ import 'package:lms_apps/View/screens/certificate_screen.dart';
 import 'package:lms_apps/View/screens/lessons_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:lms_apps/ViewModels/my_course_view_model.dart';
+import 'package:lms_apps/Services/constant.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 
@@ -66,7 +67,7 @@ class _MyCourseBodyState extends State<MyCourseBody> {
                               margin: const EdgeInsets.all(13),
                               child: myCourse.course?.thumbnail != ''
                                   ? Image.network(
-                                      '${myCourse.course?.thumbnail}',
+                                      '${APIConstant.url}/${myCourse.course?.thumbnail}',
                                     )
                                   : Image.asset(
                                       'assets/images/img_basic_microsoft_word.png',
@@ -152,7 +153,7 @@ class _MyCourseBodyState extends State<MyCourseBody> {
                                   margin: const EdgeInsets.all(13),
                                   child: myCourse.course?.thumbnail != ''
                                       ? Image.network(
-                                          '${myCourse.course?.thumbnail}',
+                                          '${APIConstant.url}/${myCourse.course?.thumbnail}',
                                         )
                                       : Image.asset(
                                           'assets/images/img_basic_microsoft_word.png',

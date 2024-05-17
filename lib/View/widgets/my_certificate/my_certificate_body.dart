@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lms_apps/Services/constant.dart';
 import 'package:lms_apps/View/screens/certificate_screen.dart';
 import 'package:lms_apps/View/screens/theme/theme.dart';
 import 'package:lms_apps/ViewModels/my_course_view_model.dart';
@@ -58,7 +59,9 @@ class _MyCertificateBodyState extends State<MyCertificateBody> {
                               width: 74,
                               child: myCourse.course?.thumbnail != ''
                                   ? Image.network(
-                                      '${myCourse.course?.thumbnail}',
+                                      myCourse.course?.thumbnail != ""
+                                          ? "${APIConstant.url}/${myCourse.course?.thumbnail}"
+                                          : "",
                                     )
                                   : Image.asset(
                                       'assets/images/img_basic_microsoft_word.png',

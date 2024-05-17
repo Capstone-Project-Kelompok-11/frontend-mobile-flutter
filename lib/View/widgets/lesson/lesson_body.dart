@@ -54,8 +54,9 @@ class _LessonsBodyState extends State<LessonsBody> {
                   decoration:
                       BoxDecoration(borderRadius: BorderRadius.circular(10)),
                   child: widget.modulesimage != ''
-                      ? Image.network(
-                          "${APIConstant.url}/public/image/${widget.modulesimage ?? ""}")
+                      ? Image.network(widget.modulesimage != ""
+                          ? "${APIConstant.url}/${widget.modulesimage}"
+                          : "")
                       : Image.asset('assets/images/Rectangle 26.png'),
                 ),
               ),
