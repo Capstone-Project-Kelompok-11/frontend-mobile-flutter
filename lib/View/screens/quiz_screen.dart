@@ -4,8 +4,11 @@ import 'package:lms_apps/View/widgets/quiz/quiz_body.dart';
 import 'package:lms_apps/View/widgets/quiz/quiz_button_widget.dart';
 
 class QuizScreen extends StatelessWidget {
-  const QuizScreen({super.key, required this.moduleId});
   final String moduleId;
+  const QuizScreen({
+    super.key, 
+    required this.moduleId
+  });
 
   @override
   Widget build(BuildContext context) {

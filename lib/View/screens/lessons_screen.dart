@@ -37,8 +37,8 @@ class _LessonsScreenState extends State<LessonsScreen> {
             },
           ),
         ),
-        floatingActionButton: const LessonBottom(
-        	moduleId: widget.listModules?.length > 0 ? widget.listModules[0].data?.id : '',
+        floatingActionButton: LessonBottom(
+        	moduleId: widget.listModules?[0].data?.id ?? '',
         ),
       ),
     );

@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:lms_apps/View/screens/quiz_screen.dart';
 import '../../screens/theme/theme.dart';
 
+import '../../../Models/detail_course_response.dart';
+
 class LessonBottom extends StatefulWidget {
   final String moduleId;
-  const LessonBottom({super.key,required this.moduleId});
+  final List<Module>? listModules;
+  const LessonBottom({
+    super.key,
+    required this.moduleId,
+    this.listModules
+  });
 
   @override
   State<LessonBottom> createState() => _LessonBottomState();
@@ -35,9 +42,9 @@ class _LessonBottomState extends State<LessonBottom> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const QuizScreen(
-                              moduleId: widget.moduleId,
-                            )));
+                        builder: (context) => QuizScreen(
+                          moduleId: widget.moduleId,
+                        )));
               },
               child: Container(
                 width: 200,
