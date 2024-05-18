@@ -7,8 +7,8 @@ import '../../../ViewModels/quiz_view_model.dart';
 import '../../screens/theme/theme.dart';
 
 class QuizButton extends StatelessWidget {
-  final String modulId;
-  const QuizButton({super.key, required this.modulId});
+  final String moduleId;
+  const QuizButton({super.key, required this.moduleId});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class QuizButton extends StatelessWidget {
         height: 40,
         child: ElevatedButton(
           onPressed: () {
-            QuizService().postQuiz(modulId, quizViewModel.quizes);
+            QuizService().postQuiz(moduleId, quizViewModel.quizes);
             // Navigator.push(
             //     context,
             //     MaterialPageRoute(

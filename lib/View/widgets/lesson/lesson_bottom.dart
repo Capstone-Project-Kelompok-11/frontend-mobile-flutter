@@ -3,7 +3,8 @@ import 'package:lms_apps/View/screens/quiz_screen.dart';
 import '../../screens/theme/theme.dart';
 
 class LessonBottom extends StatefulWidget {
-  const LessonBottom({super.key});
+  final String moduleId;
+  const LessonBottom({super.key,required this.moduleId});
 
   @override
   State<LessonBottom> createState() => _LessonBottomState();
@@ -35,7 +36,7 @@ class _LessonBottomState extends State<LessonBottom> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const QuizScreen(
-                              modulid: '',
+                              moduleId: widget.moduleId,
                             )));
               },
               child: Container(
