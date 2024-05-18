@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lms_apps/Models/my_course_response.dart';
+import 'package:lms_apps/Services/constant.dart';
 import 'package:lms_apps/View/screens/quiz_screen.dart';
 import '../../screens/theme/theme.dart';
 
@@ -32,11 +34,14 @@ class _LessonBottomState extends State<LessonBottom> {
             InkWell(
               onTap: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const QuizScreen(
-                              modulid: '',
-                            )));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const QuizScreen(
+                      modulid: '',
+                      // modulid: '$APIConstant.url}/users/quiz?id=${moduleId}',
+                    ),
+                  ),
+                );
               },
               child: Container(
                 width: 200,
