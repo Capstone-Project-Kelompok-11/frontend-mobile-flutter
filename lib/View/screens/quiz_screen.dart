@@ -4,8 +4,11 @@ import 'package:lms_apps/View/widgets/quiz/quiz_body.dart';
 import 'package:lms_apps/View/widgets/quiz/quiz_button_widget.dart';
 
 class QuizScreen extends StatelessWidget {
-  const QuizScreen({super.key, required this.modulid});
-  final String modulid;
+  final String moduleId;
+  const QuizScreen({
+    super.key, 
+    required this.moduleId
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +21,13 @@ class QuizScreen extends StatelessWidget {
               height: 29,
             ),
             QuizBody(
-              modulId: modulid,
+              moduleId: moduleId,
             ),
           ],
         ),
       ),
       floatingActionButton: QuizButton(
-        modulId: modulid,
+        moduleId: moduleId,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

@@ -4,8 +4,16 @@ import 'package:lms_apps/Services/constant.dart';
 import 'package:lms_apps/View/screens/quiz_screen.dart';
 import '../../screens/theme/theme.dart';
 
+import '../../../Models/detail_course_response.dart';
+
 class LessonBottom extends StatefulWidget {
-  const LessonBottom({super.key});
+  final String moduleId;
+  final List<Module>? listModules;
+  const LessonBottom({
+    super.key,
+    required this.moduleId,
+    this.listModules
+  });
 
   @override
   State<LessonBottom> createState() => _LessonBottomState();
@@ -34,6 +42,7 @@ class _LessonBottomState extends State<LessonBottom> {
             InkWell(
               onTap: () {
                 Navigator.push(
+<<<<<<< HEAD
                   context,
                   MaterialPageRoute(
                     builder: (context) => const QuizScreen(
@@ -42,6 +51,13 @@ class _LessonBottomState extends State<LessonBottom> {
                     ),
                   ),
                 );
+=======
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => QuizScreen(
+                          moduleId: widget.moduleId,
+                        )));
+>>>>>>> b9663733d8d87162b789460f64a83d45b89a7468
               },
               child: Container(
                 width: 200,

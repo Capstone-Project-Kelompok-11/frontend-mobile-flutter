@@ -8,8 +8,8 @@ import '../../../Models/quisesanswer_request_response.dart';
 import '../../../Models/quiz_response.dart';
 
 class QuizBody extends StatefulWidget {
-  final String modulId;
-  const QuizBody({super.key, required this.modulId});
+  final String moduleId;
+  const QuizBody({super.key, required this.moduleId});
 
   @override
   State<QuizBody> createState() => _QuizBodyState();
@@ -20,7 +20,7 @@ class _QuizBodyState extends State<QuizBody> {
   @override
   void initState() {
     quiz = Provider.of<QuizViewModel>(context, listen: false);
-    quiz?.getQuizes(widget.modulId);
+    quiz?.getQuizes(widget.moduleId);
     super.initState();
   }
 
@@ -217,7 +217,7 @@ class _QuizBodyState extends State<QuizBody> {
               //     print(
               //         '${quiz?.answerquiz.first.choices?.first.text}) + ${quiz?.answerquiz.first.choices?.first.valid}');
               //     await QuizService().postQuiz(
-              //         widget.modulId, QuizResponse(data: quiz?.answerquiz));
+              //         widget.moduleId, QuizResponse(data: quiz?.answerquiz));
               //     // QuizzesAnswerRequest? requestanswer;
               //     // requestanswer!.quizzes = quiz?.answerquiz ?? [];
               //     // quiz?.answerquiz.forEach((element) {
