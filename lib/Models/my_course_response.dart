@@ -118,27 +118,27 @@ class Datum {
 class Course {
   String? id;
   String? name;
-  int? price;
+  // int? price;
   String? thumbnail;
 
   Course({
     this.id,
     this.name,
-    this.price,
+    // this.price,
     this.thumbnail,
   });
 
   factory Course.fromJson(Map<String, dynamic> json) => Course(
         id: json["id"],
         name: json["name"],
-        price: json["price"],
+        // price: json["price"],
         thumbnail: json["thumbnail"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "price": price,
+        // "price": price,
         "thumbnail": thumbnail,
       };
 }

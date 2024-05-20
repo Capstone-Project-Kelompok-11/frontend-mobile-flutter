@@ -9,6 +9,8 @@ class QuizViewModel with ChangeNotifier {
   List<Quiz> get quizes => _quizes;
   List<Quiz> _answerquiz = [];
   List<Quiz> get answerquiz => _answerquiz;
+  bool get areLoading => _areLoading;
+  bool _areLoading = false;
 
   void selectAnswer(Choice? choices) {
     choices?.valid = !(choices.valid ?? false);
@@ -16,6 +18,8 @@ class QuizViewModel with ChangeNotifier {
   }
 
   void getQuizes(String modulId) async {
+    _areLoading = true;
+    // await Future.delayed(const Duration(milliseconds: 1000));
     final quizResponse = await QuizService().getQuiz(modulId);
     _quizes.clear();
     _answerquiz.clear();
@@ -23,5 +27,8 @@ class QuizViewModel with ChangeNotifier {
     _answerquiz = quizResponse.data ?? [];
     notifyListeners();
     print(_quizes);
+    _areLoading = false;
+    notifyListeners();
   }
+  // Futures<Quiz>
 }

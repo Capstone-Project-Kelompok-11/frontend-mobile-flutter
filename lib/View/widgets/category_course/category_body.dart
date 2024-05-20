@@ -223,17 +223,17 @@ class _CategoryCourseBodyState extends State<CategoryCourseBody> {
                                                               fontWeight: small,
                                                             )),
                                                         const Spacer(),
-                                                        Text(
-                                                            Utility.rupiah
-                                                                .format(
-                                                                    publicCourses
-                                                                        .price),
-                                                            style: blueTextStyle
-                                                                .copyWith(
-                                                                    fontWeight:
-                                                                        bold,
-                                                                    fontSize:
-                                                                        10.0)),
+                                                        // Text(
+                                                        //     Utility.rupiah
+                                                        //         .format(
+                                                        //             publicCourses
+                                                        //                 .price),
+                                                        //     style: blueTextStyle
+                                                        //         .copyWith(
+                                                        //             fontWeight:
+                                                        //                 bold,
+                                                        //             fontSize:
+                                                        //                 10.0)),
                                                       ],
                                                     ),
                                                   ],

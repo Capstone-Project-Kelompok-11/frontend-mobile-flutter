@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../../Models/detail_course_response.dart';
 import '../../../ViewModels/detail_lesson_viewmodel.dart';
+import '../../../ViewModels/quiz_view_model.dart';
 
 class LessonsBody extends StatefulWidget {
   final String courseId;
@@ -40,6 +41,13 @@ class _LessonsBodyState extends State<LessonsBody> {
 
   @override
   Widget build(BuildContext context) {
+    // myQuizViewModel.areLoading
+    //   ? const Padding(
+    //             padding: EdgeInsets.only(top: 10),
+    //             child: CircularProgressIndicator(strokeWidth: 1),
+    //           );
+    // final myQuizViewModel = Provider.of<QuizViewModel>(context);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Stack(

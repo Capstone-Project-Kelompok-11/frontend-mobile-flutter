@@ -90,13 +90,13 @@ class _DetailCourseBodyState extends State<DetailCourseBody> {
                       courseProvider.courseRating.toDouble().toString(),
                     ),
                     const Spacer(),
-                    Text(
-                      Utility.rupiah.format(
-                        courseProvider.coursePrice,
-                      ),
-                      style: blueTextStyle.copyWith(
-                          fontSize: 14.0, fontWeight: bold),
-                    )
+                    // Text(
+                    //   Utility.rupiah.format(
+                    //     courseProvider.coursePrice,
+                    //   ),
+                    //   style: blueTextStyle.copyWith(
+                    //       fontSize: 14.0, fontWeight: bold),
+                    // )
                   ]),
                   const SizedBox(height: 22.0),
 
@@ -165,7 +165,7 @@ class _DetailCourseBodyState extends State<DetailCourseBody> {
                       description: courseProvider.courseDescription,
                       modulesLength: courseProvider.modulesLength,
                       level: courseProvider.courseLevel,
-                      price: courseProvider.coursePrice,
+                      // price: courseProvider.coursePrice,
                       courseRating: courseProvider.courseRating,
                       rating1: courseProvider.reviewRating1,
                       rating2: courseProvider.reviewRating2,
@@ -249,7 +249,7 @@ class Lessons extends StatelessWidget {
 }
 
 class OverView extends StatelessWidget {
-  final int price;
+  // final int price;
   final String description;
   final int modulesLength;
   final String level;
@@ -264,7 +264,7 @@ class OverView extends StatelessWidget {
   const OverView({
     super.key,
     required this.description,
-    required this.price,
+    // required this.price,
     required this.modulesLength,
     required this.level,
     required this.rating1,

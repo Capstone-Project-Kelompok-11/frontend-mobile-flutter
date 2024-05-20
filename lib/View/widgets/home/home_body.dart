@@ -369,19 +369,19 @@ class _HomeBodyState extends State<HomeBody> {
                                                                 fontSize: 10.0),
                                                       ),
                                                       const Spacer(),
-                                                      SizedBox(
-                                                        width: 60.0,
-                                                        child: FittedBox(
-                                                          child: Text(
-                                                            Utility.rupiah.format(
-                                                                popularCourses
-                                                                    .price),
-                                                            style: TextStyle(
-                                                              color: blueColor,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
+                                                      // SizedBox(
+                                                      //   width: 60.0,
+                                                      //   child: FittedBox(
+                                                      //     child: Text(
+                                                      //       Utility.rupiah.format(
+                                                      //           popularCourses
+                                                      //               .price),
+                                                      //       style: TextStyle(
+                                                      //         color: blueColor,
+                                                      //       ),
+                                                      //     ),
+                                                      //   ),
+                                                      // ),
                                                     ])
                                                   ],
                                                 ),
