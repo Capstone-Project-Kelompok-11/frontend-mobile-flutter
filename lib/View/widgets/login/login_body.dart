@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lms_apps/View/screens/coba.dart';
+import 'package:lms_apps/View/screens/home_screen.dart';
+import 'package:lms_apps/View/widgets/forgot_password/forgot_password.dart';
 import 'package:lms_apps/ViewModels/login_view_model.dart';
 import 'package:lms_apps/View/screens/forgot_password.dart';
 import 'package:lms_apps/View/screens/register_screen.dart';
@@ -154,6 +157,12 @@ class _login_screenState extends State<login_screen> {
                         loginProvider.emailController.clear();
                         loginProvider.passwordController.clear();
                         loginProvider.disableButtonLogin();
+                        Navigator.push(
+                          context, 
+                          MaterialPageRoute(
+                            builder: (context) => const HomeScreen(),
+                            ),
+                            );
                       }
                     : null,
                 isIcon: true,

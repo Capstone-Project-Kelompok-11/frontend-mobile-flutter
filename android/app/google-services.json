@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "300994975951",
+    "project_id": "academy-ebelajar",
+    "storage_bucket": "academy-ebelajar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300994975951:android:bb000d09c6e4eab2d33fba",
+        "android_client_info": {
+          "package_name": "com.capstone11.lms_apps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "300994975951-0d0p6t7v60k39qa1goks6u3n2pg1dup8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtkmncaKUm_EurX7AQ7ROj19rYxlhfI0E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "300994975951-0d0p6t7v60k39qa1goks6u3n2pg1dup8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

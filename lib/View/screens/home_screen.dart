@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lms_apps/View/screens/profile_screen.dart';
 import 'package:lms_apps/View/screens/my_course_screen.dart';
 import 'package:lms_apps/View/screens/transaction_history_screen.dart';
+import 'package:lms_apps/View/widgets/chat/chat.dart';
 
 import '../widgets/home/home_appbar.dart';
 import '../widgets/home/home_body.dart';
@@ -31,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
     } else if (index == 1) {
       return const MyCourseScreen();
     } else if (index == 2) {
-      return const TransactionHistoryScreen();
+      return const Login_Chat();
     } else if (index == 3) {
       return const ProfileScreen();
     } else {

@@ -9,7 +9,8 @@ class PopularCourseService {
           .get('${APIConstant.url}/public/course/populars?page=1&size=10');
       print(response.data);
       return PopularCourseResponse.fromJson(response.data);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
+      print(e.response!.data);
       throw Exception('Failed Get Data $e');
     }
   }
